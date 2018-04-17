@@ -1,6 +1,6 @@
 "use strict";
 
-const Path = require("path");
+const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -8,7 +8,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = (options) => {
-  const dest = Path.join(__dirname, "dist");
+  const dest = path.resolve("./dist");
 
   let webpackConfig = {
     entry: "./src/app.js",

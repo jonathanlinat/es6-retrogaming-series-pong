@@ -3,12 +3,12 @@
   "description": "A lightweight foundation for any Webpack 4 based frontend project, mainly inspired by WBKD's Webpack ES6 Starterkit.",
   "author": "Jonathan Linat (https://github.com/jonathanlinat)",
   "homepage": "https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit",
-  "repository" : {
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
     "type": "git",
     "url": "https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit.git"
   },
-  "version": "0.1.0",
-  "license": "MIT",
   "main": "app.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
@@ -36,9 +36,9 @@
     "sass",
     "babel",
     "eslint",
-    "loader",
+    "loaders",
     "server",
-    "webpack4",
+    "webpack",
     "javascript"
   ],
   "devDependencies": {
@@ -56,7 +56,6 @@
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.8.3",
     "optimize-css-assets-webpack-plugin": "^4.0.0",
-    "path": "^0.12.7",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.20.3",
     "uglifyjs-webpack-plugin": "^1.2.4",

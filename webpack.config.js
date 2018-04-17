@@ -44,7 +44,6 @@ module.exports = (options) => {
         {
           test: /\.sass$/,
           use: [
-            "style-loader",
             MiniCssExtractPlugin.loader,
             "css-loader",
             "sass-loader"

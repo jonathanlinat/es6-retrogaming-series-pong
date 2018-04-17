@@ -1,8 +1,10 @@
 import "babel-polyfill";
 import "./app.sass";
 
+import log from "./modules/js/helpers/log"
+
 const consoleMessage = (bool) => {
-  if (bool) console.log("Yet Another And Really Basic Webpack ES6 Starterkit")
+  if (bool) log("Yet Another And Really Basic Webpack ES6 Starterkit")
 }
 
 consoleMessage(true)

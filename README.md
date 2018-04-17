@@ -25,7 +25,7 @@ $ npm run build
 
 ### Features:
 
-* Webpack 4.5
+* Webpack 4.6.0
 * ES6 Support via [babel-loader](https://github.com/babel/babel-loader)
 * SASS Support via [sass-loader](https://github.com/jtangelder/sass-loader)
 * Linting via [eslint-loader](https://github.com/MoOx/eslint-loader)

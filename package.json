@@ -1,8 +1,8 @@
 {
   "name": "yet-another-and-really-basic-webpack-es6-starterkit",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "description": " A lightweight foundation for any Webpack 4 based frontend project, mainly inspired by WBKD's Webpack ES6 Starterkit.",
+  "main": "app.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production"

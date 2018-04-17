@@ -19,8 +19,7 @@ module.exports = (options) => {
       minimizer: [
         new UglifyJsPlugin({
           cache: true,
-          parallel: true,
-          sourceMap: true
+          parallel: true
         }),
         new OptimizeCSSAssetsPlugin()
       ]
@@ -56,27 +55,10 @@ module.exports = (options) => {
     plugins: [
       new HtmlWebPackPlugin({
         template: "./src/index.html",
-        hash: true,
-        minify: {
-          html5: true,
-          collapseInlineTagWhitespace: true,
-          collapseWhitespace: true,
-          decodeEntities: true,
-          removeAttributeQuotes: true,
-          removeComments: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          sortAttributes: true,
-          sortClassName: true,
-          useShortDoctype: true
-        }
+        hash: true
       }),
       new MiniCssExtractPlugin({
-        filename: "app.css",
-        sourceMap: true
+        filename: "app.css"
       }),
       new CleanWebpackPlugin([dest])
     ]

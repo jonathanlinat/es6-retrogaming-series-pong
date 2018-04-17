@@ -1,7 +1,6 @@
 "use strict";
 
 const path = require("path");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
@@ -11,9 +10,8 @@ module.exports = (options) => {
   const dest = path.resolve("./dist");
 
   let webpackConfig = {
-    entry: "./src/app.js",
-    output: {
-      filename: "app.js"
+    entry: {
+      app: "./src/app.js"
     },
     module: {
       rules: [
@@ -48,14 +46,7 @@ module.exports = (options) => {
         hash: true
       }),
       new OptimizeCSSAssetsPlugin(),
-      new MiniCssExtractPlugin({
-        filename: "app.css"
-      }),
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true
-        
-      }),
+      new MiniCssExtractPlugin(),
       new CleanWebpackPlugin([dest])
     ]
   };

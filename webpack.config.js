@@ -15,15 +15,6 @@ module.exports = (options) => {
     output: {
       filename: "app.js"
     },
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          parallel: true
-        }),
-        new OptimizeCSSAssetsPlugin()
-      ]
-    },
     module: {
       rules: [
         {
@@ -56,8 +47,14 @@ module.exports = (options) => {
         template: "./src/index.html",
         hash: true
       }),
+      new OptimizeCSSAssetsPlugin(),
       new MiniCssExtractPlugin({
         filename: "app.css"
+      }),
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true
+        
       }),
       new CleanWebpackPlugin([dest])
     ]

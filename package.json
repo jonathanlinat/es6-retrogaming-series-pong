@@ -1,7 +1,14 @@
 {
   "name": "yet-another-and-really-basic-webpack-es6-starterkit",
+  "description": "A lightweight foundation for any Webpack 4 based frontend project, mainly inspired by WBKD's Webpack ES6 Starterkit.",
+  "author": "Jonathan Linat (https://github.com/jonathanlinat)",
+  "homepage": "https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit",
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit.git"
+  },
   "version": "0.1.0",
-  "description": " A lightweight foundation for any Webpack 4 based frontend project, mainly inspired by WBKD's Webpack ES6 Starterkit.",
+  "license": "MIT",
   "main": "app.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
@@ -34,8 +41,6 @@
     "webpack4",
     "javascript"
   ],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.3",

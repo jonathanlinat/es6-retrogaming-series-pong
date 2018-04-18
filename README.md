@@ -1,13 +1,15 @@
-# Yet Another And Really Basic Webpack ES6 Starterkit
+# ES6 Retrogaming Series: Pong
 
-A lightweight foundation for any Webpack 4 based frontend project, mainly inspired by [WBKD's Webpack ES6 Starterkit](https://github.com/wbkd/yet-another-webpack-es6-starterkit). 
+An ES6 attempt to reimplement the classic Pong game.
+
+Project mainly based on [Yet Another And Really Basic Webpack ES6 Starterkit](https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit).
 
 
 ### Installation
 
 ```
-$ git clone https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit.git
-$ cd yet-another-and-really-basic-webpack-es6-starterkit/
+$ git clone https://github.com/jonathanlinat/es6-retrogaming-series-pong.git
+$ cd es6-retrogaming-series-pong/
 $ npm install
 ```
 

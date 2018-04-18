@@ -1,6 +1,3 @@
-import "babel-polyfill";
-import "./app.sass";
-
 import log from "./modules/js/helpers/log"
 
 const consoleMessage = (bool) => {

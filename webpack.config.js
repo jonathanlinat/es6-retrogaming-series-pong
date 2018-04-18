@@ -1,18 +1,32 @@
-"use strict";
+const path = require("path")
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const HtmlWebPackPlugin = require("html-webpack-plugin")
+const CleanWebpackPlugin = require("clean-webpack-plugin")
 
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-
-module.exports = (options) => {
-  const dest = path.resolve("./dist");
+module.exports = (env, options) => {
+  const isProductionMode = (options.mode === "production") ? true : false
+  
+  const src = path.resolve("./src")
+  const dest = path.resolve("./dist")
 
   let webpackConfig = {
     entry: {
-      app: "./src/app.js"
+      app: [
+        "babel-polyfill",
+        src + "/app.sass",
+        src + "/app.js"
+      ]
     },
+    plugins: [
+      new CleanWebpackPlugin([dest]),
+      new MiniCssExtractPlugin(),
+      new HtmlWebPackPlugin({
+        template: src + "/index.html",
+        hash: true
+      })
+    ],
     module: {
       rules: [
         {
@@ -27,29 +41,49 @@ module.exports = (options) => {
           use: "babel-loader"
         },
         {
-          test: /\.html$/,
-          use: "html-loader"
-        },
-        {
           test: /\.sass$/,
           use: [
             MiniCssExtractPlugin.loader,
             "css-loader",
             "sass-loader"
           ]
+        },
+        {
+          test: /\.html$/,
+          use: "html-loader"
         }
       ]
     },
-    plugins: [
-      new HtmlWebPackPlugin({
-        template: "./src/index.html",
-        hash: true
-      }),
-      new OptimizeCSSAssetsPlugin(),
-      new MiniCssExtractPlugin(),
-      new CleanWebpackPlugin([dest])
-    ]
-  };
+    optimization: {
+      minimize: isProductionMode,
+      minimizer: [
+        new UglifyJsPlugin({
+          cache: true,
+          parallel: true
+        }),
+        new OptimizeCSSAssetsPlugin(),
+        new HtmlWebPackPlugin({
+          cache: true,
+          minify: {
+            html5: true,
+            collapseInlineTagWhitespace: true,
+            collapseWhitespace: true,
+            decodeEntities: true,
+            removeAttributeQuotes: true,
+            removeComments: true,
+            removeEmptyAttributes: true,
+            removeOptionalTags: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            sortAttributes: true,
+            sortClassName: true,
+            useShortDoctype: true
+          }
+        })
+      ]
+    }
+  }
 
-  return webpackConfig;
-};
+  return webpackConfig
+}

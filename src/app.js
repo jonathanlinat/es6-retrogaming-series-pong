@@ -1,29 +1,43 @@
 const canvas = document.getElementById("es6-retrogaming-series-pong")
 
 class Vect {
-  constructor(x, y) {
-    this.x = x || 0
-    this.y = y || 0
+  constructor(axisX, axisY) {
+    this.x = axisX || 0
+    this.y = axisY || 0
   }
 }
 
 class Rect {
-  constructor(w, h) {
+  constructor(sizeW, sizeH) {
     this.pos = new Vect
-    this.size = new Vect(w, h)
+    this.size = new Vect(sizeW, sizeH)
   }
+
+  get top() { return this.pos.y - (this.size.y / 2) }
+  get right() { return this.pos.x + (this.size.x / 2) }
+  get bottom() { return this.pos.y + (this.size.y / 2) }
+  get left() { return this.pos.x - (this.size.x / 2) }
 }
 
 class Ball extends Rect {
-  constructor() {
+  constructor(posX, posY) {
     super(8, 8)
-    this.vel = new Vect()
-  }
 
-  get top() { return this.pos.y - this.size.y / 2 }
-  get right() { return this.pos.x + this.size.x / 2 }
-  get bottom() { return this.pos.y + this.size.y / 2 }
-  get left() { return this.pos.x - this.size.x / 2 }
+    this.pos.x = posX || 0
+    this.pos.y = posY || 0
+    this.vel = new Vect
+    this.vel.x = this.vel.y = 100
+  }
+}
+
+class Player extends Rect {
+  constructor(posX, posY) {
+    super(8, 30)
+
+    this.pos.x = posX || 0
+    this.pos.y = posY || 0
+    this.score = 0
+  }
 }
 
 class Pong {
@@ -31,47 +45,65 @@ class Pong {
     this._canvas = canvas
     this._context = this._canvas.getContext("2d")
 
-    this.ball = new Ball
-    this.ball.pos.x = (this._canvas.width / 2) + this.ball.left
-    this.ball.pos.y = (this._canvas.height / 2) + this.ball.top
-    this.ball.vel.x = 100
-    this.ball.vel.y = 100
+    this.ball = new Ball(this._canvas.width / 2, this._canvas.height / 2)
+    this.players = [
+      new Player(this._canvas.width / 6, this._canvas.height / 2),
+      new Player((this._canvas.width / 6) * 5, this._canvas.height / 2)
+    ]
 
     let lastTime
     const callback = (millis) => {
-      if (lastTime) this.update((millis - lastTime) / 1000)
+      if (lastTime)
+        this.update((millis - lastTime) / 1000)
       lastTime = millis
       requestAnimationFrame(callback)
     }
 
     callback()
+
+    this.playerControl()
   }
 
-  drawRect(rect) {
+  drawRect(obj) {
     this._context.fillStyle = "white"
-    this._context.fillRect(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y)
+    this._context.fillRect(obj.left, obj.top, obj.size.x, obj.size.y)
   }
 
-  clearRect(rect) {
-    this._context.save()
-    this._context.clearRect(rect.pos.x - 1, rect.pos.y - 1, rect.size.x + 2, rect.size.y + 2)
-    this._context.restore()
+  clearRect(obj) {
+    this._context.clearRect(obj.left - 1, obj.top - 1, obj.size.x + 2, obj.size.y + 2)
   }
 
-  collide(rect, obj) {
-    if (rect.left < 0 || rect.right > obj.width) rect.vel.x = -rect.vel.x
-    if (rect.top < 0 || rect.bottom > obj.height) rect.vel.y = -rect.vel.y
+  playerControl(event) {
+    this._canvas.addEventListener("mousemove", event => {
+      this.clearRect(this.players[0])
+      this.players[0].pos.y = event.offsetY
+    })
+  }
+
+  collide(colliderObj, collidedObj) {
+    if (collidedObj === this._canvas)
+      if (colliderObj.left < 0 || colliderObj.right > collidedObj.width)
+        colliderObj.vel.x = -colliderObj.vel.x
+      if (colliderObj.top < 0 || colliderObj.bottom > collidedObj.height)
+        colliderObj.vel.y = -colliderObj.vel.y
+    if (collidedObj === this.players[0] || this.players[1])
+      if (collidedObj.left < colliderObj.right && collidedObj.right > colliderObj.left && collidedObj.top < colliderObj.bottom && collidedObj.bottom > colliderObj.top)
+        colliderObj.vel.x = -colliderObj.vel.x
   }
 
   update(time) {
     this.clearRect(this.ball)
+    this.players.forEach(player => this.clearRect(player))
     
     this.ball.pos.x += this.ball.vel.x * time
     this.ball.pos.y += this.ball.vel.y * time
-
     this.collide(this.ball, this._canvas)
-  
-    this.drawRect(this.ball, this._canvas)
+
+    this.players[1].pos.y = this.ball.pos.y
+    this.players.forEach(player => this.collide(this.ball, player))
+
+    this.drawRect(this.ball)
+    this.players.forEach(player => this.drawRect(player))
   }
 }
 

@@ -1,3 +1,5 @@
+import { runInThisContext } from "vm";
+
 const canvas = document.getElementById("es6-retrogaming-series-pong")
 
 class Vect {
@@ -26,7 +28,7 @@ class Ball extends Rect {
     this.pos.x = posX || 0
     this.pos.y = posY || 0
     this.vel = new Vect
-    this.vel.x = this.vel.y = 100
+    this.vel.x = this.vel.y = 0
   }
 }
 
@@ -54,11 +56,10 @@ class Pong {
     let lastTime
     const callback = (millis) => {
       if (lastTime)
-        this.update((millis - lastTime) / 1000)
-      lastTime = millis
+        this.loop((millis - lastTime) / 1000)
+        lastTime = millis
       requestAnimationFrame(callback)
     }
-
     callback()
 
     this.playerControl()
@@ -69,21 +70,38 @@ class Pong {
     this._context.fillRect(obj.left, obj.top, obj.size.x, obj.size.y)
   }
 
-  clearRect(obj) {
+  removeRect(obj) {
     this._context.clearRect(obj.left - 1, obj.top - 1, obj.size.x + 2, obj.size.y + 2)
   }
 
   playerControl(event) {
     this._canvas.addEventListener("mousemove", event => {
-      this.clearRect(this.players[0])
+      this.removeRect(this.players[0])
       this.players[0].pos.y = event.offsetY
     })
+
+    this._canvas.addEventListener("click", event => {
+      this.startGame()
+    })
+  }
+
+  startGame() {
+    if (this.ball.vel.x === 0 && this.ball.vel.y === 0)
+      this.ball.vel.x = 300 * (Math.random() > 0.5 ? 1 : -1)
+      this.ball.vel.y = 300 * (Math.random() > 0.5 ? 1 : -1)
+  }
+
+  resetGame() {
+    this.ball.pos.x = this._canvas.width / 2
+    this.ball.pos.y = this._canvas.height / 2
+    this.ball.vel.x = 0
+    this.ball.vel.y = 0
   }
 
   collide(colliderObj, collidedObj) {
     if (collidedObj === this._canvas)
       if (colliderObj.left < 0 || colliderObj.right > collidedObj.width)
-        colliderObj.vel.x = -colliderObj.vel.x
+        this.resetGame()
       if (colliderObj.top < 0 || colliderObj.bottom > collidedObj.height)
         colliderObj.vel.y = -colliderObj.vel.y
     if (collidedObj === this.players[0] || this.players[1])
@@ -91,9 +109,9 @@ class Pong {
         colliderObj.vel.x = -colliderObj.vel.x
   }
 
-  update(time) {
-    this.clearRect(this.ball)
-    this.players.forEach(player => this.clearRect(player))
+  loop(time) {
+    this.removeRect(this.ball)
+    this.players.forEach(player => this.removeRect(player))
     
     this.ball.pos.x += this.ball.vel.x * time
     this.ball.pos.y += this.ball.vel.y * time

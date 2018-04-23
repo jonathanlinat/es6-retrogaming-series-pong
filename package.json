@@ -26,7 +26,12 @@
     "parser": "babel-eslint",
     "parserOptions": {
       "ecmaVersion": 6,
-      "sourceType": "module"
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "modules": true,
+        "experimentalObjectRestSpread": true
+      }
     }
   },
   "keywords": [
@@ -57,7 +62,7 @@
     "node-sass": "^4.8.3",
     "optimize-css-assets-webpack-plugin": "^4.0.0",
     "sass-loader": "^7.0.1",
-    "uglifyjs-webpack-plugin": "^1.2.4",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.6.0",
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.3"

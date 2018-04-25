@@ -27,6 +27,10 @@ module.exports = (env, options) => {
         hash: true
       })
     ],
+    devServer: {
+      host: "127.0.0.1",
+      open: true
+    },
     module: {
       rules: [
         {

@@ -11,7 +11,7 @@
   },
   "main": "app.js",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --color --open",
+    "dev": "webpack-dev-server --mode development --color",
     "build": "webpack --mode production"
   },
   "babel": {

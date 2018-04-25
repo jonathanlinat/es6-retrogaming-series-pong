@@ -1,15 +1,15 @@
-const path = require("path")
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const HtmlWebPackPlugin = require("html-webpack-plugin")
-const CleanWebpackPlugin = require("clean-webpack-plugin")
+const path = require("path");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = (env, options) => {
-  const isProductionMode = (options.mode === "production") ? true : false
+  const isProductionMode = (options.mode === "production") ? true : false;
   
-  const src = path.resolve("./src")
-  const dest = path.resolve("./dist")
+  const src = path.resolve("./src");
+  const dest = path.resolve("./dist");
 
   let webpackConfig = {
     entry: {
@@ -19,6 +19,10 @@ module.exports = (env, options) => {
         src + "/app.js"
       ]
     },
+    devServer: {
+      host: "127.0.0.1",
+      open: true
+    },
     plugins: [
       new CleanWebpackPlugin([dest]),
       new MiniCssExtractPlugin(),
@@ -27,10 +31,6 @@ module.exports = (env, options) => {
         hash: true
       })
     ],
-    devServer: {
-      host: "127.0.0.1",
-      open: true
-    },
     module: {
       rules: [
         {
@@ -87,7 +87,7 @@ module.exports = (env, options) => {
         })
       ]
     }
-  }
+  };
 
-  return webpackConfig
-}
+  return webpackConfig;
+};

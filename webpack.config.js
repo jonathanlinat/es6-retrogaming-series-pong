@@ -1,9 +1,10 @@
 const path = require("path");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = (env, options) => {
   const isProductionMode = (options.mode === "production") ? true : false;
@@ -21,7 +22,8 @@ module.exports = (env, options) => {
     },
     devServer: {
       host: "127.0.0.1",
-      open: true
+      open: true,
+      hot: true
     },
     plugins: [
       new CleanWebpackPlugin([dest]),
@@ -29,7 +31,9 @@ module.exports = (env, options) => {
       new HtmlWebPackPlugin({
         template: src + "/index.html",
         hash: true
-      })
+      }),
+      new webpack.NamedModulesPlugin(),
+      new webpack.HotModuleReplacementPlugin()
     ],
     module: {
       rules: [
@@ -47,7 +51,7 @@ module.exports = (env, options) => {
         {
           test: /\.sass$/,
           use: [
-            MiniCssExtractPlugin.loader,
+            isProductionMode ? MiniCssExtractPlugin.loader : "style-loader",
             "css-loader",
             "sass-loader"
           ]

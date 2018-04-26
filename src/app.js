@@ -26,6 +26,15 @@ class Rect {
   get left() { return this.pos.x - (this.size.x / 2); }
 }
 
+class Divider extends Rect {
+  constructor(posX, posY) {
+    super(2, 8);
+
+    this.pos.x = posX || 0;
+    this.pos.y = posY || 0;
+  }
+}
+
 class Ball extends Rect {
   constructor(posX, posY) {
     super(8, 8);
@@ -52,6 +61,11 @@ class Pong {
     this._canvas = canvas;
     this._context = this._canvas.getContext("2d");
 
+    this.divider = new Divider();
+    this.dividers = [];
+    for (let i = 0; i < (this._canvas.height / this.divider.size.y); i++) {
+      this.dividers.push(new Divider(this._canvas.width / 2, (i * this.divider.size.y) * (this.divider.size.y / (this.divider.size.y / 2))));
+    }
     this.ball = new Ball(this._canvas.width / 2, this._canvas.height / 2);
     this.players = [
       new Player(this._canvas.width / 6, this._canvas.height / 2),
@@ -114,8 +128,8 @@ class Pong {
       }
     }
     if (collidedObj === this.players[0] || this.players[1]) {
-      if (collidedObj.left < colliderObj.right && collidedObj.right > colliderObj.left
-          && collidedObj.top < colliderObj.bottom && collidedObj.bottom > colliderObj.top) {
+      if (collidedObj.left < colliderObj.right && collidedObj.right > colliderObj.left &&
+          collidedObj.top < colliderObj.bottom && collidedObj.bottom > colliderObj.top) {
         colliderObj.vel.x = -colliderObj.vel.x;
         colliderObj.vel.len *= 1.05;
       }
@@ -129,6 +143,8 @@ class Pong {
     this.ball.pos.x += this.ball.vel.x * time;
     this.ball.pos.y += this.ball.vel.y * time;
     this.collide(this.ball, this._canvas);
+
+    this.dividers.forEach(divider => this.drawRect(divider));
 
     this.players[1].pos.y = this.ball.pos.y;
     this.players.forEach(player => this.collide(this.ball, player));

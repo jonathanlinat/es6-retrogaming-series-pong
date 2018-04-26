@@ -6,9 +6,9 @@ class Vect {
     this.y = axisY || 0;
   }
 
-  get len() { return Math.sqrt((this.x * this.x) + (this.y * this.y)); }
-  set len(value) {
-    const fact = value / this.len;
+  get hypot() { return Math.hypot(this.x, this.y); }
+  set hypot(value) {
+    const fact = value / this.hypot;
     this.x *= fact;
     this.y *= fact;
   }
@@ -52,7 +52,6 @@ class Player extends Rect {
 
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
-    this.score = 0;
   }
 }
 
@@ -60,6 +59,8 @@ class Pong {
   constructor(canvas) {
     this._canvas = canvas;
     this._context = this._canvas.getContext("2d");
+
+    this.globalVel = 200;
 
     this.divider = new Divider();
     this.dividers = [];
@@ -90,14 +91,15 @@ class Pong {
     this._context.fillRect(obj.left, obj.top, obj.size.x, obj.size.y);
   }
 
-  removeRect(obj) {
+  clearRect(obj) {
+    // http://atomicrobotdesign.com/blog/web-development/html5-canvas-you-dont-always-have-to-clear-the-entire-thing/
     this._context.clearRect(obj.left - 1, obj.top - 1, obj.size.x + 2, obj.size.y + 2);
   }
 
   startGame() {
     if (this.ball.vel.x === 0 && this.ball.vel.y === 0) {
-      this.ball.vel.x = this.ball.vel.y = 300 * (Math.random() > 0.5 ? 1 : -1);
-      this.ball.vel.len = 200;
+      this.ball.vel.x = this.globalVel * (Math.random() > 0.5 ? 1 : -1);
+      this.ball.vel.y = this.globalVel * (Math.random() * 2 - 1);
     }
   }
 
@@ -109,11 +111,13 @@ class Pong {
 
   playerControl(event) {
     this._canvas.addEventListener("click", event => {
-      this.startGame();
+      if (this.ball.vel.x === 0 || this.ball.vel.y === 0) {
+        this.startGame();
+      }
     });
 
     this._canvas.addEventListener("mousemove", event => {
-      this.removeRect(this.players[0]);
+      this.clearRect(this.players[0]);
       this.players[0].pos.y = event.offsetY;
     });
   }
@@ -127,30 +131,32 @@ class Pong {
         colliderObj.vel.y = -colliderObj.vel.y;
       }
     }
+
     if (collidedObj === this.players[0] || this.players[1]) {
       if (collidedObj.left < colliderObj.right && collidedObj.right > colliderObj.left &&
           collidedObj.top < colliderObj.bottom && collidedObj.bottom > colliderObj.top) {
         colliderObj.vel.x = -colliderObj.vel.x;
-        colliderObj.vel.len *= 1.05;
+        colliderObj.vel.hypot *= 1.05;
       }
     }
   }
 
   loop(time) {
-    this.removeRect(this.ball)
-    this.players.forEach(player => this.removeRect(player));
+    this.clearRect(this.ball);
+    this.players.forEach(player => this.clearRect(player));
+    this.dividers.forEach(divider => this.clearRect(divider));
     
     this.ball.pos.x += this.ball.vel.x * time;
     this.ball.pos.y += this.ball.vel.y * time;
-    this.collide(this.ball, this._canvas);
-
-    this.dividers.forEach(divider => this.drawRect(divider));
 
     this.players[1].pos.y = this.ball.pos.y;
+
+    this.collide(this.ball, this._canvas);
     this.players.forEach(player => this.collide(this.ball, player));
 
     this.drawRect(this.ball);
     this.players.forEach(player => this.drawRect(player));
+    this.dividers.forEach(divider => this.drawRect(divider));
   }
 }
 

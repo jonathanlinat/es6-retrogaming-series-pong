@@ -1,5 +1,7 @@
 # ES6 Retrogaming Series: Pong
 
+![Pong Game](https://image.ibb.co/eZQSW7/pong.png)
+
 An ES6 attempt to reimplement the classic Pong game.
 
 Project mainly based on [Yet Another And Really Basic Webpack ES6 Starterkit](https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit).

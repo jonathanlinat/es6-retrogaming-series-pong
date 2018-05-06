@@ -1,6 +1,6 @@
 const canvas = document.getElementById("es6-retrogaming-series-pong");
-canvas.width = 320;
-canvas.height = 240;
+canvas.width = 640 / 2;
+canvas.height = 480 / 2;
 
 class Vect {
   constructor(axisX, axisY) {
@@ -43,8 +43,8 @@ class Ball extends Rect {
 
 class Player extends Rect {
   constructor(posX, posY) {
-    super(8, 30);
-
+    super(6, 30);
+    
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
 
@@ -74,13 +74,15 @@ class Pong {
     this._canvas = canvas;
     this._context = this._canvas.getContext("2d");
 
-    this.globalVel = 200;
+    this.globalVel = 300;
     
     this.ball = new Ball(this._canvas.width / 2, this._canvas.height / 2);
+
     this.players = [
-      new Player(this._canvas.width / 6, this._canvas.height / 2),
-      new Player((this._canvas.width / 6) * 5, this._canvas.height / 2)
+      new Player(50, this._canvas.height / 2),
+      new Player((this._canvas.width - 50), this._canvas.height / 2)
     ];
+
     this.divider = new Divider();
     this.dividers = [];
     for (let i = 0; i < (this._canvas.height / this.divider.size.y); i++) {
@@ -88,6 +90,7 @@ class Pong {
         new Divider(this._canvas.width / 2, (i * this.divider.size.y) * (this.divider.size.y / (this.divider.size.y / 2)))
       );
     }
+    
     this.scores = [
       new Score(this._canvas.width / 3, this._canvas.height / 4),
       new Score((this._canvas.width / 3) * 2, this._canvas.height / 4)
@@ -109,7 +112,8 @@ class Pong {
   drawRect(obj) {
     if (obj === this.ball && obj.vel.x === 0 && obj.vel.y == 0) {
       this.clearRect(obj);
-    } else {
+    }
+    else {
       this._context.fillStyle = "white";
       this._context.fillRect(obj.left, obj.top, obj.size.x, obj.size.y);
     }
@@ -138,6 +142,7 @@ class Pong {
   resetGame() {
     this.ball.pos.x = this._canvas.width / 2;
     this.ball.pos.y = this._canvas.height / 2;
+
     this.ball.vel.x = this.ball.vel.y = 0;
   }
 
@@ -149,7 +154,6 @@ class Pong {
     });
 
     this._canvas.addEventListener("mousemove", event => {
-      this.clearRect(this.players[0]);
       this.players[0].pos.y = event.offsetY;
     });
   }
@@ -164,22 +168,34 @@ class Pong {
   }
 
   onCollide(colliderObj, collidedObj) {
-    if (collidedObj === this._canvas) {
+    if (colliderObj === this.ball && collidedObj === this._canvas) {
       if (colliderObj.left < 0 || colliderObj.right > collidedObj.width) {
         const playerId = colliderObj.left < 0 ? 1 : 0;
         this.players[playerId].score++;
         this.resetGame();
       }
-      if (colliderObj.top < 0 || colliderObj.bottom > collidedObj.height) {
+      else if (colliderObj.top < 0 || colliderObj.bottom > collidedObj.height) {
         colliderObj.vel.y = -colliderObj.vel.y;
       }
     }
-
-    if (collidedObj === this.players[0] || this.players[1]) {
-      if (collidedObj.left < colliderObj.right && collidedObj.right > colliderObj.left &&
-          collidedObj.top < colliderObj.bottom && collidedObj.bottom > colliderObj.top) {
+    else if (colliderObj === this.ball && (collidedObj === this.players[0] || this.players[1])) {
+      if (colliderObj.right > collidedObj.left && colliderObj.left < collidedObj.right && colliderObj.bottom > collidedObj.top && colliderObj.top < collidedObj.bottom) {
         colliderObj.vel.x = -colliderObj.vel.x;
         colliderObj.vel.hypot *= 1.05;
+        if (colliderObj.pos.y < collidedObj.pos.y) {
+          colliderObj.vel.y = ((colliderObj.pos.y - collidedObj.pos.y) * ((collidedObj.pos.y - colliderObj.pos.y) * 1.5));
+        }
+        else if (colliderObj.pos.y > collidedObj.pos.y) {
+          colliderObj.vel.y = -((colliderObj.pos.y - collidedObj.pos.y) * ((collidedObj.pos.y - colliderObj.pos.y) * 1.5));
+        }
+      }
+    }
+    else if ((colliderObj === this.players[0] || this.players[1]) && collidedObj === this._canvas) {
+      if (colliderObj.top < 20) {
+        colliderObj.pos.y = (colliderObj.size.y / 2) + 20;
+      }
+      else if (colliderObj.bottom > collidedObj.height - 20) {
+        colliderObj.pos.y = collidedObj.height - (colliderObj.size.y / 2) - 20;
       }
     }
   }
@@ -195,6 +211,7 @@ class Pong {
 
     this.onCollide(this.ball, this._canvas);
     this.players.forEach(player => this.onCollide(this.ball, player));
+    this.players.forEach(player => this.onCollide(player, this._canvas));
 
     this.drawRect(this.ball);
     this.players.forEach(player => this.drawRect(player));

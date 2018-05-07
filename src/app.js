@@ -1,8 +1,6 @@
-const defaultElementSize = 8;
-
 const canvas = document.getElementById("es6-retrogaming-series-pong");
-canvas.width = (defaultElementSize * defaultElementSize) * 10;
-canvas.height = (defaultElementSize * (defaultElementSize * .75)) * 10;
+canvas.width = 640;
+canvas.height = 480;
 
 class Vect {
   constructor(axisX, axisY) {
@@ -33,7 +31,7 @@ class Rect {
 
 class Ball extends Rect {
   constructor(posX, posY) {
-    super(defaultElementSize, defaultElementSize);
+    super(6, 6);
 
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
@@ -45,7 +43,7 @@ class Ball extends Rect {
 
 class Player extends Rect {
   constructor(posX, posY) {
-    super(defaultElementSize, defaultElementSize * 4);
+    super(6, 24);
     
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
@@ -56,7 +54,7 @@ class Player extends Rect {
 
 class Divider extends Rect {
   constructor(posX, posY) {
-    super(defaultElementSize / 4, defaultElementSize);
+    super(2, 8);
 
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
@@ -76,13 +74,13 @@ class Pong {
     this._canvas = canvas;
     this._context = this._canvas.getContext("2d");
 
-    this.globalVel = (defaultElementSize * 4) * 10;
+    this.globalVel = 300;
     
     this.ball = new Ball(this._canvas.width / 2, this._canvas.height / 2);
 
     this.players = [
-      new Player(defaultElementSize * defaultElementSize, this._canvas.height / 2),
-      new Player((this._canvas.width - (defaultElementSize * defaultElementSize)), this._canvas.height / 2)
+      new Player(96, this._canvas.height / 2),
+      new Player((this._canvas.width - 96), this._canvas.height / 2)
     ];
 
     this.divider = new Divider();
@@ -94,8 +92,8 @@ class Pong {
     }
     
     this.scores = [
-      new Score(this._canvas.width / 4, defaultElementSize * defaultElementSize),
-      new Score((this._canvas.width / 4) * 3, defaultElementSize * defaultElementSize)
+      new Score(this._canvas.width / 4, 64),
+      new Score((this._canvas.width / 4) * 3, 64)
     ];
 
     let lastTime;
@@ -126,8 +124,9 @@ class Pong {
   }
 
   drawScore(playerId) {
-    const fontSize = defaultElementSize * 4;
+    const fontSize = 8 * 4;
     this._context.font = `${fontSize}px Arial`;
+    this._context.fillStyle = "#e8e8e8";
     this._context.fillText(this.players[playerId].score, this.scores[playerId].pos.x - (this._context.measureText(this.players[playerId].score).width / 2), this.scores[playerId].pos.y);
   }
 
@@ -144,9 +143,14 @@ class Pong {
     
   resetGame() {
     this.ball.pos.x = this._canvas.width / 2;
-    this.ball.pos.y = this._canvas.height / 2;
+    this.ball.pos.y = Math.random() * this._canvas.height;
 
     this.ball.vel.x = this.ball.vel.y = 0;
+  }
+
+  positionBallOverTime(time) {
+    this.ball.pos.x += this.ball.vel.x * time;
+    this.ball.pos.y += this.ball.vel.y * time;
   }
 
   playerControl(event) {
@@ -158,21 +162,13 @@ class Pong {
 
     this._canvas.addEventListener("mousemove", event => {
       this.players[0].pos.y = event.offsetY;
+      this.players[1].pos.y = event.offsetY;
     });
-  }
-
-  aiControl() {
-    this.players[1].pos.y = this.ball.pos.y;
-  }
-
-  positionBallOverTime(time) {
-    this.ball.pos.x += this.ball.vel.x * time;
-    this.ball.pos.y += this.ball.vel.y * time;
   }
 
   onCollide(colliderObj, collidedObj) {
     if (colliderObj === this.ball && collidedObj === this._canvas) {
-      if (colliderObj.left < 0 || colliderObj.right > collidedObj.width) {
+      if (colliderObj.left < 32 || colliderObj.right > (collidedObj.width - 32)) {
         const playerId = colliderObj.left < 0 ? 1 : 0;
         this.players[playerId].score++;
         this.resetGame();
@@ -194,11 +190,11 @@ class Pong {
       }
     }
     else if ((colliderObj === this.players[0] || this.players[1]) && collidedObj === this._canvas) {
-      if (colliderObj.top < (defaultElementSize * 2)) {
-        colliderObj.pos.y = (colliderObj.size.y / 2) + (defaultElementSize * 2);
+      if (colliderObj.top < 16) {
+        colliderObj.pos.y = (colliderObj.size.y / 2) + 16;
       }
-      else if (colliderObj.bottom > collidedObj.height - (defaultElementSize * 2)) {
-        colliderObj.pos.y = collidedObj.height - (colliderObj.size.y / 2) - (defaultElementSize * 2);
+      else if (colliderObj.bottom > collidedObj.height - 16) {
+        colliderObj.pos.y = collidedObj.height - (colliderObj.size.y / 2) - 16;
       }
     }
   }
@@ -210,7 +206,6 @@ class Pong {
     this.scores.forEach(score => this.clearScore());
     
     this.positionBallOverTime(time);
-    this.aiControl();
 
     this.onCollide(this.ball, this._canvas);
     this.players.forEach(player => this.onCollide(this.ball, player));

@@ -1,6 +1,8 @@
+const defaultElementSize = 8;
+
 const canvas = document.getElementById("es6-retrogaming-series-pong");
-canvas.width = 640 / 2;
-canvas.height = 480 / 2;
+canvas.width = (defaultElementSize * defaultElementSize) * 10;
+canvas.height = (defaultElementSize * (defaultElementSize * .75)) * 10;
 
 class Vect {
   constructor(axisX, axisY) {
@@ -31,7 +33,7 @@ class Rect {
 
 class Ball extends Rect {
   constructor(posX, posY) {
-    super(8, 8);
+    super(defaultElementSize, defaultElementSize);
 
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
@@ -43,7 +45,7 @@ class Ball extends Rect {
 
 class Player extends Rect {
   constructor(posX, posY) {
-    super(6, 30);
+    super(defaultElementSize, defaultElementSize * 4);
     
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
@@ -54,7 +56,7 @@ class Player extends Rect {
 
 class Divider extends Rect {
   constructor(posX, posY) {
-    super(2, 8);
+    super(defaultElementSize / 4, defaultElementSize);
 
     this.pos.x = posX || 0;
     this.pos.y = posY || 0;
@@ -74,13 +76,13 @@ class Pong {
     this._canvas = canvas;
     this._context = this._canvas.getContext("2d");
 
-    this.globalVel = 300;
+    this.globalVel = (defaultElementSize * 4) * 10;
     
     this.ball = new Ball(this._canvas.width / 2, this._canvas.height / 2);
 
     this.players = [
-      new Player(50, this._canvas.height / 2),
-      new Player((this._canvas.width - 50), this._canvas.height / 2)
+      new Player(defaultElementSize * defaultElementSize, this._canvas.height / 2),
+      new Player((this._canvas.width - (defaultElementSize * defaultElementSize)), this._canvas.height / 2)
     ];
 
     this.divider = new Divider();
@@ -92,8 +94,8 @@ class Pong {
     }
     
     this.scores = [
-      new Score(this._canvas.width / 3, this._canvas.height / 4),
-      new Score((this._canvas.width / 3) * 2, this._canvas.height / 4)
+      new Score(this._canvas.width / 4, defaultElementSize * defaultElementSize),
+      new Score((this._canvas.width / 4) * 3, defaultElementSize * defaultElementSize)
     ];
 
     let lastTime;
@@ -124,7 +126,8 @@ class Pong {
   }
 
   drawScore(playerId) {
-    this._context.font = "32px Arial";
+    const fontSize = defaultElementSize * 4;
+    this._context.font = `${fontSize}px Arial`;
     this._context.fillText(this.players[playerId].score, this.scores[playerId].pos.x - (this._context.measureText(this.players[playerId].score).width / 2), this.scores[playerId].pos.y);
   }
 
@@ -191,11 +194,11 @@ class Pong {
       }
     }
     else if ((colliderObj === this.players[0] || this.players[1]) && collidedObj === this._canvas) {
-      if (colliderObj.top < 20) {
-        colliderObj.pos.y = (colliderObj.size.y / 2) + 20;
+      if (colliderObj.top < (defaultElementSize * 2)) {
+        colliderObj.pos.y = (colliderObj.size.y / 2) + (defaultElementSize * 2);
       }
-      else if (colliderObj.bottom > collidedObj.height - 20) {
-        colliderObj.pos.y = collidedObj.height - (colliderObj.size.y / 2) - 20;
+      else if (colliderObj.bottom > collidedObj.height - (defaultElementSize * 2)) {
+        colliderObj.pos.y = collidedObj.height - (colliderObj.size.y / 2) - (defaultElementSize * 2);
       }
     }
   }

@@ -1,6 +1,6 @@
 # ES6 Retrogaming Series: Pong
 
-![Pong Game](https://image.ibb.co/eZQSW7/pong.png)
+![Pong Game](https://image.ibb.co/c5KRFd/ES6_Retrogaming_Series_Pong.png)
 
 An ES6 attempt to reimplement the classic Pong game.
 

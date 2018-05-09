@@ -1,16 +1,18 @@
-const path = require("path");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const webpack = require("webpack");
+const path = require("path")
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const HtmlWebPackPlugin = require("html-webpack-plugin")
+const CleanWebpackPlugin = require("clean-webpack-plugin")
+const webpack = require("webpack")
+
+const projectTitle = "ES6 Retrogaming Series: Pong"
 
 module.exports = (env, options) => {
-  const isProductionMode = (options.mode === "production") ? true : false;
+  const isProductionMode = (options.mode === "production") ? true : false
   
-  const src = path.resolve("./src");
-  const dest = path.resolve("./dist");
+  const src = path.resolve("./src")
+  const dest = path.resolve("./dist")
 
   let webpackConfig = {
     entry: {
@@ -29,8 +31,7 @@ module.exports = (env, options) => {
       new CleanWebpackPlugin([dest]),
       new MiniCssExtractPlugin(),
       new HtmlWebPackPlugin({
-        template: src + "/index.html",
-        hash: true
+        title: projectTitle
       }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
@@ -71,6 +72,8 @@ module.exports = (env, options) => {
         }),
         new OptimizeCSSAssetsPlugin(),
         new HtmlWebPackPlugin({
+          title: projectTitle,
+          hash: true,
           cache: true,
           minify: {
             html5: true,
@@ -91,7 +94,7 @@ module.exports = (env, options) => {
         })
       ]
     }
-  };
+  }
 
-  return webpackConfig;
-};
+  return webpackConfig
+}

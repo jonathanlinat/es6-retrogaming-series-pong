@@ -1,6 +1,8 @@
-const canvas = document.getElementById("es6-retrogaming-series-pong")
+const canvas = document.createElement("canvas")
+canvas.id = "es6-retrogaming-series-pong"
 canvas.width = 640
 canvas.height = 480
+document.body.appendChild(canvas)
 
 class Vect {
   constructor(axisX, axisY) {
@@ -98,16 +100,38 @@ class Pong {
     this.playerControl()
   }
 
-  drawRect(obj) {
-    if (obj === this.ball && obj.vel.x === 0 && obj.vel.y == 0) {
-      this.clearRect(obj)
-    } else {
-      this._context.fillRect(obj.left, obj.top, obj.size.x, obj.size.y)
+  startGame() {
+    if (this.ball.vel.x === 0 && this.ball.vel.y === 0) {
+      this.ball.vel.x = this.globalVel * (Math.random() > 0.5 ? 1 : -1)
+      this.ball.vel.y = this.globalVel * (Math.random() * 2 - 1)
     }
   }
 
-  clearRect(obj) {
-    this._context.clearRect(obj.left - 1, obj.top - 1, obj.size.x + 2, obj.size.y + 2)
+  resetGame() {
+    this.ball.pos.x = this._canvas.width / 2
+    this.ball.pos.y = Math.random() * this._canvas.height
+
+    this.ball.vel.x = this.ball.vel.y = 0
+  }
+
+  playerControl(event) {
+    this._canvas.addEventListener("click", event => {
+      if (this.ball.vel.x === 0 || this.ball.vel.y === 0) {
+        this.startGame()
+      }
+    })
+
+    this._canvas.addEventListener("mousemove", event => {
+      this.players.forEach((value, index, array) => array[index].pos.y = event.offsetY)
+    })
+  }
+
+  drawRect(obj) {
+    if (obj === this.ball && obj.vel.x === 0 && obj.vel.y == 0) {
+      this.clearCanvas()
+    } else {
+      this._context.fillRect(obj.left, obj.top, obj.size.x, obj.size.y)
+    }
   }
 
   drawScore(playerId) {
@@ -125,15 +149,14 @@ class Pong {
       "11111001100111111001100110011111",
       "11111001100111110001000100010001"
     ]
-    this.players[playerId].score.toString().split("").map((value) => {
+    let playerScore = this.players[playerId].score.toString().split("")
+    playerScore.map((value) => {
       numbersList[value].split("").forEach((value, index) => {
         if (value === "1") {
           this._context.fillRect(
-            playerId === 0 ? (
-              (index % pixelsByRow) * pixelSize) + ((this._canvas.width / 4) - (pixelSize * 2)
-            ) : (
-              (index % pixelsByRow) * pixelSize) + ((this._canvas.width / 4) * 3 - (pixelSize * 2)
-            ),
+            playerId === 0 ?
+              ((index % pixelsByRow) * pixelSize) + ((this._canvas.width / 4) - (pixelSize * 2)) :
+              ((index % pixelsByRow) * pixelSize) + ((this._canvas.width / 4) * 3 - (pixelSize * 2)),
             ((index / pixelsByRow | 0) * pixelSize) + 32,
             pixelSize,
             pixelSize
@@ -143,39 +166,13 @@ class Pong {
     })
   }
 
-  clearScore(scoreId) {
+  clearCanvas() {
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height)
-  }
-
-  startGame() {
-    if (this.ball.vel.x === 0 && this.ball.vel.y === 0) {
-      this.ball.vel.x = this.globalVel * (Math.random() > 0.5 ? 1 : -1)
-      this.ball.vel.y = this.globalVel * (Math.random() * 2 - 1)
-    }
-  }
-
-  resetGame() {
-    this.ball.pos.x = this._canvas.width / 2
-    this.ball.pos.y = Math.random() * this._canvas.height
-
-    this.ball.vel.x = this.ball.vel.y = 0
   }
 
   positionBallOverTime(time) {
     this.ball.pos.x += this.ball.vel.x * time
     this.ball.pos.y += this.ball.vel.y * time
-  }
-
-  playerControl(event) {
-    this._canvas.addEventListener("click", event => {
-      if (this.ball.vel.x === 0 || this.ball.vel.y === 0) {
-        this.startGame()
-      }
-    })
-
-    this._canvas.addEventListener("mousemove", event => {
-      this.players.forEach((value, index, array) => array[index].pos.y = event.offsetY)
-    })
   }
 
   onCollide(colliderObj, collidedObj) {
@@ -207,10 +204,7 @@ class Pong {
   }
 
   gameLoop(time) {
-    this.clearRect(this.ball)
-    this.players.forEach(value => this.clearRect(value))
-    this.players.forEach((value, index) => this.clearScore(index))
-    this.dividers.forEach(value => this.clearRect(value))
+    this.clearCanvas()
 
     this.positionBallOverTime(time)
 

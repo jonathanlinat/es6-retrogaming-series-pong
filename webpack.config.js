@@ -47,7 +47,12 @@ module.exports = (env, options) => {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          use: "babel-loader"
+          use: {
+            loader: "babel-loader",
+            options: {
+              babelrc: false
+            }
+          }
         },
         {
           test: /\.sass$/,

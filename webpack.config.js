@@ -6,8 +6,6 @@ const HtmlWebPackPlugin = require("html-webpack-plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const webpack = require("webpack")
 
-const projectTitle = "ES6 Retrogaming Series: Pong"
-
 module.exports = (env, options) => {
   const isProductionMode = (options.mode === "production") ? true : false
   
@@ -31,7 +29,7 @@ module.exports = (env, options) => {
       new CleanWebpackPlugin([dest]),
       new MiniCssExtractPlugin(),
       new HtmlWebPackPlugin({
-        title: projectTitle
+        template: src + "/index.html"
       }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
@@ -77,7 +75,7 @@ module.exports = (env, options) => {
         }),
         new OptimizeCSSAssetsPlugin(),
         new HtmlWebPackPlugin({
-          title: projectTitle,
+          template: src + "/index.html",
           hash: true,
           cache: true,
           minify: {

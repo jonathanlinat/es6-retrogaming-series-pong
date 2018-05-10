@@ -18,18 +18,10 @@ class Rect {
     this.size = new Vect(sizeW, sizeH)
   }
 
-  get top() {
-    return this.pos.y - (this.size.y / 2)
-  }
-  get right() {
-    return this.pos.x + (this.size.x / 2)
-  }
-  get bottom() {
-    return this.pos.y + (this.size.y / 2)
-  }
-  get left() {
-    return this.pos.x - (this.size.x / 2)
-  }
+  get top() { return this.pos.y - (this.size.y / 2) }
+  get right() { return this.pos.x + (this.size.x / 2) }
+  get bottom() { return this.pos.y + (this.size.y / 2) }
+  get left() { return this.pos.x - (this.size.x / 2) }
 }
 
 class Ball extends Rect {
@@ -122,8 +114,12 @@ class Pong {
     })
 
     this._canvas.addEventListener("mousemove", event => {
-      this.players.forEach((value, index, array) => array[index].pos.y = event.offsetY)
+      this.players[0].pos.y = event.offsetY
     })
+  }
+
+  aiControl() {
+    return this.players[1].pos.y = this.ball.pos.y
   }
 
   drawRect(obj) {
@@ -151,17 +147,17 @@ class Pong {
     ]
     let playerScore = this.players[playerId].score.toString().split("")
     playerScore.map((value) => {
-      numbersList[value].split("").forEach((value, index) => {
-        if (value === "1") {
-          this._context.fillRect(
-            playerId === 0 ?
-              ((index % pixelsByRow) * pixelSize) + ((this._canvas.width / 4) - (pixelSize * 2)) :
-              ((index % pixelsByRow) * pixelSize) + ((this._canvas.width / 4) * 3 - (pixelSize * 2)),
-            ((index / pixelsByRow | 0) * pixelSize) + 32,
-            pixelSize,
-            pixelSize
-          )
-        }
+      playerScore.forEach((value, pos) => {
+        numbersList[value].split("").forEach((value, index) => {
+          if (value === "1") {
+            this._context.fillRect(
+              ((index % pixelsByRow) * pixelSize) + (pos * pixelsByRow * 10) + (this._canvas.width / 4) * (playerId === 0 ? 3 : 1) - (playerScore.length === 1 ? (pixelSize * 2) : (pixelSize - (pixelsByRow * (-pixelSize)))),
+              ((index / pixelsByRow | 0) * pixelSize) + 32,
+              pixelSize,
+              pixelSize
+            )
+          }
+        })
       })
     })
   }
@@ -207,6 +203,8 @@ class Pong {
     this.clearCanvas()
 
     this.positionBallOverTime(time)
+
+    this.aiControl()
 
     this.onCollide(this.ball, this._canvas)
     this.players.forEach(value => this.onCollide(this.ball, value))

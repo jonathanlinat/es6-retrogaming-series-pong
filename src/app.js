@@ -62,7 +62,8 @@ class Pong {
     this._context = this._canvas.getContext("2d")
     this._context.fillStyle = "white"
 
-    this.globalVel = 300
+    this.globalVel = 200
+    this.finalScoreToReach = 11
 
     this.ball = new Ball(this._canvas.width / 2, this._canvas.height / 2)
 
@@ -89,27 +90,45 @@ class Pong {
     }
     callback()
 
-    this.playerControl()
+    this.standByScreen()
   }
 
-  startGame() {
-    if (this.ball.vel.x === 0 && this.ball.vel.y === 0) {
-      this.ball.vel.x = this.globalVel * (Math.random() > 0.5 ? 1 : -1)
-      this.ball.vel.y = this.globalVel * (Math.random() * 2 - 1)
-    }
+  setRandomVelocityToBall() {
+    this.ball.vel.x = this.globalVel * (Math.random() > 0.5 ? 1 : -1)
+    this.ball.vel.y = this.globalVel * (Math.random() > 0.5 ? 1 : -1)
   }
 
-  resetGame() {
+  resetBallPositionAndVelocity() {
     this.ball.pos.x = this._canvas.width / 2
     this.ball.pos.y = Math.random() * this._canvas.height
 
     this.ball.vel.x = this.ball.vel.y = 0
   }
 
+  resetPlayersScore() {
+    this.players.forEach((value, index, array) => array[index].score = 0)
+  }
+
+  standByScreen() {
+    this.playerControl()
+    this.resetBallPositionAndVelocity()
+  }
+
+  startNewRound() {
+    if (this.players[0].score === this.finalScoreToReach || this.players[1].score === this.finalScoreToReach) {
+      this.standByScreen()
+    }
+    else {
+      this.resetBallPositionAndVelocity()
+      this.setRandomVelocityToBall()
+    }
+  }
+
   playerControl(event) {
     this._canvas.addEventListener("click", event => {
       if (this.ball.vel.x === 0 || this.ball.vel.y === 0) {
-        this.startGame()
+        this.resetPlayersScore()
+        this.startNewRound()
       }
     })
 
@@ -118,14 +137,11 @@ class Pong {
     })
   }
 
-  aiControl() {
-    return this.players[1].pos.y = this.ball.pos.y
-  }
-
   drawRect(obj) {
     if (obj === this.ball && obj.vel.x === 0 && obj.vel.y == 0) {
       this.clearCanvas()
-    } else {
+    }
+    else {
       this._context.fillRect(obj.left, obj.top, obj.size.x, obj.size.y)
     }
   }
@@ -145,19 +161,18 @@ class Pong {
       "11111001100111111001100110011111",
       "11111001100111110001000100010001"
     ]
-    let playerScore = this.players[playerId].score.toString().split("")
-    playerScore.map((value) => {
-      playerScore.forEach((value, pos) => {
-        numbersList[value].split("").forEach((value, index) => {
-          if (value === "1") {
-            this._context.fillRect(
-              ((index % pixelsByRow) * pixelSize) + (pos * pixelsByRow * 10) + (this._canvas.width / 4) * (playerId === 0 ? 3 : 1) - (playerScore.length === 1 ? (pixelSize * 2) : (pixelSize - (pixelsByRow * (-pixelSize)))),
-              ((index / pixelsByRow | 0) * pixelSize) + 32,
-              pixelSize,
-              pixelSize
-            )
-          }
-        })
+
+    const playerScore = this.players[playerId].score.toString().split("")
+    playerScore.forEach((value, pos) => {
+      numbersList[value].split("").forEach((value, index) => {
+        if (value === "1") {
+          this._context.fillRect(
+            ((index % pixelsByRow) * pixelSize) + (pos * pixelsByRow * 10) + (this._canvas.width / 4) * (playerId === 0 ? 3 : 1) - (playerScore.length === 1 ? (pixelSize * 2) : (pixelSize - (pixelsByRow * (-pixelSize)))),
+            ((index / pixelsByRow | 0) * pixelSize) + 32,
+            pixelSize,
+            pixelSize
+          )
+        }
       })
     })
   }
@@ -174,26 +189,31 @@ class Pong {
   onCollide(colliderObj, collidedObj) {
     if (colliderObj === this.ball && collidedObj === this._canvas) {
       if (colliderObj.left < 32 || colliderObj.right > (collidedObj.width - 32)) {
-        const playerId = colliderObj.left < 32 ? 1 : 0
+        const playerId = colliderObj.left < 32 ? 0 : 1
         this.players[playerId].score++
-        this.resetGame()
-      } else if (colliderObj.top < 0 || colliderObj.bottom > collidedObj.height) {
+        this.startNewRound()
+      }
+      else if (colliderObj.top < 0 || colliderObj.bottom > collidedObj.height) {
         colliderObj.vel.y = -colliderObj.vel.y
       }
-    } else if (colliderObj === this.ball && (collidedObj === this.players[0] || this.players[1])) {
+    }
+    else if (colliderObj === this.ball && (collidedObj === this.players[0] || this.players[1])) {
       if (colliderObj.right > collidedObj.left && colliderObj.left < collidedObj.right &&
           colliderObj.bottom > collidedObj.top && colliderObj.top < collidedObj.bottom) {
         colliderObj.vel.x = -colliderObj.vel.x
         if (colliderObj.pos.y < collidedObj.pos.y) {
           colliderObj.vel.y = ((colliderObj.pos.y - collidedObj.pos.y) * ((collidedObj.pos.y - colliderObj.pos.y) * 1.5))
-        } else if (colliderObj.pos.y > collidedObj.pos.y) {
+        }
+        else if (colliderObj.pos.y > collidedObj.pos.y) {
           colliderObj.vel.y = -((colliderObj.pos.y - collidedObj.pos.y) * ((collidedObj.pos.y - colliderObj.pos.y) * 1.5))
         }
       }
-    } else if ((colliderObj === this.players[0] || this.players[1]) && collidedObj === this._canvas) {
+    }
+    else if ((colliderObj === this.players[0] || this.players[1]) && collidedObj === this._canvas) {
       if (colliderObj.top < 16) {
         colliderObj.pos.y = (colliderObj.size.y / 2) + 16
-      } else if (colliderObj.bottom > collidedObj.height - 16) {
+      }
+      else if (colliderObj.bottom > collidedObj.height - 16) {
         colliderObj.pos.y = collidedObj.height - (colliderObj.size.y / 2) - 16
       }
     }
@@ -203,8 +223,6 @@ class Pong {
     this.clearCanvas()
 
     this.positionBallOverTime(time)
-
-    this.aiControl()
 
     this.onCollide(this.ball, this._canvas)
     this.players.forEach(value => this.onCollide(this.ball, value))

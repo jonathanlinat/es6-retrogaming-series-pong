@@ -2,7 +2,7 @@
 
 ![Pong Game](https://image.ibb.co/c5KRFd/ES6_Retrogaming_Series_Pong.png)
 
-An ES6 attempt to reimplement the classic Pong game.
+An ES6 attempt to reimplement the classic Atari Pong game, initially released in 1972.
 
 Project mainly based on [Yet Another And Really Basic Webpack ES6 Starterkit](https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit).
 
@@ -31,15 +31,19 @@ $ npm run dev
 
 ### Build Prod Version
 
-Create a Production version of your project.
+Create a Production version of the game.
 
 ```
 $ npm run build
 ```
 
+### Gameplay
+
+Start a new game clicking on the black background. Use your mouse to move the paddles. If one of the players reach the final score of 11, he wins the game.
+
 ### Features
 
-* Webpack 4.8.1
+* Webpack 4.8.3
 * ES6 Support via [babel-loader](https://github.com/babel/babel-loader)
 * SASS Support via [sass-loader](https://github.com/jtangelder/sass-loader)
 * Linting via [eslint-loader](https://github.com/MoOx/eslint-loader)

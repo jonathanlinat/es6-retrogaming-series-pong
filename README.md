@@ -1,6 +1,6 @@
 # ES6 Retrogaming Series: Pong
 
-![Pong Game](https://image.ibb.co/c5KRFd/ES6_Retrogaming_Series_Pong.png)
+![Pong Game](https://image.ibb.co/iwud1J/es6_atari_pong_screenshot.png)
 
 An ES6 attempt to reimplement the classic Atari Pong game, initially released in 1972.
 

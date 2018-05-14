@@ -41,6 +41,17 @@ $ npm run build
 
 Start a new game clicking on the black background. Use your mouse to move the paddles. If one of the players reach the final score of 11, he wins the game.
 
+### References
+
+Sound effects are based on those two references:
+
+* [Caprani, Ole - The PONG Game](http://cs.au.dk/~dsound/DigitalAudio.dir/Greenfoot/Pong.dir/Pong.html)
+* [Generate Sounds Programmatically With Javascript](http://marcgg.com/blog/2016/11/01/javascript-audio/)
+
+Actual design and gameplay are based on the DICE version of Pong:
+
+* [DICE - Discrete Integrated Circuit Emulator](https://adamulation.blogspot.com)
+
 ### Features
 
 * Webpack 4.8.3

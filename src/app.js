@@ -79,7 +79,7 @@ class Pong {
     this.dividers = []
     for (let i = 0; i < (this._canvas.height / this.divider.size.y); i++) {
       this.dividers.push(
-        new Divider((this._canvas.width / 2) - (this._canvas.width / 32), (i * this.divider.size.y) * (this.divider.size.y / (this.divider.size.y / 2)))
+        new Divider(296, (i * this.divider.size.y) * (this.divider.size.y / (this.divider.size.y / 2)))
       )
     }
 

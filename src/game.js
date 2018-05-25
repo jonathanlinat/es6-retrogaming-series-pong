@@ -13,71 +13,71 @@ class Vect {
 
 class Rect {
   constructor (sizeW, sizeH) {
-    this.pos = new Vect()
+    this.position = new Vect()
 
     this.size = new Vect(sizeW, sizeH)
   }
 
-  get top () { return this.pos.y - (this.size.y / 2) }
-  get right () { return this.pos.x + (this.size.x / 2) }
-  get bottom () { return this.pos.y + (this.size.y / 2) }
-  get left () { return this.pos.x - (this.size.x / 2) }
+  get top () { return this.position.y - (this.size.y / 2) }
+  get right () { return this.position.x + (this.size.x / 2) }
+  get bottom () { return this.position.y + (this.size.y / 2) }
+  get left () { return this.position.x - (this.size.x / 2) }
 }
 
 class Ball extends Rect {
-  constructor (posX, posY) {
+  constructor (positionX, positionY) {
     super(6, 6)
 
-    this.pos.x = posX || 0
-    this.pos.y = posY || 0
+    this.position.x = positionX || 0
+    this.position.y = positionY || 0
 
-    this.vel = new Vect()
-    this.vel.x = this.vel.y = 0
+    this.velocity = new Vect()
+    this.velocity.x = this.velocity.y = 0
   }
 }
 
 class Player extends Rect {
-  constructor (posX, posY) {
+  constructor (positionX, positionY) {
     super(6, 24)
 
-    this.pos.x = posX || 0
-    this.pos.y = posY || 0
+    this.position.x = positionX || 0
+    this.position.y = positionY || 0
 
     this.score = 0
   }
 }
 
 class Divider extends Rect {
-  constructor (posX, posY) {
+  constructor (positionX, positionY) {
     super(2, 8)
 
-    this.pos.x = posX || 0
-    this.pos.y = posY || 0
+    this.position.x = positionX || 0
+    this.position.y = positionY || 0
   }
 }
 
 class Pong {
   constructor (canvas) {
-    this._canvas = canvas
-    this._canvasContext = this._canvas.getContext('2d')
-    this._canvasContext.fillStyle = 'white'
-    this._audioContext = new AudioContext()
-    this.o = null
-    this.g = null
+    this.canvas = canvas
+    this.canvasContext = this.canvas.getContext('2d')
+    this.canvasContext.fillStyle = 'white'
+    this.audioContext = new AudioContext()
+    this.oscillator = null
+    this.gainNode = null
 
-    this.globalVel = 200
+    this.globalVelocity = 200
     this.finalScoreToReach = 11
 
-    this.ball = new Ball(this._canvas.width / 2, this._canvas.height / 2)
+    this.ball = new Ball(this.canvas.width / 2, this.canvas.height / 2)
 
     this.players = [
-      new Player(96, this._canvas.height / 2),
-      new Player((this._canvas.width - 96), this._canvas.height / 2)
+      new Player(96, this.canvas.height / 2),
+      new Player((this.canvas.width - 96), this.canvas.height / 2)
     ]
 
     this.divider = new Divider()
     this.dividers = []
-    for (let i = 0; i < (this._canvas.height / this.divider.size.y); i++) {
+    for (let i = 0; i < (this.canvas.height / this.divider.size.y); i++) {
       this.dividers.push(
         new Divider(296, (i * this.divider.size.y) * (this.divider.size.y / (this.divider.size.y / 2)))
       )
@@ -97,22 +97,22 @@ class Pong {
   }
 
   setRandomVelocityToBall () {
-    this.ball.vel.x = this.globalVel * (Math.random() > 0.5 ? 1 : -1)
-    this.ball.vel.y = this.globalVel * (Math.random() > 0.5 ? 1 : -1)
+    this.ball.velocity.x = this.globalVelocity * (Math.random() > 0.5 ? 1 : -1)
+    this.ball.velocity.y = this.globalVelocity * (Math.random() > 0.5 ? 1 : -1)
   }
 
   resetBallPositionAndVelocity () {
-    this.ball.pos.x = this._canvas.width / 2
-    this.ball.pos.y = Math.random() * this._canvas.height
+    this.ball.position.x = this.canvas.width / 2
+    this.ball.position.y = Math.random() * this.canvas.height
 
-    this.ball.vel.x = this.ball.vel.y = 0
+    this.ball.velocity.x = this.ball.velocity.y = 0
   }
 
-  resetPlayersScore () {
+  resetplayersScore () {
     this.players.forEach((player, index, _player) => { _player[index].score = 0 })
   }
 
-  increasePlayerScore (playerId) {
+  increaseplayerScore (playerId) {
     this.generateSound(257, 490)
     this.players[playerId].score++
   }
@@ -127,7 +127,7 @@ class Pong {
 
   startNewRound (playerId) {
     if (playerId !== undefined) {
-      this.increasePlayerScore(playerId)
+      this.increaseplayerScore(playerId)
     }
 
     if (this.players[0].score === this.finalScoreToReach || this.players[1].score === this.finalScoreToReach) {
@@ -139,29 +139,29 @@ class Pong {
   }
 
   playerControl (event) {
-    this._canvas.addEventListener('click', event => {
-      if ((this.ball.vel.x === 0 || this.ball.vel.y === 0) || this.isStandByScreen) {
+    this.canvas.addEventListener('click', event => {
+      if ((this.ball.velocity.x === 0 || this.ball.velocity.y === 0) || this.isStandByScreen) {
         this.isStandByScreen = false
 
-        this.resetPlayersScore()
+        this.resetplayersScore()
         this.startNewRound()
       }
     })
 
-    this._canvas.addEventListener('mousemove', event => {
-      this.players.forEach(player => { player.pos.y = event.offsetY })
+    this.canvas.addEventListener('mousemove', event => {
+      this.players.forEach(player => { player.position.y = event.offsetY })
     })
   }
 
   clearCanvas () {
-    this._canvasContext.clearRect(0, 0, this._canvas.width, this._canvas.height)
+    this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
   drawRect (obj) {
-    if (obj === this.ball && obj.vel.x === 0 && obj.vel.y === 0) {
+    if (obj === this.ball && obj.velocity.x === 0 && obj.velocity.y === 0) {
       this.clearCanvas()
     } else {
-      this._canvasContext.fillRect(obj.left, obj.top, obj.size.x, obj.size.y)
+      this.canvasContext.fillRect(obj.left, obj.top, obj.size.x, obj.size.y)
     }
   }
 
@@ -185,8 +185,8 @@ class Pong {
     playerScore.forEach((playerScore, pos) => {
       numbersList[playerScore].split('').forEach((pixel, index) => {
         if (pixel === '1') {
-          this._canvasContext.fillRect(
-            ((index % pixelsByRow) * pixelSize) + (pos * pixelsByRow * 10) + (this._canvas.width / 4) * (playerId === 0 ? 3 : 1) - (playerScore.length === 1 ? (pixelSize * 2) : (pixelSize - (pixelsByRow * (-pixelSize)))),
+          this.canvasContext.fillRect(
+            ((index % pixelsByRow) * pixelSize) + (pos * pixelsByRow * 10) + (this.canvas.width / 4) * (playerId === 0 ? 3 : 1) - (playerScore.length === 1 ? (pixelSize * 2) : (pixelSize - (pixelsByRow * (-pixelSize)))),
             ((index / pixelsByRow | 0) * pixelSize) + 32,
             pixelSize,
             pixelSize
@@ -197,53 +197,53 @@ class Pong {
   }
 
   positionBallOverTime (time) {
-    this.ball.pos.x += this.ball.vel.x * time
-    this.ball.pos.y += this.ball.vel.y * time
+    this.ball.position.x += this.ball.velocity.x * time
+    this.ball.position.y += this.ball.velocity.y * time
   }
 
   generateSound (duration, frequency) {
-    this.o = this._audioContext.createOscillator()
-    this.g = this._audioContext.createGain()
-    this.o.connect(this.g)
-    this.o.type = 'square'
-    this.o.frequency.value = frequency
-    this.g.connect(this._audioContext.destination)
-    this.o.start(0)
+    this.oscillator = this.audioContext.createOscillator()
+    this.gainNode = this.audioContext.createGain()
+    this.oscillator.connect(this.gainNode)
+    this.oscillator.type = 'square'
+    this.oscillator.frequency.value = frequency
+    this.gainNode.connect(this.audioContext.destination)
+    this.oscillator.start(0)
 
-    this.g.gain.exponentialRampToValueAtTime(
-      0.00001, this._audioContext.currentTime + (duration / 1000)
+    this.gainNode.gain.exponentialRampToValueAtTime(
+      0.00001, this.audioContext.currentTime + (duration / 1000)
     )
   }
 
   onCollide (colliderObj, collidedObj) {
-    if (colliderObj === this.ball && collidedObj === this._canvas) {
+    if (colliderObj === this.ball && collidedObj === this.canvas) {
       if (colliderObj.left < 32 || colliderObj.right > (collidedObj.width - 32)) {
         if (this.isStandByScreen) {
           this.generateSound(16, 226)
-          colliderObj.vel.x = -colliderObj.vel.x
+          colliderObj.velocity.x = -colliderObj.velocity.x
         } else {
           this.startNewRound(colliderObj.left < 32 ? 0 : 1)
         }
       } else if (colliderObj.top < 0 || colliderObj.bottom > collidedObj.height) {
         this.generateSound(16, 226)
-        colliderObj.vel.y = -colliderObj.vel.y
+        colliderObj.velocity.y = -colliderObj.velocity.y
       }
     } else if (colliderObj === this.ball && (collidedObj === this.players[0] || this.players[1])) {
       if (colliderObj.right > collidedObj.left && colliderObj.left < collidedObj.right && colliderObj.bottom > collidedObj.top && colliderObj.top < collidedObj.bottom) {
-        colliderObj.vel.x = -colliderObj.vel.x
-        if (colliderObj.pos.y < collidedObj.pos.y) {
+        colliderObj.velocity.x = -colliderObj.velocity.x
+        if (colliderObj.position.y < collidedObj.position.y) {
           this.generateSound(96, 459)
-          colliderObj.vel.y = ((colliderObj.pos.y - collidedObj.pos.y) * ((collidedObj.pos.y - colliderObj.pos.y) * 1.5))
-        } else if (colliderObj.pos.y > collidedObj.pos.y) {
+          colliderObj.velocity.y = ((colliderObj.position.y - collidedObj.position.y) * ((collidedObj.position.y - colliderObj.position.y) * 1.5))
+        } else if (colliderObj.position.y > collidedObj.position.y) {
           this.generateSound(96, 459)
-          colliderObj.vel.y = -((colliderObj.pos.y - collidedObj.pos.y) * ((collidedObj.pos.y - colliderObj.pos.y) * 1.5))
+          colliderObj.velocity.y = -((colliderObj.position.y - collidedObj.position.y) * ((collidedObj.position.y - colliderObj.position.y) * 1.5))
         }
       }
-    } else if ((colliderObj === this.players[0] || this.players[1]) && collidedObj === this._canvas) {
+    } else if ((colliderObj === this.players[0] || this.players[1]) && collidedObj === this.canvas) {
       if (colliderObj.top < 16) {
-        colliderObj.pos.y = (colliderObj.size.y / 2) + 16
+        colliderObj.position.y = (colliderObj.size.y / 2) + 16
       } else if (colliderObj.bottom > collidedObj.height - 16) {
-        colliderObj.pos.y = collidedObj.height - (colliderObj.size.y / 2) - 16
+        colliderObj.position.y = collidedObj.height - (colliderObj.size.y / 2) - 16
       }
     }
   }
@@ -253,12 +253,12 @@ class Pong {
 
     this.drawRect(this.ball)
     this.positionBallOverTime(time)
-    this.onCollide(this.ball, this._canvas)
+    this.onCollide(this.ball, this.canvas)
     this.players.forEach((player, index) => this.drawScore(index))
     this.dividers.forEach(divider => this.drawRect(divider))
 
     if (!this.isStandByScreen) {
-      this.players.forEach(player => this.onCollide(player, this._canvas))
+      this.players.forEach(player => this.onCollide(player, this.canvas))
       this.players.forEach(player => this.onCollide(this.ball, player))
       this.players.forEach(player => this.drawRect(player))
     }

@@ -58,3 +58,4 @@ Actual design and gameplay are based on the DICE version of Pong:
 * ES6 Support via [babel-loader](https://github.com/babel/babel-loader)
 * SASS Support via [sass-loader](https://github.com/jtangelder/sass-loader)
 * Linting via [eslint-loader](https://github.com/MoOx/eslint-loader)
+* JavaScript Standard Style via [eslint-config-standard](https://github.com/standard/eslint-config-standard)

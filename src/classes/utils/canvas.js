@@ -12,11 +12,15 @@ export default class Canvas {
     document.body.appendChild(this.canvas)
   }
 
-  getWidth () { return this.canvas.width }
-  getHeight () { return this.canvas.height }
-  getContext () { return this.canvasContext }
+  get context () { return this.canvasContext }
 
-  render () {
+  get width () { return this.canvas.width }
+  get height () { return this.canvas.height }
+
+  get halfWidth () { return this.canvas.width / 2 }
+  get halfHeight () { return this.canvas.height / 2 }
+
+  create () {
     document.addEventListener('load', this.canvas)
   }
 }

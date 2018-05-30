@@ -1,13 +1,15 @@
 import Rect, { Vect } from './utils/geometry'
+import Drawing from './utils/drawing'
 
 export default class Ball extends Rect {
-  constructor (positionX, positionY) {
-    super(6, 6)
+  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, velocityX = 0, velocityY = 0) {
+    super(positionX, positionY, sizeX, sizeY)
 
-    this.position.x = positionX || 0
-    this.position.y = positionY || 0
+    this.velocity = new Vect(velocityX, velocityY)
+  }
 
-    this.velocity = new Vect()
-    this.velocity.x = this.velocity.y = 0
+  render (canvas = {}) {
+    const drawing = new Drawing()
+    drawing.drawRect(canvas, this.objectLeft, this.objectTop, this.objectWidth, this.objectHeight)
   }
 }

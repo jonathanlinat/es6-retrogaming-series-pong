@@ -1,19 +1,24 @@
 export class Vect {
-  constructor (axisX, axisY) {
-    this.x = axisX || 0
-    this.y = axisY || 0
+  constructor (axisX = 0, axisY = 0) {
+    this.x = axisX
+    this.y = axisY
   }
 }
 
 export default class Rect {
-  constructor (sizeW, sizeH) {
-    this.position = new Vect()
-
-    this.size = new Vect(sizeW, sizeH)
+  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0) {
+    this.position = new Vect(positionX, positionY)
+    this.size = new Vect(sizeX, sizeY)
   }
 
-  get top () { return this.position.y - (this.size.y / 2) }
-  get right () { return this.position.x + (this.size.x / 2) }
-  get bottom () { return this.position.y + (this.size.y / 2) }
-  get left () { return this.position.x - (this.size.x / 2) }
+  get objectWidth () { return this.size.x }
+  get objectHeight () { return this.size.y }
+
+  get objectTop () { return this.position.y - (this.size.y / 2) }
+  get objectLeft () { return this.position.x - (this.size.x / 2) }
+  get objectRight () { return this.position.x + (this.size.x / 2) }
+  get objectBottom () { return this.position.y + (this.size.y / 2) }
+
+  get objectPositionX () { return this.position.x }
+  get objectPositionY () { return this.position.y }
 }

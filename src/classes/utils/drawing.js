@@ -1,10 +1,10 @@
 export default class Drawing {
-  drawRect (context, object) {
-    context.fillStyle = 'white'
-    context.fillRect(object.left, object.top, object.size.x, object.size.y)
+  drawRect (canvas = {}, positionX = '', positionY = '', sizeX = '', sizeY = '') {
+    canvas.context.fillStyle = 'white'
+    canvas.context.fillRect(positionX, positionY, sizeX, sizeY)
   }
 
-  clearCanvas (canvas, context) {
-    context.clearRect(0, 0, canvas.width, canvas.height)
+  clearCanvas (canvas = {}) {
+    canvas.context.clearRect(0, 0, canvas.width, canvas.height)
   }
 }

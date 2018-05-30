@@ -1,12 +1,13 @@
 import Rect from './utils/geometry'
+import Drawing from './utils/drawing'
 
 export default class Paddle extends Rect {
-  constructor (positionX, positionY) {
-    super(6, 24)
-
-    this.position.x = positionX || 0
-    this.position.y = positionY || 0
+  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0) {
+    super(positionX, positionY, sizeX, sizeY)
   }
 
-  render () {}
+  render (canvas = {}) {
+    const drawing = new Drawing()
+    drawing.drawRect(canvas, this.objectLeft, this.objectTop, this.objectWidth, this.objectHeight)
+  }
 }

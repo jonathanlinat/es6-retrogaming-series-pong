@@ -17,9 +17,6 @@ export default class Canvas {
   get width () { return this.canvas.width }
   get height () { return this.canvas.height }
 
-  get halfWidth () { return this.canvas.width / 2 }
-  get halfHeight () { return this.canvas.height / 2 }
-
   create () {
     document.addEventListener('load', this.canvas)
   }

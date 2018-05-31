@@ -10,6 +10,6 @@ export default class Ball extends Rect {
 
   render (canvas = {}) {
     const drawing = new Drawing()
-    drawing.drawRect(canvas, this.objectLeft, this.objectTop, this.objectWidth, this.objectHeight)
+    drawing.drawRect(canvas, this.left, this.top, this.width, this.height)
   }
 }

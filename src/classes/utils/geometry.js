@@ -11,14 +11,14 @@ export default class Rect {
     this.size = new Vect(sizeX, sizeY)
   }
 
-  get objectWidth () { return this.size.x }
-  get objectHeight () { return this.size.y }
+  get width () { return this.size.x }
+  get height () { return this.size.y }
 
-  get objectTop () { return this.position.y - (this.size.y / 2) }
-  get objectLeft () { return this.position.x - (this.size.x / 2) }
-  get objectRight () { return this.position.x + (this.size.x / 2) }
-  get objectBottom () { return this.position.y + (this.size.y / 2) }
+  get top () { return this.position.y - (this.size.y / 2) }
+  get left () { return this.position.x - (this.size.x / 2) }
+  get right () { return this.position.x + (this.size.x / 2) }
+  get bottom () { return this.position.y + (this.size.y / 2) }
 
-  get objectPositionX () { return this.position.x }
-  get objectPositionY () { return this.position.y }
+  get positionX () { return this.position.x }
+  get positionY () { return this.position.y }
 }

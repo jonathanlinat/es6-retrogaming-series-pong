@@ -10,12 +10,12 @@ export default class Divider extends Rect {
     const drawing = new Drawing()
     const dashedLines = []
 
-    for (let i = 0; i < (this.objectPositionY / this.objectHeight); i++) {
+    for (let i = 0; i < (this.positionY / this.height); i++) {
       dashedLines.push(
-        new Divider(this.objectPositionX, (i * this.objectHeight) * (this.objectHeight / (this.objectHeight / 2)), this.objectWidth, this.objectHeight)
+        new Divider(this.positionX, (i * this.height) * (this.height / (this.height / 2)), this.width, this.height)
       )
     }
 
-    dashedLines.forEach(dashedLine => drawing.drawRect(canvas, dashedLine.objectLeft, dashedLine.objectTop, dashedLine.objectWidth, dashedLine.objectHeight))
+    dashedLines.forEach(dashedLine => drawing.drawRect(canvas, dashedLine.left, dashedLine.top, dashedLine.width, dashedLine.height))
   }
 }

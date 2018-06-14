@@ -6,10 +6,13 @@ export default class Paddle extends Rect {
     super(positionX, positionY, sizeX, sizeY)
 
     this.score = 0
+
+    this.drawing = new Drawing()
   }
 
+  clear (canvas = {}) {}
+
   render (canvas = {}, index = 0) {
-    const drawing = new Drawing()
-    drawing.drawRect(canvas, index === 0 ? this.left : this.right, this.top, this.width, this.height)
+    this.drawing.drawRect(canvas, index === 0 ? this.positionX : (this.positionX - this.width), this.top, this.width, this.height)
   }
 }

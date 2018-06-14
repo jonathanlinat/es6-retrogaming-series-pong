@@ -14,11 +14,11 @@ export default class Rect {
   get width () { return this.size.x }
   get height () { return this.size.y }
 
+  get positionX () { return this.position.x }
+  get positionY () { return this.position.y }
+
   get top () { return this.position.y - (this.size.y / 2) }
   get left () { return this.position.x - (this.size.x / 2) }
   get right () { return this.position.x + (this.size.x / 2) }
   get bottom () { return this.position.y + (this.size.y / 2) }
-
-  get positionX () { return this.position.x }
-  get positionY () { return this.position.y }
 }

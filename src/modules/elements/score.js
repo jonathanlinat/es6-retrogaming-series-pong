@@ -1,4 +1,5 @@
-import Drawing from './utils/drawing'
+import Drawing from './../utils/drawing'
+
 export default class Score {
   constructor (pixelSize = 0, pixelsByRow = 0) {
     this.pixelSize = pixelSize
@@ -19,8 +20,6 @@ export default class Score {
     this.drawing = new Drawing()
   }
 
-  clear (canvas = {}) {}
-
   render (canvas = {}, player = [], playerId = 0) {
     this.playerScore = player[playerId].score.toString().split('')
 
@@ -31,7 +30,7 @@ export default class Score {
             drawEachPixelByRow: ((n % this.pixelsByRow) * this.pixelSize),
             setSpaceBetweenEachNumber: ((l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2))),
             positionEachScoreOnCanvas: ((canvas.width / 4) * (playerId === 0 ? 3 : 1)),
-            setOffsetFromLeftOfCanvas: (((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) / (this.pixelSize * this.playerScore.length) * 2) + ((-2) + (this.playerScore.length === 2 ? this.pixelSize : 0)))
+            setOffsetFromLeftOfCanvas: (((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) / (this.pixelSize * this.playerScore.length) * 2))
           }
           this.positionY = {
             drawEachPixelByColumn: ((n / this.pixelsByRow | 0) * this.pixelSize),

@@ -1,5 +1,5 @@
-import Rect, { Vect } from './utils/geometry'
-import Drawing from './utils/drawing'
+import Rect, { Vect } from './../utils/geometry'
+import Drawing from './../utils/drawing'
 
 export default class Ball extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, defaultVelocity = 0) {
@@ -17,11 +17,7 @@ export default class Ball extends Rect {
     this.position.y += this.velocity.y * time
   }
 
-  clear (canvas = {}) {
-    this.drawing.clearRect(canvas, this.positionX, this.positionY, this.width, this.height)
-  }
-
-  render (canvas = {}, time) {
+  render (canvas = {}) {
     this.drawing.drawRect(canvas, this.left, this.top, this.width, this.height)
   }
 }

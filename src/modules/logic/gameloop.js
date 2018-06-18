@@ -1,4 +1,4 @@
-import Updater from './utils/updater'
+import Updater from '../utils/updater'
 
 export default class Gameloop {
   constructor (canvas = {}, ball = {}, players = {}, score = {}, divider = {}) {
@@ -8,21 +8,16 @@ export default class Gameloop {
     this.score = score
     this.divider = divider
 
-    this.updater = new Updater(this.clear.bind(this), this.render.bind(this))
+    this.updater = new Updater(this.render.bind(this))
   }
 
   update () {
-    this.updater.update()
-  }
-
-  clear () {
-    this.ball.clear(this.canvas)
-    this.players.forEach(player => player.clear(this.canvas))
-    this.score.clear(this.canvas)
-    this.divider.clear(this.canvas)
+    this.updater.performAnimation()
   }
 
   render (time = 0) {
+    this.canvas.clear()
+
     this.ball.render(this.canvas)
     this.ball.positionOverTime(time)
     this.players.forEach((paddle, index) => paddle.render(this.canvas, index))

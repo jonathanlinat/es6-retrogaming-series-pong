@@ -1,5 +1,5 @@
-import Rect from './utils/geometry'
-import Drawing from './utils/drawing'
+import Rect from './../utils/geometry'
+import Drawing from './../utils/drawing'
 
 export default class Paddle extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0) {
@@ -9,8 +9,6 @@ export default class Paddle extends Rect {
 
     this.drawing = new Drawing()
   }
-
-  clear (canvas = {}) {}
 
   render (canvas = {}, index = 0) {
     this.drawing.drawRect(canvas, index === 0 ? this.positionX : (this.positionX - this.width), this.top, this.width, this.height)

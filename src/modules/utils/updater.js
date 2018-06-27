@@ -1,6 +1,6 @@
 export default class Updater {
-  constructor (render) {
-    this.render = render
+  constructor (callback) {
+    this.callback = callback
     this.lastTime = 0
   }
 
@@ -8,7 +8,7 @@ export default class Updater {
     requestAnimationFrame(this.performAnimation.bind(this))
 
     if (this.lastTime) {
-      this.render((time - this.lastTime) / 1000)
+      this.callback((time - this.lastTime) / 1000)
     }
 
     this.lastTime = time

@@ -108,11 +108,11 @@ class Pong {
     this.ball.velocity.x = this.ball.velocity.y = 0
   }
 
-  resetplayersScore () {
+  resetPlayersScore () {
     this.players.forEach((player, index, _player) => { _player[index].score = 0 })
   }
 
-  increaseplayerScore (playerId) {
+  increasePlayerScore (playerId) {
     this.generateSound(257, 490)
     this.players[playerId].score++
   }
@@ -127,7 +127,7 @@ class Pong {
 
   startNewRound (playerId) {
     if (playerId !== undefined) {
-      this.increaseplayerScore(playerId)
+      this.increasePlayerScore(playerId)
     }
 
     if (this.players[0].score === this.finalScoreToReach || this.players[1].score === this.finalScoreToReach) {
@@ -143,7 +143,7 @@ class Pong {
       if ((this.ball.velocity.x === 0 || this.ball.velocity.y === 0) || this.isStandByScreen) {
         this.isStandByScreen = false
 
-        this.resetplayersScore()
+        this.resetPlayersScore()
         this.startNewRound()
       }
     })

@@ -12,9 +12,12 @@ export default class Ball extends Rect {
     this.drawing = new Drawing()
   }
 
+  get velocityX () { return this.velocity.x }
+  get velocityY () { return this.velocity.y }
+
   positionOverTime (time = 0) {
-    this.position.x += this.velocity.x * time
-    this.position.y += this.velocity.y * time
+    this.positionX += this.velocityX * time
+    this.positionY += this.velocityY * time
   }
 
   render (canvas = {}) {

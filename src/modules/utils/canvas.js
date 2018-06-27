@@ -22,6 +22,11 @@ export default class Canvas {
   get width () { return this.canvas.width }
   get height () { return this.canvas.height }
 
+  get top () { return this.canvas.height - this.canvas.height }
+  get left () { return this.canvas.width - this.canvas.width }
+  get right () { return this.canvas.width }
+  get bottom () { return this.canvas.height }
+
   clear () {
     this.drawing.clearCanvas(this)
   }

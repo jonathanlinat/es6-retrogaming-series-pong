@@ -7,9 +7,7 @@ export default class Updater {
   performAnimation (time = 0) {
     requestAnimationFrame(this.performAnimation.bind(this))
 
-    if (this.lastTime) {
-      this.callback((time - this.lastTime) / 1000)
-    }
+    if (this.lastTime) this.callback((time - this.lastTime) / 1000)
 
     this.lastTime = time
   }

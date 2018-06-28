@@ -12,6 +12,8 @@ export default class Ball extends Rect {
     this.drawing = new Drawing()
   }
 
+  set velocityX (value = 0) { this.velocity.x = value }
+  set velocityY (value = 0) { this.velocity.y = value }
   get velocityX () { return this.velocity.x }
   get velocityY () { return this.velocity.y }
 

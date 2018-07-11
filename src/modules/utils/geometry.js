@@ -9,6 +9,8 @@ export default class Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0) {
     this.position = new Vect(positionX, positionY)
     this.size = new Vect(sizeX, sizeY)
+
+    this.name = this.constructor.name.toLowerCase()
   }
 
   get width () { return this.size.x }

@@ -1,24 +1,41 @@
-export default class Collision {
-  checkEdgeOverlapping (minA = 0, maxA = 0, minB = 0, maxB = 0) {
-    // Check if an edge of an object is overlapping the opposite one of an other object.
-    return Math.max(minA, maxA) >= Math.min(minB, maxB) && Math.min(minA, maxA) <= Math.max(minB, maxB)
-  }
+import Sound from '../utils/sound'
 
-  getEdgeOverlappingDistance (minA = 0, maxA = 0, minB = 0, maxB = 0) {
-    // Return the result of the subtraction between minimum and maximum value (position XY on canvas) of two objects.
-    return Math.max(minA, maxA) - Math.min(minB, maxB) || Math.min(minA, maxA) - Math.max(minB, maxB)
+export default class Collision {
+  constructor () {
+    this.sound = new Sound()
   }
 
   detect (collider = {}, collided = {}) {
-    const edgeOverlappingX = this.checkEdgeOverlapping(collider.left, collider.right, collided.left, collided.right)
-    const edgeOverlappingY = this.checkEdgeOverlapping(collider.top, collider.bottom, collided.top, collided.bottom)
-    const edgeOverlappinDistanceX = this.getEdgeOverlappingDistance(collider.left, collider.right, collided.left, collided.right)
-    const edgeOverlappinDistanceY = this.getEdgeOverlappingDistance(collider.top, collider.bottom, collided.top, collided.bottom)
-
-    if (edgeOverlappingX && edgeOverlappingY) {
-      // Check if X and Y edges are colliding, determine which edge was first collided and then tweak the collider's velocity in consequence.
-      if (edgeOverlappinDistanceX <= edgeOverlappinDistanceY) collider.velocityX = -collider.velocityX
-      if (edgeOverlappinDistanceX >= edgeOverlappinDistanceY) collider.velocityY = -collider.velocityY
+    if (collider.name === 'player' && collided.name === 'canvas') {
+      if (collider.top < 16) {
+        collider.positionY = (collider.size.y / 2) + 16
+      } else if (collider.bottom > collided.height - 16) {
+        collider.positionY = collided.height - (collider.size.y / 2) - 16
+      }
+    } else if (collider.name === 'ball' && collided.name === 'canvas') {
+      if (collider.left < 32 || collider.right > (collided.width - 32)) {
+        this.sound.generate('square', 257, 490)
+        collider.velocityX = -collider.velocityX
+      } else if (collider.top < 0 || collider.bottom > collided.height) {
+        this.sound.generate('square', 16, 226)
+        collider.velocityY = -collider.velocityY
+      }
+    } else if (collider.name === 'ball' && collided.name === 'player') {
+      if (collider.right > collided.left && collider.left < collided.right && collider.bottom > collided.top && collider.top < collided.bottom) {
+        if (collider.right > collided.left && collider.left < collided.right) {
+          collider.velocityX = -collider.velocityX
+          const compoundedVelocity = (collider.positionY - collided.positionY) * (collided.positionY - collider.positionY) * 1.5
+          if (collider.positionY < collided.positionY) {
+            this.sound.generate('square', 96, 459)
+            collider.velocityY = compoundedVelocity
+          } else if (collider.positionY > collided.positionY) {
+            this.sound.generate('square', 96, 459)
+            collider.velocityY = -compoundedVelocity
+          }
+        } else if (collider.bottom > collided.top && collider.top < collided.bottom) {
+          collider.velocityY = -collider.velocityY
+        }
+      }
     }
   }
 }

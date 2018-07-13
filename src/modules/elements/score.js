@@ -20,6 +20,14 @@ export default class Score {
     this.drawing = new Drawing()
   }
 
+  increase (player = [], playerId = 0) {
+    player[playerId].score++
+  }
+
+  reset (player = [], playerId = 0) {
+    player[playerId].score = 0
+  }
+
   render (canvas = {}, player = [], playerId = 0) {
     this.playerScore = player[playerId].score.toString().split('')
 
@@ -30,7 +38,7 @@ export default class Score {
             drawEachPixelByRow: ((n % this.pixelsByRow) * this.pixelSize),
             setSpaceBetweenEachNumber: ((l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2))),
             positionEachScoreOnCanvas: ((canvas.width / 4) * (playerId === 0 ? 3 : 1)),
-            setOffsetFromLeftOfCanvas: (((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) / (this.pixelSize * this.playerScore.length) * 2))
+            setOffsetFromLeftOfCanvas: (((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) - this.pixelSize))
           }
           this.positionY = {
             drawEachPixelByColumn: ((n / this.pixelsByRow | 0) * this.pixelSize),

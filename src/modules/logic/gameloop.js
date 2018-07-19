@@ -10,7 +10,7 @@ export default class Gameloop {
     this.divider = divider
 
     this.updater = new Updater(this.loop.bind(this))
-    this.collision = new Collision()
+    this.collision = new Collision(this.canvas, this.ball, this.players, this.score)
   }
 
   animate () {
@@ -21,9 +21,12 @@ export default class Gameloop {
     this.canvas.clear()
 
     this.ball.positionOverTime(time)
+
     this.collision.detect(this.ball, this.canvas)
     this.players.forEach(player => this.collision.detect(this.ball, player))
     this.players.forEach(player => this.collision.detect(player, this.canvas))
+
+    this.players.forEach(player => this.score.check(player))
 
     this.ball.render(this.canvas)
     this.players.forEach((player, index) => player.render(this.canvas, index))

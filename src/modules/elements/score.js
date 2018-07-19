@@ -1,9 +1,10 @@
 import Drawing from './../utils/drawing'
 
 export default class Score {
-  constructor (pixelSize = 0, pixelsByRow = 0) {
+  constructor (pixelSize = 0, pixelsByRow = 0, maxHiScore = 0) {
     this.pixelSize = pixelSize
     this.pixelsByRow = pixelsByRow
+    this.maxHiScore = maxHiScore
     this.numbersList = [
       '11111001100110011001100110011111',
       '00010001000100010001000100010001',
@@ -20,24 +21,27 @@ export default class Score {
     this.drawing = new Drawing()
   }
 
-  increase (player = [], playerId = 0) {
-    player[playerId].score++
+  increase (player = {}) {
+    player.score++
   }
 
-  reset (player = [], playerId = 0) {
-    player[playerId].score = 0
+  reset (player = {}) {
+    player.score = 0
   }
 
-  render (canvas = {}, player = [], playerId = 0) {
-    this.playerScore = player[playerId].score.toString().split('')
+  check (player = {}) {
+    if (player.score === this.maxHiScore) this.reset(player)
+  }
 
+  render (canvas = {}, _player = [], playerId = 0) {
+    this.playerScore = _player[playerId].score.toString().split('')
     this.playerScore.forEach((k, l) => {
       this.numbersList[k].split('').forEach((m, n) => {
         if (m === '1') {
           this.positionX = {
             drawEachPixelByRow: ((n % this.pixelsByRow) * this.pixelSize),
             setSpaceBetweenEachNumber: ((l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2))),
-            positionEachScoreOnCanvas: ((canvas.width / 4) * (playerId === 0 ? 3 : 1)),
+            positionEachScoreOnCanvas: ((canvas.width / 4) * (playerId === 1 ? 3 : 1)),
             setOffsetFromLeftOfCanvas: (((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) - this.pixelSize))
           }
           this.positionY = {

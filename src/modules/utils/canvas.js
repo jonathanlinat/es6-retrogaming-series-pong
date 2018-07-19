@@ -12,8 +12,6 @@ export default class Canvas {
     this.canvasContext.fillStyle = this.canvas.color
     this.canvasContext.fillRect(0, 0, this.canvas.width, this.canvas.width)
 
-    this.name = this.constructor.name.toLowerCase()
-
     document.body.appendChild(this.canvas)
 
     this.drawing = new Drawing()

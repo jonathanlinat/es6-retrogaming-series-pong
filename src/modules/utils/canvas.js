@@ -27,6 +27,9 @@ export default class Canvas {
   get right () { return this.canvas.width }
   get bottom () { return this.canvas.height }
 
+  get centerX () { return this.canvas.width / 2 }
+  get centerY () { return this.canvas.height / 2 }
+
   clear () {
     this.drawing.clearCanvas(this)
   }

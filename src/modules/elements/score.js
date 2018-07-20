@@ -29,23 +29,19 @@ export default class Score {
     player.score = 0
   }
 
-  check (player = {}) {
-    if (player.score === this.maxHiScore) this.reset(player)
-  }
-
   render (canvas = {}, _player = [], playerId = 0) {
     this.playerScore = _player[playerId].score.toString().split('')
     this.playerScore.forEach((k, l) => {
       this.numbersList[k].split('').forEach((m, n) => {
         if (m === '1') {
           this.positionX = {
-            drawEachPixelByRow: ((n % this.pixelsByRow) * this.pixelSize),
-            setSpaceBetweenEachNumber: ((l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2))),
-            positionEachScoreOnCanvas: ((canvas.width / 4) * (playerId === 1 ? 3 : 1)),
-            setOffsetFromLeftOfCanvas: (((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) - this.pixelSize))
+            drawEachPixelByRow: (n % this.pixelsByRow) * this.pixelSize,
+            setSpaceBetweenEachNumber: (l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2)),
+            positionEachScoreOnCanvas: (canvas.width / 4) * (playerId === 1 ? 3 : 1),
+            setOffsetFromLeftOfCanvas: ((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) - this.pixelSize)
           }
           this.positionY = {
-            drawEachPixelByColumn: ((n / this.pixelsByRow | 0) * this.pixelSize),
+            drawEachPixelByColumn: (n / this.pixelsByRow | 0) * this.pixelSize,
             setOffsetFromTopOfCanvas: 32
           }
           this.drawing.drawRect(

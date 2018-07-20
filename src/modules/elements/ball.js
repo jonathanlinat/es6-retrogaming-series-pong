@@ -5,8 +5,9 @@ export default class Ball extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, defaultVelocity = 0) {
     super(positionX, positionY, sizeX, sizeY)
 
-    this.randomVelocityX = defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
-    this.randomVelocityY = defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
+    this.defaultVelocity = defaultVelocity
+    this.randomVelocityX = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
+    this.randomVelocityY = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
 
     this.velocity = new Vect(this.randomVelocityX, this.randomVelocityY)
     this.drawing = new Drawing()
@@ -20,6 +21,18 @@ export default class Ball extends Rect {
   positionOverTime (time = 0) {
     this.positionX += this.velocityX * time
     this.positionY += this.velocityY * time
+  }
+
+  setRandomVelocity () {
+    this.velocityX = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
+    this.velocityY = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
+  }
+
+  resetPositionAndVelocity (canvas = {}) {
+    this.positionX = canvas.centerX
+    this.positionY = canvas.height * (Math.random() * ((0.9 - 0.1) + 0.1))
+
+    this.velocityX = this.velocityY = 0
   }
 
   render (canvas = {}) {

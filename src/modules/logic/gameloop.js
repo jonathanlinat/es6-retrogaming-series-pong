@@ -1,16 +1,16 @@
 import Updater from '../utils/updater'
-import Collision from '../logic/collision'
+import Collision from './collision'
 
 export default class Gameloop {
-  constructor (canvas = {}, ball = {}, players = [], score = {}, divider = {}) {
+  constructor (canvas = {}, ball = {}, players = [], scoreboard = {}, divider = {}) {
     this.canvas = canvas
     this.ball = ball
     this.players = players
-    this.score = score
+    this.scoreboard = scoreboard
     this.divider = divider
 
     this.updater = new Updater(this.loop.bind(this))
-    this.collision = new Collision(this.canvas, this.ball, this.players, this.score)
+    this.collision = new Collision(this.canvas, this.ball, this.players)
   }
 
   animate () {
@@ -28,7 +28,7 @@ export default class Gameloop {
 
     this.ball.render(this.canvas)
     this.players.forEach((player, index) => player.render(this.canvas, index))
-    this.players.forEach((player, index, _player) => this.score.render(this.canvas, _player, index))
+    this.players.forEach((player, index, _player) => this.scoreboard.render(this.canvas, _player, index))
     this.divider.render(this.canvas)
   }
 }

@@ -1,5 +1,5 @@
-import Rect, { Vect } from './../utils/geometry'
-import Drawing from './../utils/drawing'
+import Rect, { Vect } from '../utils/geometry'
+import Drawing from '../utils/drawing'
 
 export default class Ball extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, defaultVelocity = 0) {

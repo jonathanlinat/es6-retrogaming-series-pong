@@ -2,13 +2,12 @@ import Gamelogic from './gamelogic'
 import Sound from '../utils/sound'
 
 export default class Collision {
-  constructor (canvas = {}, ball = {}, players = [], score = {}) {
+  constructor (canvas = {}, ball = {}, players = []) {
     this.canvas = canvas
     this.ball = ball
     this.players = players
-    this.score = score
 
-    this.gamelogic = new Gamelogic(this.canvas, this.ball, this.score)
+    this.gamelogic = new Gamelogic(this.canvas, this.ball, this.players)
     this.sound = new Sound()
     this.sound.disable()
   }
@@ -22,11 +21,14 @@ export default class Collision {
       }
     } else if (collider === this.ball && collided === this.canvas) {
       if (collider.left < 32 || collider.right > (collided.width - 32)) {
-        collider.velocityX = -collider.velocityX
-        if (collider.left < 32) {
-          this.gamelogic.startNewRound(this.players[1])
+        if (this.gamelogic.checkReachedMaxHiScore()) {
+          collider.velocityX = -collider.velocityX
         } else {
-          this.gamelogic.startNewRound(this.players[0])
+          if (collider.left < 32) {
+            this.gamelogic.startNewRound(1)
+          } else {
+            this.gamelogic.startNewRound(0)
+          }
         }
         this.sound.generate('square', 257, 490)
       } else if (collider.top < 0 || collider.bottom > collided.height) {

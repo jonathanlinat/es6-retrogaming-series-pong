@@ -1,12 +1,14 @@
 export default class Gamelogic {
-  constructor (canvas = {}, ball = {}, score = {}) {
+  constructor (canvas = {}, ball = {}, player = []) {
     this.canvas = canvas
     this.ball = ball
-    this.score = score
+    this.players = player
   }
 
-  startNewRound (player = {}) {
-    this.score.increase(player)
+  checkReachedMaxHiScore () {}
+
+  startNewRound (playerId = 0) {
+    this.players[playerId].increaseScore()
     this.ball.resetPositionAndVelocity(this.canvas)
     this.ball.setRandomVelocity()
   }

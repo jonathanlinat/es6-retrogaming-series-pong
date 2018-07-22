@@ -1,5 +1,5 @@
-import Rect from './../utils/geometry'
-import Drawing from './../utils/drawing'
+import Rect from '../utils/geometry'
+import Drawing from '../utils/drawing'
 
 export default class Divider extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0) {

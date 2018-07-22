@@ -1,10 +1,9 @@
-import Drawing from './../utils/drawing'
+import Drawing from '../utils/drawing'
 
-export default class Score {
-  constructor (pixelSize = 0, pixelsByRow = 0, maxHiScore = 0) {
+export default class Scoreboard {
+  constructor (pixelSize = 0, pixelsByRow = 0) {
     this.pixelSize = pixelSize
     this.pixelsByRow = pixelsByRow
-    this.maxHiScore = maxHiScore
     this.numbersList = [
       '11111001100110011001100110011111',
       '00010001000100010001000100010001',
@@ -19,14 +18,6 @@ export default class Score {
     ]
 
     this.drawing = new Drawing()
-  }
-
-  increase (player = {}) {
-    player.score++
-  }
-
-  reset (player = {}) {
-    player.score = 0
   }
 
   render (canvas = {}, _player = [], playerId = 0) {

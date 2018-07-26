@@ -3,21 +3,19 @@ import Drawing from './drawing'
 export default class Canvas {
   constructor (context = '', width = 0, height = 0, color = '') {
     this.canvas = document.createElement('canvas')
+
+    this.canvas.context = this.canvas.getContext(context)
     this.canvas.width = width
     this.canvas.height = height
     this.canvas.color = color
 
-    this.canvasContext = this.canvas.getContext(context)
-    this.canvasContext.globalAlpha = this.canvas.color ? 1 : 0
-    this.canvasContext.fillStyle = this.canvas.color
-    this.canvasContext.fillRect(0, 0, this.canvas.width, this.canvas.width)
-
     document.body.appendChild(this.canvas)
 
     this.drawing = new Drawing()
+    this.drawing.drawRect(this.canvas, 0, 0, this.canvas.width, this.canvas.width, this.canvas.color)
   }
 
-  get context () { return this.canvasContext }
+  get context () { return this.canvas.context }
 
   get width () { return this.canvas.width }
   get height () { return this.canvas.height }
@@ -31,7 +29,7 @@ export default class Canvas {
   get centerY () { return this.canvas.height / 2 }
 
   clear () {
-    this.drawing.clearCanvas(this)
+    this.drawing.clearCanvas(this.canvas)
   }
 
   create () {

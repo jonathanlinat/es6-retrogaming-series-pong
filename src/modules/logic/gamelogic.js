@@ -5,11 +5,9 @@ export default class Gamelogic {
     this.players = player
   }
 
-  checkReachedMaxHiScore () {}
-
   startNewRound (playerId = 0) {
     this.players[playerId].increaseScore()
-    this.ball.resetPositionAndVelocity(this.canvas)
+    this.ball.setCenteredPosition(this.canvas)
     this.ball.setRandomVelocity()
   }
 }

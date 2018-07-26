@@ -2,8 +2,10 @@ import Rect from '../utils/geometry'
 import Drawing from '../utils/drawing'
 
 export default class Divider extends Rect {
-  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0) {
+  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
     super(positionX, positionY, sizeX, sizeY)
+
+    this.color = color
 
     this.drawing = new Drawing()
   }
@@ -17,6 +19,6 @@ export default class Divider extends Rect {
       )
     }
 
-    dashedLines.forEach(dashedLine => this.drawing.drawRect(canvas, dashedLine.left, dashedLine.top, dashedLine.width, dashedLine.height))
+    dashedLines.forEach(dashedLine => this.drawing.drawRect(canvas, dashedLine.left, dashedLine.top, dashedLine.width, dashedLine.height, this.color))
   }
 }

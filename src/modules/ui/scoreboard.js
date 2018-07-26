@@ -1,9 +1,10 @@
 import Drawing from '../utils/drawing'
 
 export default class Scoreboard {
-  constructor (pixelSize = 0, pixelsByRow = 0) {
+  constructor (pixelSize = 0, pixelsByRow = 0, color = '') {
     this.pixelSize = pixelSize
     this.pixelsByRow = pixelsByRow
+    this.color = color
     this.numbersList = [
       '11111001100110011001100110011111',
       '00010001000100010001000100010001',
@@ -40,7 +41,8 @@ export default class Scoreboard {
             this.positionX.drawEachPixelByRow + this.positionX.setSpaceBetweenEachNumber + this.positionX.positionEachScoreOnCanvas - this.positionX.setOffsetFromLeftOfCanvas,
             this.positionY.drawEachPixelByColumn + this.positionY.setOffsetFromTopOfCanvas,
             this.pixelSize,
-            this.pixelSize
+            this.pixelSize,
+            this.color
           )
         }
       })

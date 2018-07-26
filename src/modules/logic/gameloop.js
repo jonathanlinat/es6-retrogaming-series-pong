@@ -1,4 +1,5 @@
 import Updater from '../utils/updater'
+import Debugger from '../utils/debugger'
 import Collision from './collision'
 
 export default class Gameloop {
@@ -10,7 +11,10 @@ export default class Gameloop {
     this.divider = divider
 
     this.updater = new Updater(this.loop.bind(this))
+    this.debugger = new Debugger()
     this.collision = new Collision(this.canvas, this.ball, this.players)
+
+    this.debugger.activate()
   }
 
   animate () {
@@ -20,7 +24,18 @@ export default class Gameloop {
   loop (time = 0) {
     this.canvas.clear()
 
-    this.ball.positionOverTime(time)
+    this.debugger.render(
+      this.canvas,
+      [
+        [`Player 0 Position: ${this.players[0].positionX}, ${this.players[0].positionY}`],
+        [`Player 1 Position: ${this.players[1].positionX}, ${this.players[1].positionY}`],
+        [`Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`],
+        [`Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`]
+      ]
+    )
+
+    this.ball.setPositionOverTime(time)
+    this.players.forEach(player => { player.positionY = this.ball.positionY })
 
     this.collision.detect(this.ball, this.canvas)
     this.players.forEach(player => this.collision.detect(this.ball, player))

@@ -14,8 +14,8 @@ export default class Rect {
   get width () { return this.size.x }
   get height () { return this.size.y }
 
-  set positionX (value = 0) { this.position.x = value }
-  set positionY (value = 0) { this.position.y = value }
+  set positionX (value = 0) { this.position.x = value | 0 }
+  set positionY (value = 0) { this.position.y = value | 0 }
   get positionX () { return this.position.x }
   get positionY () { return this.position.y }
 

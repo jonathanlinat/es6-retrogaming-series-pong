@@ -10,7 +10,7 @@ export default class Collision {
     this.gamelogic = new Gamelogic(this.canvas, this.ball, this.players)
     this.sound = new Sound()
 
-    // this.sound.disable()
+    this.sound.disable()
   }
 
   detect (collider = {}, collided = {}) {

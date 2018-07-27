@@ -27,8 +27,9 @@ export default class Gameloop {
     this.debugger.render(
       this.canvas,
       [
-        [`Player 0 Position: ${this.players[0].positionX}, ${this.players[0].positionY}`],
-        [`Player 1 Position: ${this.players[1].positionX}, ${this.players[1].positionY}`],
+        [`Rendering performance: ${this.updater.calculateFps(time)} fps, ${this.updater.calculateAverageMs(time)} ms / frame`],
+        [`Player 1 Position: ${this.players[0].positionX}, ${this.players[0].positionY}`],
+        [`Player 2 Position: ${this.players[1].positionX}, ${this.players[1].positionY}`],
         [`Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`],
         [`Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`]
       ]

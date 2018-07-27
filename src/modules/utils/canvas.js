@@ -1,13 +1,12 @@
 import Drawing from './drawing'
 
 export default class Canvas {
-  constructor (context = '', width = 0, height = 0, color = '') {
+  constructor (context = '', width = 0, height = 0) {
     this.canvas = document.createElement('canvas')
 
     this.canvas.context = this.canvas.getContext(context)
     this.canvas.width = width
     this.canvas.height = height
-    this.canvas.color = color
 
     document.body.appendChild(this.canvas)
 

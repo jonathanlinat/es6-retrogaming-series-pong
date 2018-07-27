@@ -7,7 +7,7 @@ import Divider from './modules/ui/divider'
 
 class Game {
   constructor () {
-    this.canvas = new Canvas('2d', 640, 480, 'black')
+    this.canvas = new Canvas('2d', 640, 480)
     this.ball = new Ball((this.canvas.centerX), (this.canvas.height * (Math.random() * ((0.9 - 0.1) + 0.1))), 6, 6, '#e8e8e8', 250, 1.025)
     this.scoreboard = new Scoreboard(8, 4, '#e8e8e8')
     this.players = [

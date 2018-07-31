@@ -2,11 +2,11 @@
 
 ![Pong Game](https://image.ibb.co/fkNNfd/es6_atari_pong_screenshot.png)
 
-An ES6 attempt to reimplement the classic Atari Pong game, initially released in 1972.
+An ES6 attempt to reimplement the classic [Atari Pong game](https://en.wikipedia.org/wiki/Pong), initially released in 1972.
 
-Project mainly based on [Yet Another And Really Basic Webpack ES6 Starterkit](https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit).
+Project architecture mainly based on [Yet Another And Really Basic Webpack ES6 Starterkit](https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit).
 
-### Installation
+## Installation
 
 Clone this repository locally...
 
@@ -21,7 +21,7 @@ $ cd es6-retrogaming-series-pong/
 $ npm install
 ```
 
-### Start Dev Server
+### Start a Development server
 
 Start a local Web Server.
 
@@ -29,7 +29,7 @@ Start a local Web Server.
 $ npm run dev
 ```
 
-### Build Prod Version
+### Build a Production version
 
 Create a Production version of the game.
 
@@ -37,11 +37,13 @@ Create a Production version of the game.
 $ npm run build
 ```
 
-### Gameplay
+The _compiled_ version of the game will be available into the `dist` folder.
+
+## Gameplay
 
 Start a new game clicking on the black background. Use your mouse to move the paddles. If one of the players reach the final score of 11, he wins the game.
 
-### References
+## References
 
 Sound effects are based on those two references:
 
@@ -52,7 +54,7 @@ Actual design and gameplay are based on the DICE version of Pong:
 
 * [DICE - Discrete Integrated Circuit Emulator](https://adamulation.blogspot.com)
 
-### Features
+## Features
 
 * Webpack 4
 * ES6 Support via [babel-loader](https://github.com/babel/babel-loader)

@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2018 Jonathan Linat
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 import Drawing from '../utils/drawing'
 
 export default class Scoreboard {
@@ -21,15 +45,15 @@ export default class Scoreboard {
     this.drawing = new Drawing()
   }
 
-  render (canvas = {}, _player = [], playerId = 0) {
-    this.playerScore = _player[playerId].score.toString().split('')
+  render (canvas = {}, player = [], playerId = 0) {
+    this.playerScore = player[playerId].score.toString().split('')
     this.playerScore.forEach((k, l) => {
       this.numbersList[k].split('').forEach((m, n) => {
         if (m === '1') {
           this.positionX = {
             drawEachPixelByRow: (n % this.pixelsByRow) * this.pixelSize,
             setSpaceBetweenEachNumber: (l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2)),
-            positionEachScoreOnCanvas: (canvas.width / 4) * (playerId === 1 ? 3 : 1),
+            positionEachScoreOnCanvas: ((canvas.width / 4) + (playerId === 1 ? 0 : 32)) * (playerId === 1 ? 3 : 1),
             setOffsetFromLeftOfCanvas: ((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) - this.pixelSize)
           }
           this.positionY = {

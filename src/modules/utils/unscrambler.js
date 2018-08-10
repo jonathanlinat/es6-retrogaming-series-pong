@@ -22,25 +22,20 @@
  * SOFTWARE.
  */
 
-export default class Updater {
-  constructor (callback) {
-    this.callback = callback
-    this.lastDelta = 0
+import Drawing from './drawing'
+
+export default class Unscrambler {
+  constructor () {
+    this.activated = false
+
+    this.drawing = new Drawing()
   }
 
-  calculateFramesPerSecond (delta = 0, lastDelta = 0) {
-    return Number(1 / (delta - lastDelta)).toFixed(2)
+  activate () {
+    this.activated = true
   }
 
-  calculateMillisecondsPerFrame (delta = 0, lastDelta = 0) {
-    return Number((delta - lastDelta) * 1000).toFixed(2)
-  }
-
-  performAnimation (delta = 0) {
-    requestAnimationFrame(this.performAnimation.bind(this))
-
-    if (this.lastDelta) this.callback((delta - this.lastDelta) / 1000)
-
-    this.lastDelta = delta
+  render (canvas = {}, elements = []) {
+    if (this.activated) elements.forEach((element, index) => this.drawing.drawText(canvas, element, 20, 20 * (index + 1) + 10))
   }
 }

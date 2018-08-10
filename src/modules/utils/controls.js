@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat
+ * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,17 @@
  * SOFTWARE.
  */
 
-import Drawing from './drawing'
-
-export default class Debugger {
+export default class Controls {
   constructor () {
-    this.activated = false
-    this.drawing = new Drawing()
+    document.addEventListener('keydown', this.keyDownHandler)
+    document.addEventListener('keyup', this.keyUpHandler)
   }
 
-  activate () {
-    this.activated = true
+  keyDownHandler (e = {}) {
+    if (e && !e.repeat) return e.key
   }
 
-  render (canvas = {}, elements = []) {
-    if (this.activated) elements.forEach((element, index) => this.drawing.drawText(canvas, element, 20, 20 * (index + 1) + 10))
+  keyUpHandler () {
+    return false
   }
 }

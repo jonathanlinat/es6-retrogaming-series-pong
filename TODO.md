@@ -10,9 +10,8 @@
 * [x] Basic shape and geometry properties
 * [x] Gameloop based on requestAnimationFrame()
 * [ ] Predicted collision detection and bouncing logic
-* [ ] Gamelogic
+* [ ] Gamelogic (Stand-by Screen, New Round)
 * [ ] Controls system
-* [ ] Stand-by Screen
-* [x] Debugger
+* [x] Unscrambler
 * [ ] Machine Learning
 * [ ] Unit testing

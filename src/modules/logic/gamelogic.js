@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat
+ * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,8 @@ export default class Gamelogic {
     this.ball = ball
     this.players = player
   }
+
+  standByScreen () {}
 
   startNewRound (playerId = 0) {
     this.players[playerId].increaseScore()

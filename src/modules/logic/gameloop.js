@@ -1,10 +1,10 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat
+ * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (the 'Software'), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -13,7 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -23,22 +23,19 @@
  */
 
 import Updater from '../utils/updater'
-import Debugger from '../utils/debugger'
 import Collision from './collision'
 
 export default class Gameloop {
-  constructor (canvas = {}, ball = {}, players = [], scoreboard = {}, divider = {}) {
+  constructor (canvas = {}, ball = {}, players = [], scoreboard = {}, divider = {}, unscrambler = {}) {
     this.canvas = canvas
     this.ball = ball
     this.players = players
     this.scoreboard = scoreboard
     this.divider = divider
+    this.unscrambler = unscrambler
 
     this.updater = new Updater(this.loop.bind(this))
-    this.debugger = new Debugger()
     this.collision = new Collision(this.canvas, this.ball, this.players)
-
-    this.debugger.activate()
   }
 
   animate () {
@@ -48,19 +45,20 @@ export default class Gameloop {
   loop (delta = 0) {
     this.canvas.clear()
 
-    this.debugger.render(
+    this.unscrambler.render(
       this.canvas,
       [
-        [`Rendering performance: ${this.updater.calculateFps(delta)} fps, ${this.updater.calculateAverageMs(delta)} ms / frame`],
-        [`Player 1 Position: ${this.players[0].positionX}, ${this.players[0].positionY}`],
-        [`Player 2 Position: ${this.players[1].positionX}, ${this.players[1].positionY}`],
-        [`Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`],
-        [`Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`]
+        `Rendering performance: ${this.updater.calculateFramesPerSecond(delta)} fps, ${this.updater.calculateMillisecondsPerFrame(delta)} mspf`,
+        `Canvas Size: ${this.canvas.width}, ${this.canvas.height}`,
+        `Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`,
+        `Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`,
+        `Player 1 Position: ${this.players[0].positionX}, ${this.players[0].positionY}`,
+        `Player 2 Position: ${this.players[1].positionX}, ${this.players[1].positionY}`
       ]
     )
 
     this.ball.setPositionOverTime(delta)
-    this.players.forEach(player => { player.positionY = this.ball.positionY })
+    // this.players.forEach(player => { player.positionY = this.ball.positionY })
 
     this.collision.detect(this.ball, this.canvas)
     this.players.forEach(player => this.collision.detect(this.ball, player))

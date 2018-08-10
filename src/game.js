@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat
+ * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,33 @@
  */
 
 import Canvas from './modules/utils/canvas'
-import Gameloop from './modules/logic/gameloop'
 import Ball from './modules/elements/ball'
-import Scoreboard from './modules/ui/scoreboard'
 import Player from './modules/elements/player'
 import Divider from './modules/ui/divider'
+import Scoreboard from './modules/ui/scoreboard'
+import Controls from './modules/utils/controls'
+import Unscrambler from './modules/utils/unscrambler'
+import Gameloop from './modules/logic/gameloop'
 
 class Game {
   constructor () {
     this.canvas = new Canvas('2d', 640, 480)
     this.ball = new Ball(this.canvas.centerX, this.canvas.height * (Math.random() * ((0.9 - 0.1) + 0.1)), 6, 6, '#e8e8e8', 250, 1.025)
-    this.scoreboard = new Scoreboard(6, 4, '#e8e8e8')
     this.players = [
       new Player(96, this.canvas.centerY, 6, 24, '#e8e8e8', 11),
       new Player(this.canvas.width - 96, this.canvas.centerY, 6, 24, '#e8e8e8', 11)
     ]
     this.divider = new Divider(this.canvas.centerX - 16, this.canvas.centerY, 2, 6, '#e8e8e8')
-    this.gameloop = new Gameloop(this.canvas, this.ball, this.players, this.scoreboard, this.divider)
+    this.scoreboard = new Scoreboard(6, 4, '#e8e8e8')
+    this.controls = new Controls()
+    this.unscrambler = new Unscrambler()
+    this.gameloop = new Gameloop(this.canvas, this.ball, this.players, this.scoreboard, this.divider, this.unscrambler)
+
+    this.unscrambler.activate()
   }
 
   initialize () {
-    this.canvas.create()
+    this.canvas.render()
     this.gameloop.animate()
   }
 }

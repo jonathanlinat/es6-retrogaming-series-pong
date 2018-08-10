@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat
+ * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,15 @@
 export default class Drawing {
   drawText (canvas = {}, element = {}, positionX = 0, positionY = 0) {
     canvas.context.fillText(element, positionX, positionY)
+  }
+
+  drawLine (canvas = {}, startPositionX = 0, startPositionY = 0, endPositionX = 0, endPositionY = 0, lineWidth = 0, color = '') {
+    canvas.context.lineWidth = lineWidth
+    canvas.context.strokeStyle = color
+    canvas.context.beginPath()
+    canvas.context.moveTo(startPositionX, startPositionY)
+    canvas.context.lineTo(endPositionX, endPositionY)
+    canvas.context.stroke()
   }
 
   drawRect (canvas = {}, positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {

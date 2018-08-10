@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat
+ * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,6 @@ import Drawing from './drawing'
 export default class Canvas {
   constructor (context = '', width = 0, height = 0) {
     this.canvas = document.createElement('canvas')
-
     this.canvas.context = this.canvas.getContext(context)
     this.canvas.width = width
     this.canvas.height = height
@@ -35,7 +34,6 @@ export default class Canvas {
     document.body.appendChild(this.canvas)
 
     this.drawing = new Drawing()
-    this.drawing.drawRect(this.canvas, 0, 0, this.canvas.width, this.canvas.width, this.canvas.color)
   }
 
   get context () { return this.canvas.context }
@@ -55,7 +53,7 @@ export default class Canvas {
     this.drawing.clearCanvas(this.canvas)
   }
 
-  create () {
-    document.addEventListener('load', this.canvas)
+  render () {
+    this.drawing.drawRect(this.canvas, 0, 0, this.canvas.width, this.canvas.width, this.canvas.color)
   }
 }

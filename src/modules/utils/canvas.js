@@ -31,8 +31,6 @@ export default class Canvas {
     this.canvas.width = width
     this.canvas.height = height
 
-    document.body.appendChild(this.canvas)
-
     this.drawing = new Drawing()
   }
 
@@ -53,7 +51,7 @@ export default class Canvas {
     this.drawing.clearCanvas(this.canvas)
   }
 
-  render () {
-    this.drawing.drawRect(this.canvas, 0, 0, this.canvas.width, this.canvas.width, this.canvas.color)
+  create () {
+    document.body.appendChild(this.canvas)
   }
 }

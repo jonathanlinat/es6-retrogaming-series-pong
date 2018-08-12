@@ -23,22 +23,19 @@
  */
 
 import Updater from '../utils/updater'
-import Collision from './collision'
 
 export default class Gameloop {
-  constructor (canvas = {}, ball = {}, players = [], scoreboard = {}, divider = {}, unscrambler = {}) {
+  constructor (canvas = {}, ball = {}, players = [], scoreboard = {}, divider = {}, unscrambler = {}, collision = {}) {
     this.canvas = canvas
     this.ball = ball
     this.players = players
     this.scoreboard = scoreboard
     this.divider = divider
     this.unscrambler = unscrambler
+    this.collision = collision
 
     this.updater = new Updater(this.loop.bind(this))
-    this.collision = new Collision(this.canvas, this.ball, this.players)
-  }
 
-  animate () {
     this.updater.performAnimation()
   }
 
@@ -58,7 +55,6 @@ export default class Gameloop {
     )
 
     this.ball.setPositionOverTime(delta)
-    // this.players.forEach(player => { player.positionY = this.ball.positionY })
 
     this.collision.detect(this.ball, this.canvas)
     this.players.forEach(player => this.collision.detect(this.ball, player))

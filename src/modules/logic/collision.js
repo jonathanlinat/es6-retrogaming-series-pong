@@ -22,19 +22,13 @@
  * SOFTWARE.
  */
 
-import Gamelogic from './gamelogic'
-import Sound from '../utils/sound'
-
 export default class Collision {
-  constructor (canvas = {}, ball = {}, players = []) {
+  constructor (canvas = {}, ball = {}, players = [], sound = {}, gamelogic = {}) {
     this.canvas = canvas
     this.ball = ball
     this.players = players
-
-    this.gamelogic = new Gamelogic(this.canvas, this.ball, this.players)
-    this.sound = new Sound()
-
-    this.sound.disable()
+    this.sound = sound
+    this.gamelogic = gamelogic
   }
 
   detect (collider = {}, collided = {}) {

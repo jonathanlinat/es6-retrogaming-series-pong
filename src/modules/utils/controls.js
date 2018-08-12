@@ -22,17 +22,4 @@
  * SOFTWARE.
  */
 
-export default class Controls {
-  constructor () {
-    document.addEventListener('keydown', this.keyDownHandler)
-    document.addEventListener('keyup', this.keyUpHandler)
-  }
-
-  keyDownHandler (e = {}) {
-    if (e && !e.repeat) return e.key
-  }
-
-  keyUpHandler () {
-    return false
-  }
-}
+export default class Controls {}

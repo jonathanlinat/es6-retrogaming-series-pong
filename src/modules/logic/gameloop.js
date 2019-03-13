@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the 'Software'), to deal
@@ -13,7 +13,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -42,6 +42,21 @@ export default class Gameloop {
   loop (delta = 0) {
     this.canvas.clear()
 
+    this.divider.render(this.canvas)
+
+    this.players.forEach((player = {}, index = 0, _player = []) => {
+      player.follow(this.ball)
+      this.collision.detect(this.ball, player)
+      this.collision.detect(player, this.canvas)
+      player.render(this.canvas, index)
+      this.scoreboard.render(this.canvas, _player, index)
+    })
+
+    this.collision.detect(this.ball, this.canvas)
+
+    this.ball.setPositionOverTime(delta)
+    this.ball.render(this.canvas)
+
     this.unscrambler.render(
       this.canvas,
       [
@@ -53,16 +68,5 @@ export default class Gameloop {
         `Player 2 Position: ${this.players[1].positionX}, ${this.players[1].positionY}`
       ]
     )
-
-    this.ball.setPositionOverTime(delta)
-
-    this.collision.detect(this.ball, this.canvas)
-    this.players.forEach(player => this.collision.detect(this.ball, player))
-    this.players.forEach(player => this.collision.detect(player, this.canvas))
-
-    this.ball.render(this.canvas)
-    this.players.forEach((player, index) => player.render(this.canvas, index))
-    this.players.forEach((player, index, _player) => this.scoreboard.render(this.canvas, _player, index))
-    this.divider.render(this.canvas)
   }
 }

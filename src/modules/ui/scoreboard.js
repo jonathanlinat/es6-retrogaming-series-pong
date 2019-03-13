@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,9 @@ export default class Scoreboard {
 
   render (canvas = {}, player = [], playerId = 0) {
     this.playerScore = player[playerId].score.toString().split('')
-    this.playerScore.forEach((k, l) => {
-      this.numbersList[k].split('').forEach((m, n) => {
+
+    this.playerScore.forEach((k = {}, l = 0) => {
+      this.numbersList[k].split('').forEach((m = '', n = 0) => {
         if (m === '1') {
           this.positionX = {
             drawEachPixelByRow: (n % this.pixelsByRow) * this.pixelSize,
@@ -56,10 +57,12 @@ export default class Scoreboard {
             positionEachScoreOnCanvas: ((canvas.width / 4) + (playerId === 1 ? 0 : 32)) * (playerId === 1 ? 3 : 1),
             setOffsetFromLeftOfCanvas: ((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) - this.pixelSize)
           }
+
           this.positionY = {
             drawEachPixelByColumn: (n / this.pixelsByRow | 0) * this.pixelSize,
             setOffsetFromTopOfCanvas: 32
           }
+
           this.drawing.drawRect(
             canvas,
             this.positionX.drawEachPixelByRow + this.positionX.setSpaceBetweenEachNumber + this.positionX.positionEachScoreOnCanvas - this.positionX.setOffsetFromLeftOfCanvas,

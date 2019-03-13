@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +23,24 @@
  */
 
 export default class Updater {
-  constructor (callback) {
+  constructor (callback = {}) {
     this.callback = callback
-    this.lastDelta = 0
+    this.previousDelta = 0
   }
 
-  calculateFramesPerSecond (delta = 0, lastDelta = 0) {
-    return Number(1 / (delta - lastDelta)).toFixed(2)
+  calculateFramesPerSecond (delta = 0, previousDelta = 0) {
+    return Number(1 / (delta - previousDelta)).toFixed(2)
   }
 
-  calculateMillisecondsPerFrame (delta = 0, lastDelta = 0) {
-    return Number((delta - lastDelta) * 1000).toFixed(2)
+  calculateMillisecondsPerFrame (delta = 0, previousDelta = 0) {
+    return Number((delta - previousDelta) * 1000).toFixed(2)
   }
 
   performAnimation (delta = 0) {
     requestAnimationFrame(this.performAnimation.bind(this))
 
-    if (this.lastDelta) this.callback((delta - this.lastDelta) / 1000)
+    if (this.previousDelta) this.callback((delta - this.previousDelta) / 1000)
 
-    this.lastDelta = delta
+    this.previousDelta = delta
   }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,11 +54,8 @@ class Game {
 
   initialize () {
     this.canvas.create()
-    this.unscrambler.activate()
     this.sound.disable()
   }
 }
 
-(function () {
-  new Game().initialize()
-})()
+new Game().initialize()

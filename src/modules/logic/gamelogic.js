@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,17 +23,20 @@
  */
 
 export default class Gamelogic {
-  constructor (canvas = {}, ball = {}, player = []) {
+  constructor (canvas = {}, ball = {}, players = []) {
     this.canvas = canvas
     this.ball = ball
-    this.players = player
+    this.players = players
   }
 
   standByScreen () {}
 
   startNewRound (playerId = 0) {
-    this.players[playerId].increaseScore()
-    this.ball.setCenteredPosition(this.canvas)
-    this.ball.setRandomVelocity()
+    if (!this.players[playerId].checkReachedMaxHiScore()) {
+      this.players[playerId].increaseScore()
+
+      this.ball.setCenteredPosition(this.canvas)
+      this.ball.setRandomVelocity()
+    }
   }
 }

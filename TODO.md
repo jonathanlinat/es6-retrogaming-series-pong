@@ -12,6 +12,10 @@
 * [ ] Predicted collision detection and bouncing logic
 * [ ] Gamelogic (Stand-by Screen, New Round)
 * [ ] Controls system
+* [ ] Computer player
 * [x] Unscrambler
 * [ ] Machine Learning
 * [ ] Unit testing
+* [ ] JSDoc
+* [ ] Web Socket (Multiplayer)
+* [ ] Framerate limiter

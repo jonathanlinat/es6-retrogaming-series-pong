@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ export default class Collision {
     if (collider === this.ball && collided === this.canvas) {
       if (collider.left < 32 || collider.right > (collided.width - 32)) {
         this.sound.generate('square', 257, 490)
+
         if (collider.left < 32) {
           this.gamelogic.startNewRound(1)
         } else {
@@ -58,6 +59,7 @@ export default class Collision {
       if (collider.right > collided.left && collider.left < collided.right && collider.bottom > collided.top && collider.top < collided.bottom) {
         this.sound.generate('square', 96, 459)
         collider.increaseVelocity()
+
         if (collider.right > collided.left && collider.left < collided.right) {
           collider.velocityX = -collider.velocityX
         } else if (collider.top > collided.bottom && collider.bottom < collided.top) {

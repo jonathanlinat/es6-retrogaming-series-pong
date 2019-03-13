@@ -9,8 +9,8 @@ const webpack = require('webpack')
 module.exports = (env, options) => {
   const isProductionMode = (options.mode === 'production')
 
-  const src = path.resolve('./src')
-  const dist = path.resolve('./dist')
+  const src = path.resolve(__dirname, './src')
+  const dist = path.resolve(__dirname, './dist')
 
   let webpackConfig = {
     entry: {
@@ -20,13 +20,16 @@ module.exports = (env, options) => {
         src + '/index.html'
       ]
     },
+    output: {
+      path: dist
+    },
     devServer: {
       host: '127.0.0.1',
       open: true,
       hot: true
     },
     plugins: [
-      new CleanWebpackPlugin([dist]),
+      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),
       new HtmlWebPackPlugin({
         template: src + '/index.html'

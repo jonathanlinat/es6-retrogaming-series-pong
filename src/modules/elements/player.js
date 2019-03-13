@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ export default class Player extends Rect {
   }
 
   increaseScore () {
-    this.score++
+    this.score += 1
   }
 
   resetScore () {
@@ -46,6 +46,10 @@ export default class Player extends Rect {
 
   checkReachedMaxHiScore () {
     return this.score === this.maxHiScore
+  }
+
+  follow (element = {}) {
+    this.positionY = element.positionY
   }
 
   render (canvas = {}, index = 0) {

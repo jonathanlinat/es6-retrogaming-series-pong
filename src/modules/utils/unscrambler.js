@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,16 +26,12 @@ import Drawing from './drawing'
 
 export default class Unscrambler {
   constructor () {
-    this.activated = false
+    this.activated = (window.location.href.split('?')[1] === 'debug')
 
     this.drawing = new Drawing()
   }
 
-  activate () {
-    this.activated = true
-  }
-
   render (canvas = {}, elements = []) {
-    if (this.activated) elements.forEach((element, index) => this.drawing.drawText(canvas, element, 20, 20 * (index + 1) + 10))
+    if (this.activated) elements.forEach((element = {}, index = 0) => this.drawing.drawText(canvas, element, 20, 20 * (index + 1) + 10))
   }
 }

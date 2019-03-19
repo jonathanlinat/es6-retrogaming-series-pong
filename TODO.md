@@ -19,3 +19,4 @@
 * [ ] JSDoc
 * [ ] Web Socket (Multiplayer)
 * [ ] Framerate limiter
+* [ ] Realtime unscrambler FPS graph

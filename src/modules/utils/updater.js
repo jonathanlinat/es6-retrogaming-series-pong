@@ -29,11 +29,11 @@ export default class Updater {
   }
 
   calculateFramesPerSecond (delta = 0, previousDelta = 0) {
-    return Number(1 / (delta - previousDelta)).toFixed(2)
+    return `${Number(1 / (delta - previousDelta)).toFixed(2)} fps`
   }
 
   calculateMillisecondsPerFrame (delta = 0, previousDelta = 0) {
-    return Number((delta - previousDelta) * 1000).toFixed(2)
+    return `${Number((delta - previousDelta) * 1000).toFixed(2)} mspf`
   }
 
   performAnimation (delta = 0) {

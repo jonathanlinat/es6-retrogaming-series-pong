@@ -25,7 +25,7 @@
 import Rect from '../utils/geometry'
 import Drawing from '../utils/drawing'
 
-export default class Player extends Rect {
+export default class Paddle extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '', maxHiScore = 0) {
     super(positionX, positionY, sizeX, sizeY)
 

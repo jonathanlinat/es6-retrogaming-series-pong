@@ -45,17 +45,17 @@ export default class Scoreboard {
     this.drawing = new Drawing()
   }
 
-  render (canvas = {}, player = [], playerId = 0) {
-    this.playerScore = player[playerId].score.toString().split('')
+  render (canvas = {}, paddle = [], paddleId = 0) {
+    this.paddleScore = paddle[paddleId].score.toString().split('')
 
-    this.playerScore.forEach((k = {}, l = 0) => {
+    this.paddleScore.forEach((k = {}, l = 0) => {
       this.numbersList[k].split('').forEach((m = '', n = 0) => {
         if (m === '1') {
           this.positionX = {
             drawEachPixelByRow: (n % this.pixelsByRow) * this.pixelSize,
             setSpaceBetweenEachNumber: (l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2)),
-            positionEachScoreOnCanvas: ((canvas.width / 4) + (playerId === 1 ? 0 : 32)) * (playerId === 1 ? 3 : 1),
-            setOffsetFromLeftOfCanvas: ((this.pixelSize * 2) * this.playerScore.length) + ((this.pixelSize * this.playerScore.length) - this.pixelSize)
+            positionEachScoreOnCanvas: ((canvas.width / 4) + (paddleId === 1 ? 0 : 32)) * (paddleId === 1 ? 3 : 1),
+            setOffsetFromLeftOfCanvas: ((this.pixelSize * 2) * this.paddleScore.length) + ((this.pixelSize * this.paddleScore.length) - this.pixelSize)
           }
 
           this.positionY = {

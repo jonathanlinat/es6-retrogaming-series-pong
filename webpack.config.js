@@ -17,7 +17,7 @@ module.exports = (env, options) => {
       app: [
         src + '/game.js',
         src + '/game.sass',
-        src + '/index.html'
+        src + '/game.html'
       ]
     },
     output: {
@@ -32,7 +32,7 @@ module.exports = (env, options) => {
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),
       new HtmlWebPackPlugin({
-        template: src + '/index.html'
+        template: src + '/game.html'
       }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
@@ -75,7 +75,7 @@ module.exports = (env, options) => {
         new TerserPlugin(),
         new OptimizeCSSAssetsPlugin(),
         new HtmlWebPackPlugin({
-          template: src + '/index.html',
+          template: src + '/game.html',
           hash: true,
           cache: true,
           minify: {

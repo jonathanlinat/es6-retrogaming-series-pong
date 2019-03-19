@@ -23,20 +23,18 @@
  */
 
 export default class Gamelogic {
-  constructor (canvas = {}, ball = {}, players = []) {
+  constructor (canvas = {}, ball = {}, paddles = []) {
     this.canvas = canvas
     this.ball = ball
-    this.players = players
+    this.paddles = paddles
   }
 
   standByScreen () {}
 
-  startNewRound (playerId = 0) {
-    if (!this.players[playerId].checkReachedMaxHiScore()) {
-      this.players[playerId].increaseScore()
+  startNewRound (paddleId = 0) {
+    this.paddles[paddleId].increaseScore()
 
-      this.ball.setCenteredPosition(this.canvas)
-      this.ball.setRandomVelocity()
-    }
+    this.ball.setCenteredPosition(this.canvas)
+    this.ball.setRandomVelocity()
   }
 }

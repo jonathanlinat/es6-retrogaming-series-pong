@@ -25,10 +25,10 @@
 import Updater from '../utils/updater'
 
 export default class Gameloop {
-  constructor (canvas = {}, ball = {}, players = [], scoreboard = {}, divider = {}, unscrambler = {}, collision = {}) {
+  constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, unscrambler = {}, collision = {}) {
     this.canvas = canvas
     this.ball = ball
-    this.players = players
+    this.paddles = paddles
     this.scoreboard = scoreboard
     this.divider = divider
     this.unscrambler = unscrambler
@@ -44,28 +44,33 @@ export default class Gameloop {
 
     this.divider.render(this.canvas)
 
-    this.players.forEach((player = {}, index = 0, _player = []) => {
-      player.follow(this.ball)
-      this.collision.detect(this.ball, player)
-      this.collision.detect(player, this.canvas)
-      player.render(this.canvas, index)
-      this.scoreboard.render(this.canvas, _player, index)
+    this.ball.setPositionOverTime(delta)
+    this.ball.render(this.canvas)
+
+    this.paddles[1].follow(this.ball)
+
+    this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {
+      this.collision.detect(this.ball, paddle)
+      this.collision.detect(paddle, this.canvas)
+      paddle.render(this.canvas, index)
+      this.scoreboard.render(this.canvas, _paddle, index)
     })
 
     this.collision.detect(this.ball, this.canvas)
 
-    this.ball.setPositionOverTime(delta)
-    this.ball.render(this.canvas)
-
     this.unscrambler.render(
       this.canvas,
       [
-        `Rendering performance: ${this.updater.calculateFramesPerSecond(delta)} fps, ${this.updater.calculateMillisecondsPerFrame(delta)} mspf`,
+        `Rendering performance: ${this.updater.calculateFramesPerSecond(delta)}, ${this.updater.calculateMillisecondsPerFrame(delta)}`,
         `Canvas Size: ${this.canvas.width}, ${this.canvas.height}`,
         `Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`,
         `Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`,
-        `Player 1 Position: ${this.players[0].positionX}, ${this.players[0].positionY}`,
-        `Player 2 Position: ${this.players[1].positionX}, ${this.players[1].positionY}`
+        `Paddle 1 Score: ${this.paddles[0].score}`,
+        `Paddle 1 Position: ${this.paddles[0].positionX}, ${this.paddles[0].positionY}`,
+        `Paddle 1 ${(this.paddles[0].positionY === this.ball.positionY) && (this.paddles[1].positionY === this.ball.positionY) ? 'is' : 'isn\'t'} following Ball`,
+        `Paddle 2 Score: ${this.paddles[1].score}`,
+        `Paddle 2 Position: ${this.paddles[1].positionX}, ${this.paddles[1].positionY}`,
+        `Paddle 2 ${(this.paddles[1].positionY === this.ball.positionY) && (this.paddles[1].positionY === this.ball.positionY) ? 'is' : 'isn\'t'} following Ball`
       ]
     )
   }

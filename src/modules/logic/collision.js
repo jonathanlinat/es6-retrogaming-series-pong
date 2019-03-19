@@ -23,16 +23,16 @@
  */
 
 export default class Collision {
-  constructor (canvas = {}, ball = {}, players = [], sound = {}, gamelogic = {}) {
+  constructor (canvas = {}, ball = {}, paddles = [], sound = {}, gamelogic = {}) {
     this.canvas = canvas
     this.ball = ball
-    this.players = players
+    this.paddles = paddles
     this.sound = sound
     this.gamelogic = gamelogic
   }
 
   detect (collider = {}, collided = {}) {
-    if (this.players.includes(collider) && collided === this.canvas) {
+    if (this.paddles.includes(collider) && collided === this.canvas) {
       if (collider.top < 16) {
         collider.positionY = (collider.size.y / 2) + 16
       } else if (collider.bottom > collided.height - 16) {
@@ -55,7 +55,7 @@ export default class Collision {
       }
     }
 
-    if (collider === this.ball && this.players.includes(collided)) {
+    if (collider === this.ball && this.paddles.includes(collided)) {
       if (collider.right > collided.left && collider.left < collided.right && collider.bottom > collided.top && collider.top < collided.bottom) {
         this.sound.generate('square', 96, 459)
         collider.increaseVelocity()

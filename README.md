@@ -26,7 +26,7 @@ $ npm install
 Start a local Web Server.
 
 ```
-$ npm run dev
+$ npm run start
 ```
 
 ### Build a Production version

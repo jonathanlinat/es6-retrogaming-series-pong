@@ -28,7 +28,7 @@ import Paddle from './modules/elements/paddle'
 import Scoreboard from './modules/ui/scoreboard'
 import Divider from './modules/ui/divider'
 import Sound from './modules/utils/sound'
-import Controls from './modules/utils/controls'
+import Input from './modules/utils/input'
 import Unscrambler from './modules/utils/unscrambler'
 import Gamelogic from './modules/logic/gamelogic'
 import Collision from './modules/logic/collision'
@@ -39,17 +39,17 @@ class Game {
     this.canvas = new Canvas('2d', 640, 480)
     this.ball = new Ball(this.canvas.centerX, this.canvas.height * (Math.random() * ((0.9 - 0.1) + 0.1)), 6, 6, '#e8e8e8', 256, 1.025)
     this.paddles = [
-      new Paddle(96, this.canvas.centerY, 6, 24, '#e8e8e8', 11),
-      new Paddle(this.canvas.width - 96, this.canvas.centerY, 6, 24, '#e8e8e8', 11)
+      new Paddle(96, this.canvas.centerY, 6, 24, '#e8e8e8', 11, 8),
+      new Paddle(this.canvas.width - 96, this.canvas.centerY, 6, 24, '#e8e8e8', 11, 8)
     ]
     this.scoreboard = new Scoreboard(6, 4, '#e8e8e8')
     this.divider = new Divider(this.canvas.centerX - 16, this.canvas.centerY, 2, 6, '#e8e8e8')
-    this.sound = new Sound()
-    this.controls = new Controls()
+    this.sound = new Sound(25)
+    this.input = new Input(document, ['keyup', 'keydown'])
     this.unscrambler = new Unscrambler()
     this.gamelogic = new Gamelogic(this.canvas, this.ball, this.paddles)
     this.collision = new Collision(this.canvas, this.ball, this.paddles, this.sound, this.gamelogic)
-    this.gameloop = new Gameloop(this.canvas, this.ball, this.paddles, this.scoreboard, this.divider, this.unscrambler, this.collision)
+    this.gameloop = new Gameloop(this.canvas, this.ball, this.paddles, this.scoreboard, this.divider, this.input, this.unscrambler, this.collision)
   }
 
   initialize () {

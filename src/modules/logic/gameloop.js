@@ -25,12 +25,13 @@
 import Updater from '../utils/updater'
 
 export default class Gameloop {
-  constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, unscrambler = {}, collision = {}) {
+  constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, input = {}, unscrambler = {}, collision = {}) {
     this.canvas = canvas
     this.ball = ball
     this.paddles = paddles
     this.scoreboard = scoreboard
     this.divider = divider
+    this.input = input
     this.unscrambler = unscrambler
     this.collision = collision
 
@@ -47,6 +48,7 @@ export default class Gameloop {
     this.ball.setPositionOverTime(delta)
     this.ball.render(this.canvas)
 
+    this.paddles[0].move(this.input.getMappedKey())
     this.paddles[1].follow(this.ball)
 
     this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {

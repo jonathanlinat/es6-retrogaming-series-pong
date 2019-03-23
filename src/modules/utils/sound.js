@@ -23,7 +23,8 @@
  */
 
 export default class Sound {
-  constructor () {
+  constructor (volume = 100) {
+    this.volume = volume
     this.disabled = false
     this.oscillator = null
     this.gainNode = null
@@ -35,14 +36,17 @@ export default class Sound {
     this.disabled = true
   }
 
-  generate (type = '', duration = 0, frequency = 0) {
+  generate (type = '', duration = 0, frequency = 0, delay = 0) {
     if (!this.disabled) {
+      this.gainNode = this.audioContext.createGain()
+      this.gainNode.gain.value = this.volume / 1000
+      this.gainNode.connect(this.audioContext.destination)
       this.oscillator = this.audioContext.createOscillator()
       this.oscillator.type = type
       this.oscillator.frequency.value = frequency
-      this.oscillator.connect(this.audioContext.destination)
+      this.oscillator.connect(this.gainNode)
       this.oscillator.start()
-      this.oscillator.stop(this.audioContext.currentTime + (duration * 0.001))
+      this.oscillator.stop(this.audioContext.currentTime + (duration * 0.001) + delay)
     }
   }
 }

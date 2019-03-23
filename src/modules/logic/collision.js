@@ -42,7 +42,7 @@ export default class Collision {
 
     if (collider === this.ball && collided === this.canvas) {
       if (collider.left < 32 || collider.right > (collided.width - 32)) {
-        this.sound.generate('square', 257, 490)
+        this.sound.generate('square', 257, 490, 0.5)
 
         if (collider.left < 32) {
           this.gamelogic.startNewRound(1)

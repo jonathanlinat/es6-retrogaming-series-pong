@@ -22,4 +22,30 @@
  * SOFTWARE.
  */
 
-export default class Controls {}
+export default class Input {
+  constructor (reference = {}, events = []) {
+    this.reference = reference
+    this.events = events
+    this.keyMap = {
+      state: false,
+      value: ''
+    }
+
+    this.listenTo(this.reference, this.events)
+  }
+
+  getMappedKey () {
+    return this.keyMap
+  }
+
+  listenTo (reference = {}, events = []) {
+    events.forEach((event = '') =>
+      reference.addEventListener(event, (listenEvent = {}) => {
+        if (!listenEvent.repeat) {
+          this.keyMap.state = (listenEvent.type === 'keydown')
+          this.keyMap.value = listenEvent.key
+        }
+      })
+    )
+  }
+}

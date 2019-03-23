@@ -26,11 +26,12 @@ import Rect from '../utils/geometry'
 import Drawing from '../utils/drawing'
 
 export default class Paddle extends Rect {
-  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '', maxHiScore = 0) {
+  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '', maxHiScore = 0, positionModifier = 0) {
     super(positionX, positionY, sizeX, sizeY)
 
     this.color = color
     this.maxHiScore = maxHiScore
+    this.positionModifier = positionModifier
     this.score = 0
 
     this.drawing = new Drawing()
@@ -50,6 +51,19 @@ export default class Paddle extends Rect {
 
   follow (element = {}) {
     this.positionY = element.positionY
+  }
+
+  move (keyMap = {}) {
+    if (keyMap.state) {
+      switch (keyMap.value) {
+        case 'ArrowUp':
+          this.positionY -= this.positionModifier
+          break
+        case 'ArrowDown':
+          this.positionY += this.positionModifier
+          break
+      }
+    }
   }
 
   render (canvas = {}, index = 0) {

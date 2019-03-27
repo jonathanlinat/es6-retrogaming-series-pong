@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import Rect, { Vect } from '../utils/geometry'
-import Drawing from '../utils/drawing'
+import Rect, { Vect } from '../../engine/geometry'
+import Drawing from '../../engine/drawing'
 
 export default class Ball extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '', defaultVelocity = 0, velocityMultiplier = 0) {

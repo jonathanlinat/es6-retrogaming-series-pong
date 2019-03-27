@@ -42,7 +42,7 @@ export default class Collision {
 
     if (collider === this.ball && collided === this.canvas) {
       if (collider.left < 32 || collider.right > (collided.width - 32)) {
-        this.sound.generate('square', 257, 490, 0.5)
+        this.sound.generate('square', 257, 490, 0.25)
 
         if (collider.left < 32) {
           this.gamelogic.startNewRound(1)
@@ -50,14 +50,14 @@ export default class Collision {
           this.gamelogic.startNewRound(0)
         }
       } else if (collider.top < 0 || collider.bottom > collided.height) {
-        this.sound.generate('square', 16, 226)
+        this.sound.generate('square', 16, 226, 0)
         collider.velocityY = -collider.velocityY
       }
     }
 
     if (collider === this.ball && this.paddles.includes(collided)) {
       if (collider.right > collided.left && collider.left < collided.right && collider.bottom > collided.top && collider.top < collided.bottom) {
-        this.sound.generate('square', 96, 459)
+        this.sound.generate('square', 96, 459, 0)
         collider.increaseVelocity()
 
         if (collider.right > collided.left && collider.left < collided.right) {

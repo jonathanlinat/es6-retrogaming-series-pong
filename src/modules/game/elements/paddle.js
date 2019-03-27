@@ -22,27 +22,48 @@
  * SOFTWARE.
  */
 
-import Rect from '../utils/geometry'
-import Drawing from '../utils/drawing'
+import Rect from '../../engine/geometry'
+import Drawing from '../../engine/drawing'
 
-export default class Divider extends Rect {
-  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
+export default class Paddle extends Rect {
+  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '', maxHiScore = 0, scoreModifier = 0, positionModifier = 0, mappedKeys = []) {
     super(positionX, positionY, sizeX, sizeY)
 
     this.color = color
+    this.maxHiScore = maxHiScore
+    this.scoreModifier = scoreModifier
+    this.positionModifier = positionModifier
+    this.mappedKeys = mappedKeys
+    this.score = 0
 
     this.drawing = new Drawing()
   }
 
-  render (canvas = {}) {
-    const dashedLines = []
+  increaseScore () {
+    this.score += this.scoreModifier
+  }
 
-    for (let i = 0; i < canvas.height; i++) {
-      dashedLines.push(
-        new Divider(this.positionX, (i * this.height) * (this.height / (this.height / 2)), this.width, this.height)
-      )
+  resetScore () {
+    this.score = 0
+  }
+
+  checkReachedMaxHiScore () {
+    return this.score === this.maxHiScore
+  }
+
+  follow (element = {}) {
+    this.positionY = element.positionY
+  }
+
+  move (listenedKey = {}) {
+    if (listenedKey.state) {
+      this.mappedKeys.forEach((mappedKey = '', index = 0, _mappedKey = []) => {
+        if (listenedKey.value === _mappedKey[index]) (index === 0) ? this.positionY -= this.positionModifier : this.positionY += this.positionModifier
+      })
     }
+  }
 
-    dashedLines.forEach((dashedLine = {}) => this.drawing.drawRect(canvas, dashedLine.left, dashedLine.top, dashedLine.width, dashedLine.height, this.color))
+  render (canvas = {}, index = 0) {
+    this.drawing.drawRect(canvas, index === 0 ? this.positionX : (this.positionX - this.width), this.top, this.width, this.height, this.color)
   }
 }

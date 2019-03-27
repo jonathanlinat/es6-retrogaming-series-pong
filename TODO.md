@@ -11,7 +11,7 @@
 * [x] Gameloop based on requestAnimationFrame()
 * [ ] Predicted collision detection and bouncing logic
 * [ ] Gamelogic (Stand-by Screen, New Round)
-* [ ] Controls system
+* [X] Controls system
 * [ ] Computer player
 * [x] Unscrambler
 * [ ] Machine Learning

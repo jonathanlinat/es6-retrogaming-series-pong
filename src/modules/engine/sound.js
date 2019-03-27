@@ -22,30 +22,31 @@
  * SOFTWARE.
  */
 
-export default class Input {
-  constructor (reference = {}, events = []) {
-    this.reference = reference
-    this.events = events
-    this.keyMap = {
-      state: false,
-      value: ''
+export default class Sound {
+  constructor (volume = 0) {
+    this.volume = volume
+    this.disabled = false
+    this.oscillator = null
+    this.gainNode = null
+
+    this.audioContext = new AudioContext()
+  }
+
+  disable () {
+    this.disabled = true
+  }
+
+  generate (type = '', duration = 0, frequency = 0, delay = 0) {
+    if (!this.disabled) {
+      this.gainNode = this.audioContext.createGain()
+      this.gainNode.gain.value = this.volume / 1000
+      this.gainNode.connect(this.audioContext.destination)
+      this.oscillator = this.audioContext.createOscillator()
+      this.oscillator.type = type
+      this.oscillator.frequency.value = frequency
+      this.oscillator.connect(this.gainNode)
+      this.oscillator.start()
+      this.oscillator.stop(this.audioContext.currentTime + (duration * 0.001) + delay)
     }
-
-    this.listenTo(this.reference, this.events)
-  }
-
-  getMappedKey () {
-    return this.keyMap
-  }
-
-  listenTo (reference = {}, events = []) {
-    events.forEach((event = '') =>
-      reference.addEventListener(event, (listenEvent = {}) => {
-        if (!listenEvent.repeat) {
-          this.keyMap.state = (listenEvent.type === 'keydown')
-          this.keyMap.value = listenEvent.key
-        }
-      })
-    )
   }
 }

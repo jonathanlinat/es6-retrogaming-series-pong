@@ -22,25 +22,25 @@
  * SOFTWARE.
  */
 
-export default class Updater {
-  constructor (callback = {}) {
-    this.callback = callback
-    this.previousDelta = 0
+export default class Input {
+  constructor () {
+    this.keyMap = {}
+
+    this.listenToEvents()
   }
 
-  calculateFramesPerSecond (delta = 0, previousDelta = 0) {
-    return `${Number(1 / (delta - previousDelta)).toFixed(2)} fps`
+  getListenedKey () {
+    return this.keyMap
   }
 
-  calculateMillisecondsPerFrame (delta = 0, previousDelta = 0) {
-    return `${Number((delta - previousDelta) * 1000).toFixed(2)} mspf`
-  }
-
-  performAnimation (delta = 0) {
-    requestAnimationFrame(this.performAnimation.bind(this))
-
-    if (this.previousDelta) this.callback((delta - this.previousDelta) / 1000)
-
-    this.previousDelta = delta
+  listenToEvents () {
+    ['keyup', 'keydown'].forEach((event = '') =>
+      document.addEventListener(event, (listenEvent = {}) => {
+        if (!listenEvent.repeat) {
+          this.keyMap.state = (listenEvent.type === 'keydown')
+          this.keyMap.value = (listenEvent.type === 'keydown') ? listenEvent.key : ''
+        }
+      }, false)
+    )
   }
 }

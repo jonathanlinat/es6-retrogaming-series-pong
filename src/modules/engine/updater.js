@@ -22,31 +22,25 @@
  * SOFTWARE.
  */
 
-export default class Sound {
-  constructor (volume = 100) {
-    this.volume = volume
-    this.disabled = false
-    this.oscillator = null
-    this.gainNode = null
-
-    this.audioContext = new AudioContext()
+export default class Updater {
+  constructor (callback = {}) {
+    this.callback = callback
+    this.previousDelta = 0
   }
 
-  disable () {
-    this.disabled = true
+  calculateFramesPerSecond (delta = 0, previousDelta = 0) {
+    return Number(1 / (delta - previousDelta)).toFixed(2)
   }
 
-  generate (type = '', duration = 0, frequency = 0, delay = 0) {
-    if (!this.disabled) {
-      this.gainNode = this.audioContext.createGain()
-      this.gainNode.gain.value = this.volume / 1000
-      this.gainNode.connect(this.audioContext.destination)
-      this.oscillator = this.audioContext.createOscillator()
-      this.oscillator.type = type
-      this.oscillator.frequency.value = frequency
-      this.oscillator.connect(this.gainNode)
-      this.oscillator.start()
-      this.oscillator.stop(this.audioContext.currentTime + (duration * 0.001) + delay)
-    }
+  calculateMillisecondsPerFrame (delta = 0, previousDelta = 0) {
+    return Number((delta - previousDelta) * 1000).toFixed(2)
+  }
+
+  performAnimation (delta = 0) {
+    requestAnimationFrame(this.performAnimation.bind(this))
+
+    if (this.previousDelta) this.callback((delta - this.previousDelta) / 1000)
+
+    this.previousDelta = delta
   }
 }

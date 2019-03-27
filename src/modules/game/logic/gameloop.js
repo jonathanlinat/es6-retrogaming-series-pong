@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-import Updater from '../utils/updater'
+import Updater from '../../engine/updater'
 
-export default class Gameloop {
+export default class Loop {
   constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, input = {}, unscrambler = {}, collision = {}) {
     this.canvas = canvas
     this.ball = ball
@@ -48,12 +48,10 @@ export default class Gameloop {
     this.ball.setPositionOverTime(delta)
     this.ball.render(this.canvas)
 
-    this.paddles[0].move(this.input.getMappedKey())
-    this.paddles[1].follow(this.ball)
-
     this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {
       this.collision.detect(this.ball, paddle)
       this.collision.detect(paddle, this.canvas)
+      paddle.move(this.input.getListenedKey())
       paddle.render(this.canvas, index)
       this.scoreboard.render(this.canvas, _paddle, index)
     })
@@ -63,8 +61,9 @@ export default class Gameloop {
     this.unscrambler.render(
       this.canvas,
       [
-        `Rendering performance: ${this.updater.calculateFramesPerSecond(delta)}, ${this.updater.calculateMillisecondsPerFrame(delta)}`,
+        `Rendering performance: ${this.updater.calculateFramesPerSecond(delta)} fps, ${this.updater.calculateMillisecondsPerFrame(delta)} mspf`,
         `Canvas Size: ${this.canvas.width}, ${this.canvas.height}`,
+        `${(this.input.getListenedKey().state) ? 'Key ' + this.input.getListenedKey().value + ' pressed' : 'No key pressed'}`,
         `Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`,
         `Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`,
         `Paddle 1 Score: ${this.paddles[0].score}`,

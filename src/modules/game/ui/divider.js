@@ -22,51 +22,27 @@
  * SOFTWARE.
  */
 
-import Rect from '../utils/geometry'
-import Drawing from '../utils/drawing'
+import Rect from '../../engine/geometry'
+import Drawing from '../../engine/drawing'
 
-export default class Paddle extends Rect {
-  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '', maxHiScore = 0, positionModifier = 0) {
+export default class Divider extends Rect {
+  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
     super(positionX, positionY, sizeX, sizeY)
 
     this.color = color
-    this.maxHiScore = maxHiScore
-    this.positionModifier = positionModifier
-    this.score = 0
 
     this.drawing = new Drawing()
   }
 
-  increaseScore () {
-    this.score += 1
-  }
+  render (canvas = {}) {
+    const dashedLines = []
 
-  resetScore () {
-    this.score = 0
-  }
-
-  checkReachedMaxHiScore () {
-    return this.score === this.maxHiScore
-  }
-
-  follow (element = {}) {
-    this.positionY = element.positionY
-  }
-
-  move (keyMap = {}) {
-    if (keyMap.state) {
-      switch (keyMap.value) {
-        case 'ArrowUp':
-          this.positionY -= this.positionModifier
-          break
-        case 'ArrowDown':
-          this.positionY += this.positionModifier
-          break
-      }
+    for (let i = 0; i < canvas.height; i++) {
+      dashedLines.push(
+        new Divider(this.positionX, (i * this.height) * (this.height / (this.height / 2)), this.width, this.height)
+      )
     }
-  }
 
-  render (canvas = {}, index = 0) {
-    this.drawing.drawRect(canvas, index === 0 ? this.positionX : (this.positionX - this.width), this.top, this.width, this.height, this.color)
+    dashedLines.forEach((dashedLine = {}) => this.drawing.drawRect(canvas, dashedLine.left, dashedLine.top, dashedLine.width, dashedLine.height, this.color))
   }
 }

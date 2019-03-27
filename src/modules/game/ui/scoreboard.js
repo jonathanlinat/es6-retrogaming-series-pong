@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import Drawing from '../utils/drawing'
+import Drawing from '../../engine/drawing'
 
 export default class Scoreboard {
   constructor (pixelSize = 0, pixelsByRow = 0, color = '') {

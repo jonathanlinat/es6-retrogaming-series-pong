@@ -32,8 +32,8 @@ export default class Ball extends Rect {
     this.color = color
     this.defaultVelocity = defaultVelocity
     this.velocityMultiplier = velocityMultiplier
-    this.randomVelocityX = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
-    this.randomVelocityY = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
+    this.randomVelocityX = this.defaultVelocity * ((Math.random() > 0.5) ? 1 : -1)
+    this.randomVelocityY = this.defaultVelocity * ((Math.random() > 0.5) ? 1 : -1)
 
     this.velocity = new Vect(this.randomVelocityX, this.randomVelocityY)
     this.drawing = new Drawing()
@@ -60,8 +60,8 @@ export default class Ball extends Rect {
   }
 
   setRandomVelocity () {
-    this.velocityX = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
-    this.velocityY = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1)
+    this.velocityX = this.defaultVelocity * ((Math.random() > 0.5) ? 1 : -1)
+    this.velocityY = this.defaultVelocity * ((Math.random() > 0.5) ? 1 : -1)
   }
 
   render (canvas = {}) {

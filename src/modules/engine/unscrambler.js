@@ -32,6 +32,6 @@ export default class Unscrambler {
   }
 
   render (canvas = {}, elements = []) {
-    if (this.activated) elements.forEach((element = {}, index = 0) => this.drawing.drawText(canvas, element, 20, 20 * (index + 1) + 10))
+    if (this.activated) elements.forEach((element = {}, index = 0) => this.drawing.drawText(canvas, element, 20, (20 * (index + 1)) + 10))
   }
 }

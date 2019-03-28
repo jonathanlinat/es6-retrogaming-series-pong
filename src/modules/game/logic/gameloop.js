@@ -51,7 +51,7 @@ export default class Loop {
     this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {
       this.collision.detect(this.ball, paddle)
       this.collision.detect(paddle, this.canvas)
-      paddle.move(this.input.getListenedKey())
+      paddle.move(this.input.handledKeys)
       paddle.render(this.canvas, index)
       this.scoreboard.render(this.canvas, _paddle, index)
     })
@@ -63,15 +63,12 @@ export default class Loop {
       [
         `Rendering performance: ${this.updater.calculateFramesPerSecond(delta)} fps, ${this.updater.calculateMillisecondsPerFrame(delta)} mspf`,
         `Canvas Size: ${this.canvas.width}, ${this.canvas.height}`,
-        `${(this.input.getListenedKey().state) ? 'Key ' + this.input.getListenedKey().value + ' pressed' : 'No key pressed'}`,
         `Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`,
         `Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`,
         `Paddle 1 Score: ${this.paddles[0].score}`,
         `Paddle 1 Position: ${this.paddles[0].positionX}, ${this.paddles[0].positionY}`,
-        `Paddle 1 ${(this.paddles[0].positionY === this.ball.positionY) && (this.paddles[1].positionY === this.ball.positionY) ? 'is' : 'isn\'t'} following Ball`,
         `Paddle 2 Score: ${this.paddles[1].score}`,
-        `Paddle 2 Position: ${this.paddles[1].positionX}, ${this.paddles[1].positionY}`,
-        `Paddle 2 ${(this.paddles[1].positionY === this.ball.positionY) && (this.paddles[1].positionY === this.ball.positionY) ? 'is' : 'isn\'t'} following Ball`
+        `Paddle 2 Position: ${this.paddles[1].positionX}, ${this.paddles[1].positionY}`
       ]
     )
   }

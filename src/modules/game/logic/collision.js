@@ -35,7 +35,7 @@ export default class Collision {
     if (this.paddles.includes(collider) && collided === this.canvas) {
       if (collider.top < 16) {
         collider.positionY = (collider.size.y / 2) + 16
-      } else if (collider.bottom > collided.height - 16) {
+      } else if (collider.bottom > (collided.height - 16)) {
         collider.positionY = collided.height - (collider.size.y / 2) - 16
       }
     }

@@ -55,15 +55,13 @@ export default class Paddle extends Rect {
     this.positionY = element.positionY
   }
 
-  move (listenedKey = {}) {
-    if (listenedKey.state) {
-      this.mappedKeys.forEach((mappedKey = '', index = 0, _mappedKey = []) => {
-        if (listenedKey.value === _mappedKey[index]) (index === 0) ? this.positionY -= this.positionModifier : this.positionY += this.positionModifier
-      })
-    }
+  move (handledKeys = []) {
+    this.mappedKeys.forEach((mappedKey = '', index = 0) => {
+      if (handledKeys[mappedKey]) this.positionY = (index === 0) ? this.positionY - this.positionModifier : this.positionY + this.positionModifier
+    })
   }
 
   render (canvas = {}, index = 0) {
-    this.drawing.drawRect(canvas, index === 0 ? this.positionX : (this.positionX - this.width), this.top, this.width, this.height, this.color)
+    this.drawing.drawRect(canvas, (index === 0) ? this.positionX : this.positionX - this.width, this.top, this.width, this.height, this.color)
   }
 }

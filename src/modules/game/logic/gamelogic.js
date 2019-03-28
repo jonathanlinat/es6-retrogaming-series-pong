@@ -29,8 +29,6 @@ export default class Gamelogic {
     this.paddles = paddles
   }
 
-  standByScreen () {}
-
   startNewRound (paddleId = 0) {
     this.paddles[paddleId].increaseScore()
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import Updater from '../../engine/updater'
+import Updater from 'Modules/engine/updater'
 
 export default class Loop {
   constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, input = {}, unscrambler = {}, collision = {}) {

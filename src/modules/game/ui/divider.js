@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import Rect from '../../engine/geometry'
-import Drawing from '../../engine/drawing'
+import Rect from 'Modules/engine/geometry'
+import Drawing from 'Modules/engine/drawing'
 
 export default class Divider extends Rect {
   constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {

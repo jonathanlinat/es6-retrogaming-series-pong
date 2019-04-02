@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-import Canvas from './modules/engine/canvas'
-import Ball from './modules/game/elements/ball'
-import Paddle from './modules/game/elements/paddle'
-import Scoreboard from './modules/game/ui/scoreboard'
-import Divider from './modules/game/ui/divider'
-import Sound from './modules/engine/sound'
-import Input from './modules/engine/input'
-import Unscrambler from './modules/engine/unscrambler'
-import Gamelogic from './modules/game/logic/gamelogic'
-import Collision from './modules/game/logic/collision'
-import Gameloop from './modules/game/logic/gameloop'
+import Canvas from 'Modules/engine/canvas'
+import Ball from 'Modules/game/elements/ball'
+import Paddle from 'Modules/game/elements/paddle'
+import Scoreboard from 'Modules/game/ui/scoreboard'
+import Divider from 'Modules/game/ui/divider'
+import Sound from 'Modules/engine/sound'
+import Input from 'Modules/engine/input'
+import Unscrambler from 'Modules/engine/unscrambler'
+import Gamelogic from 'Modules/game/logic/gamelogic'
+import Collision from 'Modules/game/logic/collision'
+import Gameloop from 'Modules/game/logic/gameloop'
 
 class Game {
   constructor () {

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import Drawing from './drawing'
+import Drawing from 'Modules/engine/drawing'
 
 export default class Canvas {
   constructor (context = '', width = 0, height = 0) {

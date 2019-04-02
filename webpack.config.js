@@ -9,19 +9,24 @@ const webpack = require('webpack')
 module.exports = (env, options) => {
   const isProductionMode = (options.mode === 'production')
 
-  const src = path.resolve(__dirname, './src')
-  const dist = path.resolve(__dirname, './dist')
+  const src = path.resolve(__dirname, 'src')
+  const dist = path.resolve(__dirname, 'dist')
 
   let webpackConfig = {
     entry: {
       app: [
-        src + '/game.js',
-        src + '/game.sass',
-        src + '/game.html'
+        `${src}/game.js`,
+        `${src}/game.sass`,
+        `${src}/game.html`
       ]
     },
     output: {
       path: dist
+    },
+    resolve: {
+      alias: {
+        Modules: path.resolve(__dirname, `${src}/modules`)
+      }
     },
     devServer: {
       host: '127.0.0.1',
@@ -32,7 +37,7 @@ module.exports = (env, options) => {
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),
       new HtmlWebPackPlugin({
-        template: src + '/game.html'
+        template: `${src}/game.html`
       }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
@@ -75,7 +80,7 @@ module.exports = (env, options) => {
         new TerserPlugin(),
         new OptimizeCSSAssetsPlugin(),
         new HtmlWebPackPlugin({
-          template: src + '/game.html',
+          template: `${src}/game.html`,
           hash: true,
           cache: true,
           minify: {

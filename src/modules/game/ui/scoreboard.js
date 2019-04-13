@@ -29,6 +29,7 @@ export default class Scoreboard {
     this.pixelSize = pixelSize
     this.pixelsByRow = pixelsByRow
     this.color = color
+
     this.numbersList = [
       '11111001100110011001100110011111',
       '00010001000100010001000100010001',

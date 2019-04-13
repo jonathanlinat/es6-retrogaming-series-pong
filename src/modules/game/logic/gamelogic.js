@@ -29,6 +29,17 @@ export default class Gamelogic {
     this.paddles = paddles
   }
 
+  checkPaddleReachedMaxHiScore (paddleId = 0) {
+    if (this.paddles[paddleId].checkReachedMaxHiScore()) this.startNewGame()
+  }
+
+  startNewGame () {
+    this.paddles.forEach((paddle = {}) => paddle.resetScore())
+
+    this.ball.setCenteredPosition(this.canvas)
+    this.ball.setRandomVelocity()
+  }
+
   startNewRound (paddleId = 0) {
     this.paddles[paddleId].increaseScore()
 

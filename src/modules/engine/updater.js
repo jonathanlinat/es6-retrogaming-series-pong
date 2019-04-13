@@ -25,6 +25,7 @@
 export default class Updater {
   constructor (callback = {}) {
     this.callback = callback
+
     this.previousDelta = 0
   }
 

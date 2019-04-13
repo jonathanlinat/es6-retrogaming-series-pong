@@ -25,7 +25,7 @@
 import Updater from 'Modules/engine/updater'
 
 export default class Loop {
-  constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, input = {}, unscrambler = {}, collision = {}) {
+  constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, input = {}, unscrambler = {}, gamelogic = {}, collision = {}) {
     this.canvas = canvas
     this.ball = ball
     this.paddles = paddles
@@ -33,10 +33,13 @@ export default class Loop {
     this.divider = divider
     this.input = input
     this.unscrambler = unscrambler
+    this.gamelogic = gamelogic
     this.collision = collision
 
     this.updater = new Updater(this.loop.bind(this))
+  }
 
+  initialize () {
     this.updater.performAnimation()
   }
 
@@ -51,6 +54,7 @@ export default class Loop {
     this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {
       this.collision.detect(this.ball, paddle)
       this.collision.detect(paddle, this.canvas)
+      this.gamelogic.checkPaddleReachedMaxHiScore(index)
       paddle.move(this.input.handledKeys)
       paddle.render(this.canvas, index)
       this.scoreboard.render(this.canvas, _paddle, index)
@@ -58,6 +62,7 @@ export default class Loop {
 
     this.collision.detect(this.ball, this.canvas)
 
+    this.unscrambler.toggle(this.input.handledKeys)
     this.unscrambler.render(
       this.canvas,
       [

@@ -23,18 +23,18 @@
  */
 
 export default class Input {
-  constructor () {
+  constructor (reference = {}) {
+    this.reference = reference
     this.keyMap = []
-
-    this.listenToEvents()
   }
 
   get handledKeys () { return this.keyMap }
 
   listenToEvents () {
     ['keyup', 'keydown'].forEach((event = '') =>
-      document.addEventListener(event, (handleableEvent = {}) => {
-        if (!handleableEvent.repeat) this.keyMap[handleableEvent.key] = (handleableEvent.type === 'keydown')
+      this.reference.addEventListener(event, (handledEvent = {}) => {
+        handledEvent.preventDefault()
+        if (!handledEvent.repeat) this.keyMap[handledEvent.key] = (handledEvent.type === 'keydown')
       }, false)
     )
   }

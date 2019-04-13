@@ -45,16 +45,18 @@ class Game {
     this.scoreboard = new Scoreboard(6, 4, '#e8e8e8')
     this.divider = new Divider(this.canvas.centerX - 16, this.canvas.centerY, 2, 6, '#e8e8e8')
     this.sound = new Sound(25)
-    this.input = new Input()
-    this.unscrambler = new Unscrambler()
+    this.input = new Input(document)
+    this.unscrambler = new Unscrambler(['F12'])
     this.gamelogic = new Gamelogic(this.canvas, this.ball, this.paddles)
     this.collision = new Collision(this.canvas, this.ball, this.paddles, this.sound, this.gamelogic)
-    this.gameloop = new Gameloop(this.canvas, this.ball, this.paddles, this.scoreboard, this.divider, this.input, this.unscrambler, this.collision)
+    this.gameloop = new Gameloop(this.canvas, this.ball, this.paddles, this.scoreboard, this.divider, this.input, this.unscrambler, this.gamelogic, this.collision)
   }
 
   initialize () {
     this.canvas.create()
     this.sound.disable()
+    this.input.listenToEvents()
+    this.gameloop.initialize()
   }
 }
 

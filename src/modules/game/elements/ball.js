@@ -32,6 +32,7 @@ export default class Ball extends Rect {
     this.color = color
     this.defaultVelocity = defaultVelocity
     this.velocityMultiplier = velocityMultiplier
+
     this.randomVelocityX = this.defaultVelocity * ((Math.random() > 0.5) ? 1 : -1)
     this.randomVelocityY = this.defaultVelocity * ((Math.random() > 0.5) ? 1 : -1)
 

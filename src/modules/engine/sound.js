@@ -25,9 +25,10 @@
 export default class Sound {
   constructor (volume = 0) {
     this.volume = volume
+
     this.disabled = false
-    this.oscillator = null
-    this.gainNode = null
+    this.oscillator = {}
+    this.gainNode = {}
 
     this.audioContext = new AudioContext()
   }

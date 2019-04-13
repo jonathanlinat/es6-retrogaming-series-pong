@@ -15,13 +15,13 @@ module.exports = (env, options) => {
   let webpackConfig = {
     entry: {
       app: [
-        `${src}/game.js`,
-        `${src}/game.sass`,
-        `${src}/game.html`
+        path.resolve(__dirname, `${src}/game.js`),
+        path.resolve(__dirname, `${src}/game.css`),
+        path.resolve(__dirname, `${src}/game.html`)
       ]
     },
     output: {
-      path: dist
+      path: path.resolve(__dirname, dist)
     },
     resolve: {
       alias: {
@@ -44,34 +44,10 @@ module.exports = (env, options) => {
     ],
     module: {
       rules: [
-        {
-          enforce: 'pre',
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'eslint-loader'
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              babelrc: false
-            }
-          }
-        },
-        {
-          test: /\.sass$/,
-          use: [
-            isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader',
-            'sass-loader'
-          ]
-        },
-        {
-          test: /\.html$/,
-          use: 'html-loader'
-        }
+        { enforce: 'pre', test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader' },
+        { test: /\.js$/, exclude: /node_modules/, use: { loader: 'babel-loader', options: { babelrc: false } } },
+        { test: /\.css$/, use: [ isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader' ] },
+        { test: /\.html$/, use: 'html-loader' }
       ]
     },
     optimization: {
@@ -80,7 +56,7 @@ module.exports = (env, options) => {
         new TerserPlugin(),
         new OptimizeCSSAssetsPlugin(),
         new HtmlWebPackPlugin({
-          template: `${src}/game.html`,
+          template: path.resolve(__dirname, `${src}/game.html`),
           hash: true,
           cache: true,
           minify: {

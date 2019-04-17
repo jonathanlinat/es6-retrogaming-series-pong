@@ -27,10 +27,16 @@ export default class Gamelogic {
     this.canvas = canvas
     this.ball = ball
     this.paddles = paddles
+
+    this.reachedMaxHiScore = false
   }
 
-  checkPaddleReachedMaxHiScore (paddleId = 0) {
-    if (this.paddles[paddleId].checkReachedMaxHiScore()) this.startNewGame()
+  checkReachedMaxHiScore (paddleId = 0) {
+    if (this.paddles[paddleId].checkReachedMaxHiScore()) this.reachedMaxHiScore = true
+  }
+
+  checkGameStatus () {
+    return this.reachedMaxHiScore
   }
 
   startNewGame () {

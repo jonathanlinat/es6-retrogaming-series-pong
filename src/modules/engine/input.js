@@ -25,6 +25,7 @@
 export default class Input {
   constructor (reference = {}) {
     this.reference = reference
+
     this.keyMap = []
   }
 

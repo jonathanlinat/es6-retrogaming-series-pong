@@ -32,40 +32,16 @@ export default class Collision {
   }
 
   detect (collider = {}, collided = {}) {
-    if (this.paddles.includes(collider) && collided === this.canvas) {
-      if (collider.top < 16) {
-        collider.positionY = (collider.size.y / 2) + 16
-      } else if (collider.bottom > (collided.height - 16)) {
-        collider.positionY = collided.height - (collider.size.y / 2) - 16
-      }
-    }
+    if (this.paddles.includes(collider) && collided === this.canvas) {}
 
     if (collider === this.ball && collided === this.canvas) {
-      if (collider.left < 32 || collider.right > (collided.width - 32)) {
-        this.sound.generate('square', 257, 490, 0.25)
-
-        if (collider.left < 32) {
-          this.gamelogic.startNewRound(1)
-        } else {
-          this.gamelogic.startNewRound(0)
-        }
-      } else if (collider.top < 0 || collider.bottom > collided.height) {
-        this.sound.generate('square', 16, 226, 0)
+      if (collider.top < collided.top || collider.bottom > collided.bottom) {
         collider.velocityY = -collider.velocityY
+      } else if (collider.left < (collided.left + 32) || collider.right > (collided.right - 32)) {
+        collider.velocityX = -collider.velocityX
       }
     }
 
-    if (collider === this.ball && this.paddles.includes(collided)) {
-      if (collider.right > collided.left && collider.left < collided.right && collider.bottom > collided.top && collider.top < collided.bottom) {
-        this.sound.generate('square', 96, 459, 0)
-        collider.increaseVelocity()
-
-        if (collider.right > collided.left && collider.left < collided.right) {
-          collider.velocityX = -collider.velocityX
-        } else if (collider.top > collided.bottom && collider.bottom < collided.top) {
-          collider.velocityY = -collider.velocityY
-        }
-      }
-    }
+    if (collider === this.ball && this.paddles.includes(collided)) {}
   }
 }

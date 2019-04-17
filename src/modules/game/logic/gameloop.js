@@ -54,7 +54,7 @@ export default class Loop {
     this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {
       this.collision.detect(this.ball, paddle)
       this.collision.detect(paddle, this.canvas)
-      this.gamelogic.checkPaddleReachedMaxHiScore(index)
+      this.gamelogic.checkReachedMaxHiScore(index)
       paddle.move(this.input.handledKeys)
       paddle.render(this.canvas, index)
       this.scoreboard.render(this.canvas, _paddle, index)

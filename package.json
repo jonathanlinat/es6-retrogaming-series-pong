@@ -11,7 +11,7 @@
   },
   "main": "src/game.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --color",
+    "start": "webpack-dev-server --mode development --color --open",
     "build": "webpack --mode production"
   },
   "babel": {

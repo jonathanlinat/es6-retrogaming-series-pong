@@ -30,15 +30,12 @@ module.exports = (env, options) => {
     },
     devServer: {
       host: '127.0.0.1',
-      open: true,
       hot: true
     },
     plugins: [
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),
-      new HtmlWebPackPlugin({
-        template: `${src}/game.html`
-      }),
+      new HtmlWebPackPlugin({ template: `${src}/game.html` }),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
     ],

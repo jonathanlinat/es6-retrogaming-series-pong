@@ -34,13 +34,7 @@ export default class Collision {
   detect (collider = {}, collided = {}) {
     if (this.paddles.includes(collider) && collided === this.canvas) {}
 
-    if (collider === this.ball && collided === this.canvas) {
-      if (collider.top < collided.top || collider.bottom > collided.bottom) {
-        collider.velocityY = -collider.velocityY
-      } else if (collider.left < (collided.left + 32) || collider.right > (collided.right - 32)) {
-        collider.velocityX = -collider.velocityX
-      }
-    }
+    if (collider === this.ball && collided === this.canvas) {}
 
     if (collider === this.ball && this.paddles.includes(collided)) {}
   }

@@ -55,6 +55,7 @@ export default class Loop {
       this.collision.detect(this.ball, paddle)
       this.collision.detect(paddle, this.canvas)
       this.gamelogic.checkReachedMaxHiScore(index)
+      paddle.follow(this.ball)
       paddle.move(this.input.handledKeys)
       paddle.render(this.canvas, index)
       this.scoreboard.render(this.canvas, _paddle, index)

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,29 @@
  * SOFTWARE.
  */
 
-import Rect from 'Modules/engine/geometry'
-import Drawing from 'Modules/engine/drawing'
+import Rect from 'Modules/engine/geometry';
+import Drawing from 'Modules/engine/drawing';
 
 export default class Divider extends Rect {
-  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
-    super(positionX, positionY, sizeX, sizeY)
+  constructor(positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
+    super(positionX, positionY, sizeX, sizeY);
 
-    this.color = color
+    this.color = color;
 
-    this.drawing = new Drawing()
+    this.drawing = new Drawing();
   }
 
-  render (canvas = {}) {
-    const dashedLines = []
+  render(canvas = {}) {
+    const dashedLines = [];
 
     for (let i = 0; i < canvas.height; i++) {
       dashedLines.push(
-        new Divider(this.positionX, (i * this.height) * (this.height / (this.height / 2)), this.width, this.height)
-      )
+        new Divider(this.positionX, i * this.height * (this.height / (this.height / 2)), this.width, this.height)
+      );
     }
 
-    dashedLines.forEach((dashedLine = {}) => this.drawing.drawRect(canvas, dashedLine.left, dashedLine.top, dashedLine.width, dashedLine.height, this.color))
+    dashedLines.forEach((dashedLine = {}) =>
+      this.drawing.drawRect(canvas, dashedLine.left, dashedLine.top, dashedLine.width, dashedLine.height, this.color)
+    );
   }
 }

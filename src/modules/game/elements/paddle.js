@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,45 +22,65 @@
  * SOFTWARE.
  */
 
-import Rect from 'Modules/engine/geometry'
-import Drawing from 'Modules/engine/drawing'
+import Rect from 'Modules/engine/geometry';
+import Drawing from 'Modules/engine/drawing';
 
 export default class Paddle extends Rect {
-  constructor (positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '', maxHiScore = 0, scoreModifier = 0, positionModifier = 0, mappedKeys = []) {
-    super(positionX, positionY, sizeX, sizeY)
+  constructor(
+    positionX = 0,
+    positionY = 0,
+    sizeX = 0,
+    sizeY = 0,
+    color = '',
+    maxHiScore = 0,
+    scoreModifier = 0,
+    positionModifier = 0,
+    mappedKeys = []
+  ) {
+    super(positionX, positionY, sizeX, sizeY);
 
-    this.color = color
-    this.maxHiScore = maxHiScore
-    this.scoreModifier = scoreModifier
-    this.positionModifier = positionModifier
-    this.mappedKeys = mappedKeys
+    this.color = color;
+    this.maxHiScore = maxHiScore;
+    this.scoreModifier = scoreModifier;
+    this.positionModifier = positionModifier;
+    this.mappedKeys = mappedKeys;
 
-    this.score = 0
+    this.score = 0;
 
-    this.drawing = new Drawing()
+    this.drawing = new Drawing();
   }
 
-  increaseScore () {
-    this.score += this.scoreModifier
+  increaseScore() {
+    this.score += this.scoreModifier;
   }
 
-  resetScore () {
-    this.score = 0
+  resetScore() {
+    this.score = 0;
   }
 
-  checkReachedMaxHiScore () {
-    return this.score === this.maxHiScore
+  checkReachedMaxHiScore() {
+    return this.score === this.maxHiScore;
   }
 
-  follow (element = {}) {
-    this.positionY = element.positionY
+  follow(element = {}) {
+    this.positionY = element.positionY;
   }
 
-  move (handledKeys = []) {
-    this.mappedKeys.forEach((mappedKey = '', index = 0) => { if (handledKeys[mappedKey]) this.positionY = (index === 0) ? this.positionY - this.positionModifier : this.positionY + this.positionModifier })
+  move(handledKeys = []) {
+    this.mappedKeys.forEach((mappedKey = '', index = 0) => {
+      if (handledKeys[mappedKey])
+        this.positionY = index === 0 ? this.positionY - this.positionModifier : this.positionY + this.positionModifier;
+    });
   }
 
-  render (canvas = {}, index = 0) {
-    this.drawing.drawRect(canvas, (index === 0) ? this.positionX : this.positionX - this.width, this.top, this.width, this.height, this.color)
+  render(canvas = {}, index = 0) {
+    this.drawing.drawRect(
+      canvas,
+      index === 0 ? this.positionX : this.positionX - this.width,
+      this.top,
+      this.width,
+      this.height,
+      this.color
+    );
   }
 }

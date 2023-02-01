@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,26 @@
  */
 
 export default class Input {
-  constructor (reference = {}) {
-    this.reference = reference
+  constructor(reference = {}) {
+    this.reference = reference;
 
-    this.keyMap = []
+    this.keyMap = [];
   }
 
-  get handledKeys () { return this.keyMap }
+  get handledKeys() {
+    return this.keyMap;
+  }
 
-  listenToEvents () {
+  listenToEvents() {
     ['keyup', 'keydown'].forEach((event = '') =>
-      this.reference.addEventListener(event, (handledEvent = {}) => {
-        handledEvent.preventDefault()
-        if (!handledEvent.repeat) this.keyMap[handledEvent.key] = (handledEvent.type === 'keydown')
-      }, false)
-    )
+      this.reference.addEventListener(
+        event,
+        (handledEvent = {}) => {
+          handledEvent.preventDefault();
+          if (!handledEvent.repeat) this.keyMap[handledEvent.key] = handledEvent.type === 'keydown';
+        },
+        false
+      )
+    );
   }
 }

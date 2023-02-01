@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-import Drawing from 'Modules/engine/drawing'
+import Drawing from 'Modules/engine/drawing';
 
 export default class Scoreboard {
-  constructor (pixelSize = 0, pixelsByRow = 0, color = '') {
-    this.pixelSize = pixelSize
-    this.pixelsByRow = pixelsByRow
-    this.color = color
+  constructor(pixelSize = 0, pixelsByRow = 0, color = '') {
+    this.pixelSize = pixelSize;
+    this.pixelsByRow = pixelsByRow;
+    this.color = color;
 
     this.numbersList = [
       '11111001100110011001100110011111',
@@ -40,40 +40,45 @@ export default class Scoreboard {
       '10001000100011111001100110011111',
       '11110001000100010001000100010001',
       '11111001100111111001100110011111',
-      '11111001100111110001000100010001'
-    ]
+      '11111001100111110001000100010001',
+    ];
 
-    this.drawing = new Drawing()
+    this.drawing = new Drawing();
   }
 
-  render (canvas = {}, paddle = [], paddleId = 0) {
-    this.paddleScore = paddle[paddleId].score.toString().split('')
+  render(canvas = {}, paddle = [], paddleId = 0) {
+    this.paddleScore = paddle[paddleId].score.toString().split('');
 
     this.paddleScore.forEach((k = {}, l = 0) => {
       this.numbersList[k].split('').forEach((m = '', n = 0) => {
         if (m === '1') {
           this.positionX = {
             drawEachPixelByRow: (n % this.pixelsByRow) * this.pixelSize,
-            setSpaceBetweenEachNumber: (l * this.pixelsByRow) * (this.pixelSize + (this.pixelSize / 2)),
-            positionEachScoreOnCanvas: ((canvas.width / 4) + (paddleId === 1 ? 0 : 32)) * (paddleId === 1 ? 3 : 1),
-            setOffsetFromLeftOfCanvas: ((this.pixelSize * 2) * this.paddleScore.length) + ((this.pixelSize * this.paddleScore.length) - this.pixelSize)
-          }
+            setSpaceBetweenEachNumber: l * this.pixelsByRow * (this.pixelSize + this.pixelSize / 2),
+            positionEachScoreOnCanvas: (canvas.width / 4 + (paddleId === 1 ? 0 : 32)) * (paddleId === 1 ? 3 : 1),
+            setOffsetFromLeftOfCanvas:
+              this.pixelSize * 2 * this.paddleScore.length +
+              (this.pixelSize * this.paddleScore.length - this.pixelSize),
+          };
 
           this.positionY = {
-            drawEachPixelByColumn: (n / this.pixelsByRow | 0) * this.pixelSize,
-            setOffsetFromTopOfCanvas: 32
-          }
+            drawEachPixelByColumn: ((n / this.pixelsByRow) | 0) * this.pixelSize,
+            setOffsetFromTopOfCanvas: 32,
+          };
 
           this.drawing.drawRect(
             canvas,
-            this.positionX.drawEachPixelByRow + this.positionX.setSpaceBetweenEachNumber + this.positionX.positionEachScoreOnCanvas - this.positionX.setOffsetFromLeftOfCanvas,
+            this.positionX.drawEachPixelByRow +
+              this.positionX.setSpaceBetweenEachNumber +
+              this.positionX.positionEachScoreOnCanvas -
+              this.positionX.setOffsetFromLeftOfCanvas,
             this.positionY.drawEachPixelByColumn + this.positionY.setOffsetFromTopOfCanvas,
             this.pixelSize,
             this.pixelSize,
             this.color
-          )
+          );
         }
-      })
-    })
+      });
+    });
   }
 }

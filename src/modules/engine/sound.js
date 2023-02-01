@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,31 +23,31 @@
  */
 
 export default class Sound {
-  constructor (volume = 0) {
-    this.volume = volume
+  constructor(volume = 0) {
+    this.volume = volume;
 
-    this.disabled = false
-    this.oscillator = {}
-    this.gainNode = {}
+    this.disabled = false;
+    this.oscillator = {};
+    this.gainNode = {};
 
-    this.audioContext = new AudioContext()
+    this.audioContext = new AudioContext();
   }
 
-  disable () {
-    this.disabled = true
+  disable() {
+    this.disabled = true;
   }
 
-  generate (type = '', duration = 0, frequency = 0, delay = 0) {
+  generate(type = '', duration = 0, frequency = 0, delay = 0) {
     if (!this.disabled) {
-      this.gainNode = this.audioContext.createGain()
-      this.gainNode.gain.value = this.volume / 1000
-      this.gainNode.connect(this.audioContext.destination)
-      this.oscillator = this.audioContext.createOscillator()
-      this.oscillator.type = type
-      this.oscillator.frequency.value = frequency
-      this.oscillator.connect(this.gainNode)
-      this.oscillator.start()
-      this.oscillator.stop(this.audioContext.currentTime + (duration * 0.001) + delay)
+      this.gainNode = this.audioContext.createGain();
+      this.gainNode.gain.value = this.volume / 1000;
+      this.gainNode.connect(this.audioContext.destination);
+      this.oscillator = this.audioContext.createOscillator();
+      this.oscillator.type = type;
+      this.oscillator.frequency.value = frequency;
+      this.oscillator.connect(this.gainNode);
+      this.oscillator.start();
+      this.oscillator.stop(this.audioContext.currentTime + duration * 0.001 + delay);
     }
   }
 }

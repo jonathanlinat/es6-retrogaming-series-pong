@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the 'Software'), to deal
@@ -22,60 +22,69 @@
  * SOFTWARE.
  */
 
-import Updater from 'Modules/engine/updater'
+import Updater from 'Modules/engine/updater';
 
 export default class Loop {
-  constructor (canvas = {}, ball = {}, paddles = [], scoreboard = {}, divider = {}, input = {}, unscrambler = {}, gamelogic = {}, collision = {}) {
-    this.canvas = canvas
-    this.ball = ball
-    this.paddles = paddles
-    this.scoreboard = scoreboard
-    this.divider = divider
-    this.input = input
-    this.unscrambler = unscrambler
-    this.gamelogic = gamelogic
-    this.collision = collision
+  constructor(
+    canvas = {},
+    ball = {},
+    paddles = [],
+    scoreboard = {},
+    divider = {},
+    input = {},
+    unscrambler = {},
+    gamelogic = {},
+    collision = {}
+  ) {
+    this.canvas = canvas;
+    this.ball = ball;
+    this.paddles = paddles;
+    this.scoreboard = scoreboard;
+    this.divider = divider;
+    this.input = input;
+    this.unscrambler = unscrambler;
+    this.gamelogic = gamelogic;
+    this.collision = collision;
 
-    this.updater = new Updater(this.loop.bind(this))
+    this.updater = new Updater(this.loop.bind(this));
   }
 
-  initialize () {
-    this.updater.performAnimation()
+  initialize() {
+    this.updater.performAnimation();
   }
 
-  loop (delta = 0) {
-    this.canvas.clear()
+  loop(delta = 0) {
+    this.canvas.clear();
 
-    this.divider.render(this.canvas)
+    this.divider.render(this.canvas);
 
-    this.ball.setPositionOverTime(delta)
-    this.ball.render(this.canvas)
+    this.ball.setPositionOverTime(delta);
+    this.ball.render(this.canvas);
 
     this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {
-      this.collision.detect(this.ball, paddle)
-      this.collision.detect(paddle, this.canvas)
-      this.gamelogic.checkReachedMaxHiScore(index)
-      paddle.follow(this.ball)
-      paddle.move(this.input.handledKeys)
-      paddle.render(this.canvas, index)
-      this.scoreboard.render(this.canvas, _paddle, index)
-    })
+      this.collision.detect(this.ball, paddle);
+      this.collision.detect(paddle, this.canvas);
+      this.gamelogic.checkReachedMaxHiScore(index);
+      paddle.follow(this.ball);
+      paddle.move(this.input.handledKeys);
+      paddle.render(this.canvas, index);
+      this.scoreboard.render(this.canvas, _paddle, index);
+    });
 
-    this.collision.detect(this.ball, this.canvas)
+    this.collision.detect(this.ball, this.canvas);
 
-    this.unscrambler.toggle(this.input.handledKeys)
-    this.unscrambler.render(
-      this.canvas,
-      [
-        `Rendering performance: ${this.updater.calculateFramesPerSecond(delta)} fps, ${this.updater.calculateMillisecondsPerFrame(delta)} mspf`,
-        `Canvas Size: ${this.canvas.width}, ${this.canvas.height}`,
-        `Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`,
-        `Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`,
-        `Paddle 1 Score: ${this.paddles[0].score}`,
-        `Paddle 1 Position: ${this.paddles[0].positionX}, ${this.paddles[0].positionY}`,
-        `Paddle 2 Score: ${this.paddles[1].score}`,
-        `Paddle 2 Position: ${this.paddles[1].positionX}, ${this.paddles[1].positionY}`
-      ]
-    )
+    this.unscrambler.toggle(this.input.handledKeys);
+    this.unscrambler.render(this.canvas, [
+      `Rendering performance: ${this.updater.calculateFramesPerSecond(
+        delta
+      )} fps, ${this.updater.calculateMillisecondsPerFrame(delta)} mspf`,
+      `Canvas Size: ${this.canvas.width}, ${this.canvas.height}`,
+      `Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`,
+      `Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`,
+      `Paddle 1 Score: ${this.paddles[0].score}`,
+      `Paddle 1 Position: ${this.paddles[0].positionX}, ${this.paddles[0].positionY}`,
+      `Paddle 2 Score: ${this.paddles[1].score}`,
+      `Paddle 2 Position: ${this.paddles[1].positionX}, ${this.paddles[1].positionY}`,
+    ]);
   }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,19 +23,22 @@
  */
 
 export default class Collision {
-  constructor (canvas = {}, ball = {}, paddles = [], sound = {}, gamelogic = {}) {
-    this.canvas = canvas
-    this.ball = ball
-    this.paddles = paddles
-    this.sound = sound
-    this.gamelogic = gamelogic
+  constructor(canvas = {}, ball = {}, paddles = [], sound = {}, gamelogic = {}) {
+    this.canvas = canvas;
+    this.ball = ball;
+    this.paddles = paddles;
+    this.sound = sound;
+    this.gamelogic = gamelogic;
   }
 
-  detect (collider = {}, collided = {}) {
-    if (this.paddles.includes(collider) && collided === this.canvas) {}
+  detect(collider = {}, collided = {}) {
+    if (this.paddles.includes(collider) && collided === this.canvas) {
+    }
 
-    if (collider === this.ball && collided === this.canvas) {}
+    if (collider === this.ball && collided === this.canvas) {
+    }
 
-    if (collider === this.ball && this.paddles.includes(collided)) {}
+    if (collider === this.ball && this.paddles.includes(collided)) {
+    }
   }
 }

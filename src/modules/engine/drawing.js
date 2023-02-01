@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +23,16 @@
  */
 
 export default class Drawing {
-  drawText (canvas = {}, element = {}, positionX = 0, positionY = 0) {
-    canvas.context.fillText(element, positionX, positionY)
+  drawText(canvas = {}, element = {}, positionX = 0, positionY = 0) {
+    canvas.context.fillText(element, positionX, positionY);
   }
 
-  drawRect (canvas = {}, positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
-    canvas.context.fillStyle = color
-    canvas.context.fillRect(positionX, positionY, sizeX, sizeY)
+  drawRect(canvas = {}, positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
+    canvas.context.fillStyle = color;
+    canvas.context.fillRect(positionX, positionY, sizeX, sizeY);
   }
 
-  clearCanvas (canvas = {}) {
-    canvas.context.clearRect(0, 0, canvas.width, canvas.height)
+  clearCanvas(canvas = {}) {
+    canvas.context.clearRect(0, 0, canvas.width, canvas.height);
   }
 }

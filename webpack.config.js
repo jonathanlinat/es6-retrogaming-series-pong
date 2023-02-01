@@ -1,51 +1,70 @@
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const HtmlWebPackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const webpack = require('webpack')
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = (env, options) => {
-  const isProductionMode = (options.mode === 'production')
+  const isProductionMode = options.mode === 'production';
 
-  const src = path.resolve(__dirname, 'src')
-  const dist = path.resolve(__dirname, 'dist')
+  const srcPath = path.resolve(__dirname, './src');
+  const distPath = path.resolve(__dirname, './dist');
 
-  let webpackConfig = {
+  const webpackConfig = {
     entry: {
-      app: [
-        path.resolve(__dirname, `${src}/game.js`),
-        path.resolve(__dirname, `${src}/game.css`),
-        path.resolve(__dirname, `${src}/game.html`)
-      ]
+      app: [srcPath + '/game.js', srcPath + '/game.sass', srcPath + '/index.html'],
     },
     output: {
-      path: path.resolve(__dirname, dist)
+      path: distPath,
     },
     resolve: {
       alias: {
-        Modules: path.resolve(__dirname, `${src}/modules`)
-      }
+        Modules: path.resolve(__dirname, `${srcPath}/modules`),
+      },
     },
     devServer: {
       host: '127.0.0.1',
-      hot: true
+      open: true,
+      hot: true,
     },
     plugins: [
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin(),
-      new HtmlWebPackPlugin({ template: `${src}/game.html` }),
+      new HtmlWebPackPlugin({
+        template: srcPath + '/index.html',
+      }),
       new webpack.NamedModulesPlugin(),
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
     ],
     module: {
       rules: [
-        { enforce: 'pre', test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader' },
-        { test: /\.js$/, exclude: /node_modules/, use: { loader: 'babel-loader', options: { babelrc: false } } },
-        { test: /\.css$/, use: [ isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader' ] },
-        { test: /\.html$/, use: 'html-loader' }
-      ]
+        {
+          enforce: 'pre',
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: 'eslint-loader',
+        },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
+          },
+        },
+        {
+          test: /\.sass$/,
+          use: [isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'sass-loader'],
+        },
+        {
+          test: /\.html$/,
+          use: 'html-loader',
+        },
+      ],
     },
     optimization: {
       minimize: isProductionMode,
@@ -53,7 +72,7 @@ module.exports = (env, options) => {
         new TerserPlugin(),
         new OptimizeCSSAssetsPlugin(),
         new HtmlWebPackPlugin({
-          template: path.resolve(__dirname, `${src}/game.html`),
+          template: srcPath + '/index.html',
           hash: true,
           cache: true,
           minify: {
@@ -70,12 +89,12 @@ module.exports = (env, options) => {
             removeStyleLinkTypeAttributes: true,
             sortAttributes: true,
             sortClassName: true,
-            useShortDoctype: true
-          }
-        })
-      ]
-    }
-  }
+            useShortDoctype: true,
+          },
+        }),
+      ],
+    },
+  };
 
-  return webpackConfig
-}
+  return webpackConfig;
+};

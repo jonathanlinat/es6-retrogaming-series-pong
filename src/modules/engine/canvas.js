@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,59 @@
  * SOFTWARE.
  */
 
-import Drawing from 'Modules/engine/drawing'
+import Drawing from 'Modules/engine/drawing';
 
 export default class Canvas {
-  constructor (context = '', width = 0, height = 0) {
-    this.canvas = document.createElement('canvas')
-    this.canvas.context = this.canvas.getContext(context)
-    this.canvas.width = width
-    this.canvas.height = height
+  constructor(context = '', width = 0, height = 0) {
+    this.canvas = document.createElement('canvas');
+    this.canvas.context = this.canvas.getContext(context);
+    this.canvas.width = width;
+    this.canvas.height = height;
 
-    this.drawing = new Drawing()
+    this.drawing = new Drawing();
   }
 
-  get context () { return this.canvas.context }
-
-  get width () { return this.canvas.width }
-  get height () { return this.canvas.height }
-
-  get top () { return this.canvas.height - this.canvas.height }
-  get left () { return this.canvas.width - this.canvas.width }
-  get right () { return this.canvas.width }
-  get bottom () { return this.canvas.height }
-
-  get centerX () { return this.canvas.width / 2 }
-  get centerY () { return this.canvas.height / 2 }
-
-  clear () {
-    this.drawing.clearCanvas(this.canvas)
+  get context() {
+    return this.canvas.context;
   }
 
-  create () {
-    document.body.appendChild(this.canvas)
+  get width() {
+    return this.canvas.width;
+  }
+
+  get height() {
+    return this.canvas.height;
+  }
+
+  get top() {
+    return this.canvas.height - this.canvas.height;
+  }
+
+  get left() {
+    return this.canvas.width - this.canvas.width;
+  }
+
+  get right() {
+    return this.canvas.width;
+  }
+
+  get bottom() {
+    return this.canvas.height;
+  }
+
+  get centerX() {
+    return this.canvas.width / 2;
+  }
+
+  get centerY() {
+    return this.canvas.height / 2;
+  }
+
+  clear() {
+    this.drawing.clearCanvas(this.canvas);
+  }
+
+  create() {
+    document.body.appendChild(this.canvas);
   }
 }

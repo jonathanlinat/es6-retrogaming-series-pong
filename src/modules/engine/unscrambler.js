@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,25 @@
  * SOFTWARE.
  */
 
-import Drawing from 'Modules/engine/drawing'
+import Drawing from 'Modules/engine/drawing';
 
 export default class Unscrambler {
-  constructor (mappedKeys = []) {
-    this.mappedKeys = mappedKeys
+  constructor(mappedKeys = []) {
+    this.mappedKeys = mappedKeys;
 
-    this.activated = false
+    this.activated = false;
 
-    this.drawing = new Drawing()
+    this.drawing = new Drawing();
   }
 
-  toggle (handledKeys = []) {
-    this.mappedKeys.forEach((mappedKey = '') => { this.activated = handledKeys[mappedKey] })
+  toggle(handledKeys = []) {
+    this.mappedKeys.forEach((mappedKey = '') => {
+      this.activated = handledKeys[mappedKey];
+    });
   }
 
-  render (canvas = {}, elements = []) {
-    if (this.activated) elements.forEach((element = {}, index = 0) => this.drawing.drawText(canvas, element, 20, (20 * (index + 1)) + 10))
+  render(canvas = {}, elements = []) {
+    if (this.activated)
+      elements.forEach((element = {}, index = 0) => this.drawing.drawText(canvas, element, 20, 20 * (index + 1) + 10));
   }
 }

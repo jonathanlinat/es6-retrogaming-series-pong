@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2019 Jonathan Linat <https://www.github.com/jonathanlinat>
+ * Copyright (c) 2018-2023 Jonathan Linat <https://www.github.com/jonathanlinat>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,33 +23,33 @@
  */
 
 export default class Gamelogic {
-  constructor (canvas = {}, ball = {}, paddles = []) {
-    this.canvas = canvas
-    this.ball = ball
-    this.paddles = paddles
+  constructor(canvas = {}, ball = {}, paddles = []) {
+    this.canvas = canvas;
+    this.ball = ball;
+    this.paddles = paddles;
 
-    this.reachedMaxHiScore = false
+    this.reachedMaxHiScore = false;
   }
 
-  checkReachedMaxHiScore (paddleId = 0) {
-    if (this.paddles[paddleId].checkReachedMaxHiScore()) this.reachedMaxHiScore = true
+  checkReachedMaxHiScore(paddleId = 0) {
+    if (this.paddles[paddleId].checkReachedMaxHiScore()) this.reachedMaxHiScore = true;
   }
 
-  checkGameStatus () {
-    return this.reachedMaxHiScore
+  checkGameStatus() {
+    return this.reachedMaxHiScore;
   }
 
-  startNewGame () {
-    this.paddles.forEach((paddle = {}) => paddle.resetScore())
+  startNewGame() {
+    this.paddles.forEach((paddle = {}) => paddle.resetScore());
 
-    this.ball.setCenteredPosition(this.canvas)
-    this.ball.setRandomVelocity()
+    this.ball.setCenteredPosition(this.canvas);
+    this.ball.setRandomVelocity();
   }
 
-  startNewRound (paddleId = 0) {
-    this.paddles[paddleId].increaseScore()
+  startNewRound(paddleId = 0) {
+    this.paddles[paddleId].increaseScore();
 
-    this.ball.setCenteredPosition(this.canvas)
-    this.ball.setRandomVelocity()
+    this.ball.setCenteredPosition(this.canvas);
+    this.ball.setRandomVelocity();
   }
 }

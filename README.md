@@ -47,7 +47,7 @@ Start a new game clicking on the black background. Use your mouse to move the pa
 
 Sound effects are based on those two references:
 
-* [Caprani, Ole - The PONG Game](http://cs.au.dk/~dsound/DigitalAudio.dir/Greenfoot/Pong.dir/Pong.html)
+* [Caprani, Ole - The PONG Game](https://web.archive.org/web/20190107195557/http://cs.au.dk:80/~dsound/DigitalAudio.dir/Greenfoot/Pong.dir/Pong.html)
 * [Generate Sounds Programmatically With Javascript](http://marcgg.com/blog/2016/11/01/javascript-audio/)
 
 Actual design and gameplay are based on the DICE version of Pong:

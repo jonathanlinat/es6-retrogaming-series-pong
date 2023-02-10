@@ -35,7 +35,6 @@ module.exports = (env, options) => {
       new HtmlWebPackPlugin({
         template: srcPath + '/index.html',
       }),
-      new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
     ],
     module: {
@@ -45,6 +44,10 @@ module.exports = (env, options) => {
           test: /\.js$/,
           exclude: /node_modules/,
           loader: 'eslint-loader',
+          options: {
+            cache: true,
+            fix: true,
+          },
         },
         {
           test: /\.js$/,
@@ -93,6 +96,7 @@ module.exports = (env, options) => {
           },
         }),
       ],
+      namedModules: true,
     },
   };
 

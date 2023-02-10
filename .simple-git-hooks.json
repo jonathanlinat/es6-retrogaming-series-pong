@@ -1,0 +1,4 @@
+{
+  "commit-msg": "npm run git:commit:msg",
+  "pre-commit": "npm run git:pre:commit"
+}

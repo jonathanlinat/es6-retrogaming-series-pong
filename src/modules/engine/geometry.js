@@ -30,17 +30,36 @@ export class Vect {
 }
 
 export default class Rect {
-  constructor(positionX = 0, positionY = 0, sizeX = 0, sizeY = 0) {
+  constructor(
+    directionX = 0,
+    directionY = 0,
+    positionX = 0,
+    positionY = 0,
+    sizeX = 0,
+    sizeY = 0,
+    velocityX = 0,
+    velocityY = 0
+  ) {
+    this.direction = new Vect(directionX, directionY);
     this.position = new Vect(positionX, positionY);
     this.size = new Vect(sizeX, sizeY);
+    this.velocity = new Vect(velocityX, velocityY);
   }
 
-  get width() {
-    return this.size.x;
+  set directionX(value = 0) {
+    this.direction.x = Math.sign(value | 0);
   }
 
-  get height() {
-    return this.size.y;
+  set directionY(value = 0) {
+    this.direction.y = Math.sign(value | 0);
+  }
+
+  get directionX() {
+    return this.direction.x;
+  }
+
+  get directionY() {
+    return this.direction.y;
   }
 
   set positionX(value = 0) {
@@ -73,5 +92,37 @@ export default class Rect {
 
   get bottom() {
     return this.position.y + this.size.y / 2;
+  }
+
+  get width() {
+    return this.size.x;
+  }
+
+  get halfWidth() {
+    return this.size.x / 2;
+  }
+
+  get height() {
+    return this.size.y;
+  }
+
+  get halfHeight() {
+    return this.size.y / 2;
+  }
+
+  set velocityX(value = 0) {
+    this.velocity.x = value | 0;
+  }
+
+  set velocityY(value = 0) {
+    this.velocity.y = value | 0;
+  }
+
+  get velocityX() {
+    return this.velocity.x;
+  }
+
+  get velocityY() {
+    return this.velocity.y;
   }
 }

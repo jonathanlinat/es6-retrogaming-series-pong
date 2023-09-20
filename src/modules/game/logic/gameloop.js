@@ -33,8 +33,10 @@ export default class Loop {
     divider = {},
     input = {},
     unscrambler = {},
+    sound = {},
     gamelogic = {},
-    collision = {}
+    collision = {},
+    mappedKeys = []
   ) {
     this.canvas = canvas;
     this.ball = ball;
@@ -43,14 +45,16 @@ export default class Loop {
     this.divider = divider;
     this.input = input;
     this.unscrambler = unscrambler;
+    this.sound = sound;
     this.gamelogic = gamelogic;
     this.collision = collision;
+    this.mappedKeys = mappedKeys;
 
-    this.updater = new Updater(this.loop.bind(this));
+    this.updater = new Updater(this.loop.bind(this), this.mappedKeys);
   }
 
   initialize() {
-    this.updater.performAnimation();
+    this.updater.performAnimation(0);
   }
 
   loop(delta = 0) {
@@ -64,14 +68,19 @@ export default class Loop {
     this.paddles.forEach((paddle = {}, index = 0, _paddle = []) => {
       this.collision.detect(this.ball, paddle);
       this.collision.detect(paddle, this.canvas);
+
       this.gamelogic.checkReachedMaxHiScore(index);
-      paddle.follow(this.ball);
+
+      paddle.setAutonomousReference(this.ball);
       paddle.move(this.input.handledKeys);
       paddle.render(this.canvas, index);
+
       this.scoreboard.render(this.canvas, _paddle, index);
     });
 
     this.collision.detect(this.ball, this.canvas);
+
+    this.updater.toggle(this.input.handledKeys);
 
     this.unscrambler.toggle(this.input.handledKeys);
     this.unscrambler.render(this.canvas, [
@@ -79,8 +88,13 @@ export default class Loop {
         delta
       )} fps, ${this.updater.calculateMillisecondsPerFrame(delta)} mspf`,
       `Canvas Size: ${this.canvas.width}, ${this.canvas.height}`,
+      `Gameloop Status: ${this.updater.paused ? 'Paused' : 'Active'}`,
+      `Sound: ${this.sound.isDisabled() ? 'Off' : 'On'}`,
       `Ball Position: ${this.ball.positionX}, ${this.ball.positionY}`,
+      `Ball Next Position: ${this.ball.nextPositionX}, ${this.ball.nextPositionY}`,
+      `Ball Direction: ${this.ball.directionX}, ${this.ball.directionY}`,
       `Ball Velocity: ${this.ball.velocityX}, ${this.ball.velocityY}`,
+      `Ball Velocity Multiplier: ${this.ball.velocityMultiplier}`,
       `Paddle 1 Score: ${this.paddles[0].score}`,
       `Paddle 1 Position: ${this.paddles[0].positionX}, ${this.paddles[0].positionY}`,
       `Paddle 2 Score: ${this.paddles[1].score}`,

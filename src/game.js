@@ -38,20 +38,27 @@ class Game {
   constructor() {
     this.canvas = new Canvas('2d', 640, 480);
     this.ball = new Ball(
+      0,
+      0,
       this.canvas.centerX,
       this.canvas.height * (Math.random() * (0.9 - 0.1 + 0.1)),
       6,
       6,
-      '#e8e8e8',
-      256,
-      1.025
+      256 * (Math.random() > 0.5 ? 1 : -1),
+      256 * (Math.random() > 0.5 ? 1 : -1),
+      768,
+      1.025,
+      '#e8e8e8'
     );
     this.paddles = [
-      new Paddle(96, this.canvas.centerY, 6, 24, '#e8e8e8', 11, 1, 8, ['w', 's']),
-      new Paddle(this.canvas.width - 96, this.canvas.centerY, 6, 24, '#e8e8e8', 11, 1, 8, ['ArrowUp', 'ArrowDown']),
+      new Paddle(0, 0, this.canvas.left + 96, this.canvas.centerY, 6, 24, 0, 0, '#e8e8e8', 11, 1, 8, ['w', 's']),
+      new Paddle(0, 0, this.canvas.right - 96, this.canvas.centerY, 6, 24, 0, 0, '#e8e8e8', 11, 1, 8, [
+        'ArrowUp',
+        'ArrowDown',
+      ]),
     ];
     this.scoreboard = new Scoreboard(6, 4, '#e8e8e8');
-    this.divider = new Divider(this.canvas.centerX - 16, this.canvas.centerY, 2, 6, '#e8e8e8');
+    this.divider = new Divider(0, 0, this.canvas.centerX - 16, this.canvas.centerY, 2, 6, 0, 0, '#e8e8e8');
     this.sound = new Sound(25);
     this.input = new Input(document);
     this.unscrambler = new Unscrambler(['F12']);
@@ -65,14 +72,18 @@ class Game {
       this.divider,
       this.input,
       this.unscrambler,
+      this.sound,
       this.gamelogic,
-      this.collision
+      this.collision,
+      ['F11']
     );
   }
 
   initialize() {
+    // this.sound.disable();
+    // this.paddles.forEach((paddle) => paddle.makeAutonomous());
+
     this.canvas.create();
-    this.sound.disable();
     this.input.listenToEvents();
     this.gameloop.initialize();
   }

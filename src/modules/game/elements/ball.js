@@ -22,66 +22,66 @@
  * SOFTWARE.
  */
 
-import Rect, { Vect } from 'Modules/engine/geometry';
+import Rect from 'Modules/engine/geometry';
 import Drawing from 'Modules/engine/drawing';
 
 export default class Ball extends Rect {
   constructor(
+    directionX = 0,
+    directionY = 0,
     positionX = 0,
     positionY = 0,
     sizeX = 0,
     sizeY = 0,
-    color = '',
-    defaultVelocity = 0,
-    velocityMultiplier = 0
+    velocityX = 0,
+    velocityY = 0,
+    relativeMaximumVelocity = 0,
+    velocityMultiplier = 0,
+    color = ''
   ) {
-    super(positionX, positionY, sizeX, sizeY);
+    super(directionX, directionY, positionX, positionY, sizeX, sizeY, velocityX, velocityY);
 
-    this.color = color;
-    this.defaultVelocity = defaultVelocity;
+    this.defaultVelocityX = velocityX;
+    this.defaultVelocityY = velocityY;
+    this.relativeMaximumVelocity = relativeMaximumVelocity;
     this.velocityMultiplier = velocityMultiplier;
+    this.color = color;
 
-    this.randomVelocityX = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1);
-    this.randomVelocityY = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1);
+    this.nextPositionX = 0;
+    this.nextPositionY = 0;
 
-    this.velocity = new Vect(this.randomVelocityX, this.randomVelocityY);
     this.drawing = new Drawing();
   }
 
-  set velocityX(value = 0) {
-    this.velocity.x = value | 0;
-  }
-
-  set velocityY(value = 0) {
-    this.velocity.y = value | 0;
-  }
-
-  get velocityX() {
-    return this.velocity.x;
-  }
-
-  get velocityY() {
-    return this.velocity.y;
-  }
-
   increaseVelocity() {
-    this.velocityX = this.velocityX * this.velocityMultiplier;
-    this.velocityY = this.velocityY * this.velocityMultiplier;
+    if (
+      Math.abs(this.velocityX) <= this.relativeMaximumVelocity ||
+      Math.abs(this.velocityY) <= this.relativeMaximumVelocity
+    ) {
+      this.velocityX = this.velocityX * this.velocityMultiplier;
+      this.velocityY = this.velocityY * this.velocityMultiplier;
+    }
+  }
+
+  setRandomVelocity() {
+    this.velocityX = this.defaultVelocityX * (Math.random() > 0.5 ? 1 : -1);
+    this.velocityY = this.defaultVelocityY * (Math.random() > 0.5 ? 1 : -1);
   }
 
   setPositionOverTime(time = 0) {
+    this.directionX = this.velocityX;
+    this.directionY = this.velocityY;
+
     this.positionX += this.velocityX * time;
     this.positionY += this.velocityY * time;
+
+    this.nextPositionX = (this.positionX + this.velocityX * time) | 0;
+    this.nextPositionY = (this.positionY + this.velocityY * time) | 0;
   }
 
   setCenteredPosition(canvas = {}) {
     this.positionX = canvas.centerX;
     this.positionY = canvas.height * (Math.random() * (0.9 - 0.1 + 0.1));
-  }
-
-  setRandomVelocity() {
-    this.velocityX = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1);
-    this.velocityY = this.defaultVelocity * (Math.random() > 0.5 ? 1 : -1);
   }
 
   render(canvas = {}) {

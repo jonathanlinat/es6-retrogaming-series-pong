@@ -26,8 +26,18 @@ import Rect from 'Modules/engine/geometry';
 import Drawing from 'Modules/engine/drawing';
 
 export default class Divider extends Rect {
-  constructor(positionX = 0, positionY = 0, sizeX = 0, sizeY = 0, color = '') {
-    super(positionX, positionY, sizeX, sizeY);
+  constructor(
+    directionX = 0,
+    directionY = 0,
+    positionX = 0,
+    positionY = 0,
+    sizeX = 0,
+    sizeY = 0,
+    velocityX = 0,
+    velocityY = 0,
+    color = ''
+  ) {
+    super(directionX, directionY, positionX, positionY, sizeX, sizeY, velocityX, velocityY);
 
     this.color = color;
 
@@ -39,7 +49,16 @@ export default class Divider extends Rect {
 
     for (let i = 0; i < canvas.height; i++) {
       dashedLines.push(
-        new Divider(this.positionX, i * this.height * (this.height / (this.height / 2)), this.width, this.height)
+        new Divider(
+          this.directionX,
+          this.directionY,
+          this.positionX,
+          i * this.height * (this.height / this.halfHeight),
+          this.width,
+          this.height,
+          this.velocityX,
+          this.velocityY
+        )
       );
     }
 

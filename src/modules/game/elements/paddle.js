@@ -27,17 +27,21 @@ import Drawing from 'Modules/engine/drawing';
 
 export default class Paddle extends Rect {
   constructor(
+    directionX = 0,
+    directionY = 0,
     positionX = 0,
     positionY = 0,
     sizeX = 0,
     sizeY = 0,
+    velocityX = 0,
+    velocityY = 0,
     color = '',
     maxHiScore = 0,
     scoreModifier = 0,
     positionModifier = 0,
     mappedKeys = []
   ) {
-    super(positionX, positionY, sizeX, sizeY);
+    super(directionX, directionY, positionX, positionY, sizeX, sizeY, velocityX, velocityY);
 
     this.color = color;
     this.maxHiScore = maxHiScore;
@@ -46,6 +50,7 @@ export default class Paddle extends Rect {
     this.mappedKeys = mappedKeys;
 
     this.score = 0;
+    this.autonomed = false;
 
     this.drawing = new Drawing();
   }
@@ -62,15 +67,25 @@ export default class Paddle extends Rect {
     return this.score === this.maxHiScore;
   }
 
-  follow(element = {}) {
-    this.positionY = element.positionY;
+  makeAutonomous() {
+    this.autonomed = true;
+  }
+
+  setAutonomousReference(element = {}) {
+    if (this.autonomed) {
+      this.positionY = element.positionY;
+    }
   }
 
   move(handledKeys = []) {
-    this.mappedKeys.forEach((mappedKey = '', index = 0) => {
-      if (handledKeys[mappedKey])
-        this.positionY = index === 0 ? this.positionY - this.positionModifier : this.positionY + this.positionModifier;
-    });
+    if (!this.autonomed) {
+      this.mappedKeys.forEach((mappedKey = '', index = 0) => {
+        if (handledKeys[mappedKey]) {
+          this.positionY =
+            index === 0 ? this.positionY - this.positionModifier : this.positionY + this.positionModifier;
+        }
+      });
+    }
   }
 
   render(canvas = {}, index = 0) {

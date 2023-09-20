@@ -1,4 +1,4 @@
 {
-  "commit-msg": "npm run git:commit:msg",
-  "pre-commit": "npm run git:pre:commit"
+  "commit-msg": "pnpm commitlint --edit $1",
+  "pre-commit": "pnpm git:commit"
 }

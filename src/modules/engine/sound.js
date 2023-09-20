@@ -37,6 +37,10 @@ export default class Sound {
     this.disabled = true;
   }
 
+  isDisabled() {
+    return this.disabled;
+  }
+
   generate(type = '', duration = 0, frequency = 0, delay = 0) {
     if (!this.disabled) {
       this.gainNode = this.audioContext.createGain();

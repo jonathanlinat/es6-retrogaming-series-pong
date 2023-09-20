@@ -4,8 +4,6 @@
 
 An ES6 attempt to reimplement the classic [Atari Pong game](https://en.wikipedia.org/wiki/Pong), initially released in 1972.
 
-Project architecture mainly based on [Yet Another And Really Basic Webpack ES6 Starterkit](https://github.com/jonathanlinat/yet-another-and-really-basic-webpack-es6-starterkit).
-
 ## Installation
 
 Clone this repository locally...
@@ -15,10 +13,10 @@ $ git clone https://github.com/jonathanlinat/es6-retrogaming-series-pong.git
 $ cd es6-retrogaming-series-pong/
 ```
 
-...and install the required NPM packages.
+...and install the required NPM dependencies.
 
 ```
-$ npm install
+$ pnpm install
 ```
 
 ### Start a Development server
@@ -26,7 +24,7 @@ $ npm install
 Start a local Web Server.
 
 ```
-$ npm run start
+$ pnpm run start
 ```
 
 ### Build a Production version
@@ -34,7 +32,7 @@ $ npm run start
 Create a Production version of the game.
 
 ```
-$ npm run build
+$ pnpm run build
 ```
 
 The _compiled_ version of the game will be available into the `dist` folder.
@@ -53,11 +51,3 @@ Sound effects are based on those two references:
 Actual design and gameplay are based on the DICE version of Pong:
 
 * [DICE - Discrete Integrated Circuit Emulator](https://adamulation.blogspot.com)
-
-## Features
-
-* Webpack 4
-* ES6 Support via [babel-loader](https://github.com/babel/babel-loader)
-* SASS Support via [sass-loader](https://github.com/jtangelder/sass-loader)
-* Linting via [eslint-loader](https://github.com/MoOx/eslint-loader)
-* JavaScript Standard Style via [eslint-config-standard](https://github.com/standard/eslint-config-standard)

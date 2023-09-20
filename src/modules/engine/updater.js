@@ -23,10 +23,22 @@
  */
 
 export default class Updater {
-  constructor(callback = {}) {
+  constructor(callback = {}, mappedKeys = []) {
     this.callback = callback;
+    this.mappedKeys = mappedKeys;
 
     this.previousDelta = 0;
+    this.paused = false;
+  }
+
+  isPaused() {
+    return this.paused;
+  }
+
+  toggle(handledKeys = []) {
+    this.mappedKeys.forEach((mappedKey = '') => {
+      this.paused = handledKeys[mappedKey];
+    });
   }
 
   calculateFramesPerSecond(delta = 0, previousDelta = 0) {
@@ -40,7 +52,11 @@ export default class Updater {
   performAnimation(delta = 0) {
     requestAnimationFrame(this.performAnimation.bind(this));
 
-    if (this.previousDelta) this.callback((delta - this.previousDelta) / 1000);
+    if (this.previousDelta) {
+      const calculatedDelta = !this.paused ? (delta - this.previousDelta) / 1000 : 0;
+
+      this.callback(calculatedDelta);
+    }
 
     this.previousDelta = delta;
   }

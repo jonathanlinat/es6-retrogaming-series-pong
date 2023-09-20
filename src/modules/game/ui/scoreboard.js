@@ -27,6 +27,7 @@ import Drawing from 'Modules/engine/drawing';
 export default class Scoreboard {
   constructor(pixelSize = 0, pixelsByRow = 0, color = '') {
     this.pixelSize = pixelSize;
+    this.halfPixelSize = this.pixelSize / 2;
     this.pixelsByRow = pixelsByRow;
     this.color = color;
 
@@ -54,7 +55,7 @@ export default class Scoreboard {
         if (m === '1') {
           this.positionX = {
             drawEachPixelByRow: (n % this.pixelsByRow) * this.pixelSize,
-            setSpaceBetweenEachNumber: l * this.pixelsByRow * (this.pixelSize + this.pixelSize / 2),
+            setSpaceBetweenEachNumber: l * this.pixelsByRow * (this.pixelSize + this.halfPixelSize),
             positionEachScoreOnCanvas: (canvas.width / 4 + (paddleId === 1 ? 0 : 32)) * (paddleId === 1 ? 3 : 1),
             setOffsetFromLeftOfCanvas:
               this.pixelSize * 2 * this.paddleScore.length +
